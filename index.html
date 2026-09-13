@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -387,7 +388,6 @@ th{
 
 <body>
 
-
 <!-- ========================= -->
 <!-- LOGIN -->
 <!-- ========================= -->
@@ -450,7 +450,6 @@ th{
   </div>
 
 </div>
-
 
 
 <!-- ========================= -->
@@ -603,7 +602,6 @@ th{
     </div>
 
 
-
     <!-- ÖZET -->
 
     <div class="cards">
@@ -751,7 +749,6 @@ th{
       </div>
 
     </div>
-
 
 
     <!-- ÜRÜNLER -->
@@ -966,7 +963,6 @@ th{
 </div>
 
 
-
 <!-- ========================= -->
 <!-- FIREBASE -->
 <!-- ========================= -->
@@ -1006,7 +1002,6 @@ const firebaseConfig = {
 
 const API_URL =
   "https://muddy-wood-4234.hayalpide1.workers.dev";
-
 
 
 /* ================================================= */
@@ -1115,7 +1110,6 @@ auth.onAuthStateChanged(function(user){
   }
 
 });
-
 
 
 /* ================================================= */
@@ -1239,7 +1233,6 @@ async function testAPI(){
 }
 
 
-
 /* ================================================= */
 /* TÜM VERİLER */
 /* ================================================= */
@@ -1247,13 +1240,9 @@ async function testAPI(){
 
 async function loadAllData(){
 
-  await Promise.all([
+  await loadOrders();
 
-    loadOrders(),
-
-    loadReviews()
-
-  ]);
+  await loadReviews();
 
 }
 
@@ -1312,7 +1301,7 @@ async function loadOrders(){
 
       params.set(
         "packageModificationStartDate",
-        start + "T00:00:00"
+        new Date(start + "T00:00:00").getTime()
       );
 
     }
@@ -1322,7 +1311,7 @@ async function loadOrders(){
 
       params.set(
         "packageModificationEndDate",
-        end + "T23:59:59"
+        new Date(end + "T23:59:59").getTime()
       );
 
     }
@@ -1415,7 +1404,6 @@ async function loadOrders(){
   }
 
 }
-
 
 
 /* ================================================= */
@@ -1581,7 +1569,6 @@ function getOrderNumber(order){
   );
 
 }
-
 
 
 /* ================================================= */
@@ -1758,7 +1745,6 @@ function money(value){
     ) + " ₺";
 
 }
-
 
 
 /* ================================================= */
@@ -2089,7 +2075,6 @@ function renderCustomers(){
 }
 
 
-
 /* ================================================= */
 /* FİNANSAL ÖZET */
 /* ================================================= */
@@ -2212,6 +2197,13 @@ async function loadReviews(){
       new URLSearchParams();
 
 
+    const storeId = orders.length && orders[0].storeId ? orders[0].storeId : "";
+    if(!storeId){
+      throw new Error("storeId bulunamadı.");
+    }
+    params.set("storeId", storeId);
+
+
     params.set("page","0");
 
     params.set("size","50");
@@ -2300,7 +2292,6 @@ async function loadReviews(){
   }
 
 }
-
 
 
 /* ================================================= */
@@ -2508,7 +2499,6 @@ function renderReviews(){
 }
 
 
-
 /* ================================================= */
 /* TARİH FORMAT */
 /* ================================================= */
@@ -2566,3 +2556,4 @@ testAPI();
 
 </body>
 </html>
+```
