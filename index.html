@@ -2,925 +2,2566 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#111827">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>Hayal Pide Rapor Merkezi</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
   background:#f3f4f6;
-  color:#111827
+  color:#111827;
 }
-header{
+
+button,
+input,
+select{
+  font-family:inherit;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* HEADER */
+
+.header{
   background:#111827;
   color:white;
-  padding:18px 15px;
-  position:sticky;
-  top:0;
-  z-index:10
+  padding:18px 0;
 }
-.header-row{
+
+.container{
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  padding:0 16px;
+}
+
+.topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px
+  gap:15px;
 }
-h1{font-size:20px;margin:0}
-small{opacity:.75}
-button{
+
+.logo-title{
+  margin:0;
+  font-size:22px;
+}
+
+.logo-sub{
+  margin:5px 0 0;
+  font-size:13px;
+  opacity:.7;
+}
+
+.logout-btn{
   border:0;
+  background:#ef4444;
+  color:white;
+  padding:11px 15px;
   border-radius:10px;
-  padding:11px 14px;
-  font-weight:bold;
-  cursor:pointer
+  font-size:14px;
 }
-.btn{background:#16a34a;color:white}
-.btn2{background:#e5e7eb;color:#111827}
-.logout{background:#dc2626;color:white}
-main{
-  max-width:1100px;
-  margin:auto;
-  padding:15px
+
+/* LOGIN */
+
+.login-area{
+  min-height:100vh;
 }
+
+.login-box{
+  width:calc(100% - 30px);
+  max-width:420px;
+  margin:80px auto;
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+
+.login-box h2{
+  margin-top:0;
+}
+
+.login-box p{
+  color:#6b7280;
+}
+
+.login-input{
+  width:100%;
+  padding:14px;
+  margin:7px 0;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  font-size:16px;
+}
+
+.login-btn{
+  width:100%;
+  border:0;
+  background:#111827;
+  color:white;
+  padding:14px;
+  margin-top:10px;
+  border-radius:10px;
+  font-size:16px;
+}
+
+.error{
+  color:#dc2626;
+  margin-top:12px;
+  font-size:14px;
+}
+
+/* STATUS */
+
+.status-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:18px 0;
+}
+
 .status{
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:15px;
-  background:#fee2e2;
-  color:#991b1b
-}
-.status.ok{
   background:#dcfce7;
-  color:#166534
+  color:#166534;
+  padding:9px 13px;
+  border-radius:20px;
+  font-size:13px;
 }
+
+.api-status{
+  background:#fef3c7;
+  color:#92400e;
+  padding:9px 13px;
+  border-radius:20px;
+  font-size:13px;
+}
+
+/* FILTER */
+
+.filter-box{
+  background:white;
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:18px;
+  box-shadow:0 3px 15px rgba(0,0,0,.05);
+}
+
+.filter-title{
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.filter-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  color:#6b7280;
+  margin-bottom:5px;
+}
+
+.field input,
+.field select{
+  width:100%;
+  padding:11px;
+  border:1px solid #d1d5db;
+  border-radius:9px;
+  background:white;
+}
+
+.primary-btn{
+  width:100%;
+  background:#111827;
+  color:white;
+  border:0;
+  border-radius:9px;
+  padding:12px;
+  margin-top:18px;
+}
+
+.secondary-btn{
+  background:#e5e7eb;
+  color:#111827;
+  border:0;
+  border-radius:9px;
+  padding:11px 15px;
+}
+
+/* CARDS */
+
 .cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-bottom:15px
+  gap:14px;
+  margin-bottom:18px;
 }
+
 .card{
   background:white;
-  border-radius:14px;
-  padding:16px;
-  box-shadow:0 2px 8px #00000012
+  padding:18px;
+  border-radius:16px;
+  box-shadow:0 3px 15px rgba(0,0,0,.05);
 }
+
 .card-title{
+  color:#6b7280;
   font-size:13px;
-  color:#6b7280
 }
+
 .card-value{
-  font-size:23px;
+  margin-top:8px;
+  font-size:25px;
   font-weight:bold;
-  margin-top:7px
 }
-section{
+
+/* SECTION */
+
+.section{
   background:white;
-  border-radius:14px;
-  padding:15px;
-  margin-bottom:15px;
-  box-shadow:0 2px 8px #00000012
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 3px 15px rgba(0,0,0,.05);
 }
-h2{
-  font-size:18px;
-  margin:0 0 15px
+
+.section h2{
+  margin-top:0;
+  font-size:19px;
 }
-.filters{
-  display:grid;
-  grid-template-columns:1fr 1fr auto;
-  gap:10px;
-  margin-bottom:15px
-}
-input,select{
-  width:100%;
-  padding:12px;
-  border:1px solid #d1d5db;
-  border-radius:9px;
-  font-size:15px
-}
+
+/* TABLE */
+
 .table-wrap{
-  overflow-x:auto
+  width:100%;
+  overflow-x:auto;
 }
+
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:700px
+  min-width:650px;
 }
-th,td{
-  padding:10px 8px;
-  border-bottom:1px solid #e5e7eb;
+
+th,
+td{
   text-align:left;
-  font-size:13px
+  padding:11px 9px;
+  border-bottom:1px solid #e5e7eb;
+  font-size:13px;
 }
+
 th{
   background:#f9fafb;
-  font-weight:bold
+  color:#374151;
 }
+
 .empty{
-  padding:25px;
+  padding:25px 10px;
   text-align:center;
-  color:#6b7280
+  color:#6b7280;
 }
-.login{
-  max-width:420px;
-  margin:70px auto;
-  background:white;
-  padding:25px;
-  border-radius:16px;
-  box-shadow:0 3px 15px #0002
+
+/* PRODUCT */
+
+.product-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
-.login h1{
-  color:#111827;
-  margin-bottom:20px
+
+.product-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  background:#f9fafb;
+  border-radius:10px;
 }
-.login input{
-  margin-bottom:10px
+
+.product-name{
+  font-weight:bold;
 }
-.login button{
-  width:100%;
-  margin-top:5px
+
+.product-count{
+  font-weight:bold;
 }
-.hidden{display:none}
+
+/* REVIEW */
+
+.review{
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.review-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.stars{
+  color:#f59e0b;
+  font-size:18px;
+}
+
+.review-comment{
+  margin-top:10px;
+  line-height:1.5;
+}
+
+.review-info{
+  margin-top:8px;
+  color:#6b7280;
+  font-size:12px;
+}
+
+/* LOADING */
+
 .loading{
   text-align:center;
-  padding:20px;
-  color:#6b7280
+  padding:25px;
+  color:#6b7280;
 }
-@media(max-width:700px){
+
+/* MOBILE */
+
+@media(max-width:800px){
+
   .cards{
-    grid-template-columns:1fr 1fr
+    grid-template-columns:repeat(2,1fr);
   }
-  .filters{
-    grid-template-columns:1fr
+
+  .filter-grid{
+    grid-template-columns:1fr;
   }
-  header{
-    position:relative
-  }
-  .header-row{
-    align-items:flex-start
-  }
+
 }
+
+@media(max-width:500px){
+
+  .topbar{
+    align-items:flex-start;
+  }
+
+  .logo-title{
+    font-size:19px;
+  }
+
+  .cards{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .card{
+    padding:14px;
+  }
+
+  .card-value{
+    font-size:21px;
+  }
+
+  .section{
+    padding:14px;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div id="loginPage" class="login">
-  <h1>Hayal Pide Rapor Merkezi</h1>
-  <input id="email" type="email" placeholder="E-posta">
-  <input id="password" type="password" placeholder="Şifre">
-  <button class="btn" onclick="login()">Giriş Yap</button>
-  <p id="loginError"></p>
-</div>
 
-<div id="app" class="hidden">
+<!-- ========================= -->
+<!-- LOGIN -->
+<!-- ========================= -->
 
-<header>
-  <div class="header-row">
-    <div>
-      <h1>Hayal Pide Rapor Merkezi</h1>
-      <small id="userEmail"></small>
+<div id="loginScreen" class="login-area">
+
+  <div class="header">
+
+    <div class="container">
+
+      <h1 class="logo-title">
+        Hayal Pide
+      </h1>
+
+      <p class="logo-sub">
+        Trendyol Go Rapor Merkezi
+      </p>
+
     </div>
-    <button class="logout" onclick="logout()">Çıkış</button>
-  </div>
-</header>
 
-<main>
-
-<div id="status" class="status">
-  Trendyol bağlantısı kontrol ediliyor...
-</div>
-
-<div class="cards">
-  <div class="card">
-    <div class="card-title">Sipariş</div>
-    <div class="card-value" id="orderCount">0</div>
   </div>
 
-  <div class="card">
-    <div class="card-title">Ürün Adedi</div>
-    <div class="card-value" id="productCount">0</div>
+
+  <div class="login-box">
+
+    <h2>Yönetici Girişi</h2>
+
+    <p>
+      Rapor paneline devam etmek için giriş yapın.
+    </p>
+
+    <input
+      class="login-input"
+      type="email"
+      id="email"
+      placeholder="E-posta adresi"
+      autocomplete="email"
+    >
+
+    <input
+      class="login-input"
+      type="password"
+      id="password"
+      placeholder="Şifre"
+      autocomplete="current-password"
+    >
+
+    <button
+      class="login-btn"
+      onclick="login()"
+    >
+      Giriş Yap
+    </button>
+
+    <div
+      id="loginError"
+      class="error"
+    ></div>
+
   </div>
 
-  <div class="card">
-    <div class="card-title">Brüt Satış</div>
-    <div class="card-value" id="grossSales">₺0</div>
+</div>
+
+
+
+<!-- ========================= -->
+<!-- DASHBOARD -->
+<!-- ========================= -->
+
+<div id="dashboard" class="hidden">
+
+
+  <div class="header">
+
+    <div class="container">
+
+      <div class="topbar">
+
+        <div>
+
+          <h1 class="logo-title">
+            Hayal Pide Rapor Merkezi
+          </h1>
+
+          <p
+            class="logo-sub"
+            id="userEmail"
+          ></p>
+
+        </div>
+
+
+        <button
+          class="logout-btn"
+          onclick="logout()"
+        >
+          Çıkış Yap
+        </button>
+
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="card">
-    <div class="card-title">Net Hak Ediş</div>
-    <div class="card-value" id="netSales">₺0</div>
+
+
+  <div class="container">
+
+
+    <!-- DURUM -->
+
+    <div class="status-row">
+
+      <div class="status">
+        🟢 Firebase bağlantısı aktif
+      </div>
+
+      <div
+        id="apiStatus"
+        class="api-status"
+      >
+        🟡 Trendyol bağlantısı bekleniyor
+      </div>
+
+    </div>
+
+
+
+    <!-- TARİH -->
+
+    <div class="filter-box">
+
+      <div class="filter-title">
+        📅 Rapor Tarihi
+      </div>
+
+
+      <div class="filter-grid">
+
+
+        <div class="field">
+
+          <label>
+            Başlangıç
+          </label>
+
+          <input
+            type="date"
+            id="startDate"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Bitiş
+          </label>
+
+          <input
+            type="date"
+            id="endDate"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Sipariş durumu
+          </label>
+
+          <select id="statusFilter">
+
+            <option value="">
+              Tüm siparişler
+            </option>
+
+            <option value="Delivered">
+              Teslim edildi
+            </option>
+
+            <option value="Cancelled">
+              İptal
+            </option>
+
+            <option value="Ready">
+              Hazır
+            </option>
+
+            <option value="Picking">
+              Hazırlanıyor
+            </option>
+
+          </select>
+
+        </div>
+
+
+      </div>
+
+
+      <button
+        class="primary-btn"
+        onclick="loadAllData()"
+      >
+        🔄 Verileri Getir
+      </button>
+
+    </div>
+
+
+
+    <!-- ÖZET -->
+
+    <div class="cards">
+
+
+      <div class="card">
+
+        <div class="card-title">
+          Sipariş Sayısı
+        </div>
+
+        <div
+          class="card-value"
+          id="orderCount"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-title">
+          Ürün Adedi
+        </div>
+
+        <div
+          class="card-value"
+          id="productCount"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-title">
+          Brüt Ciro
+        </div>
+
+        <div
+          class="card-value"
+          id="grossSales"
+        >
+          0,00 ₺
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-title">
+          Tahmini Net Hak Ediş
+        </div>
+
+        <div
+          class="card-value"
+          id="netEarning"
+        >
+          0,00 ₺
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- SİPARİŞLER -->
+
+    <div class="section">
+
+      <h2>
+        📦 Siparişler
+      </h2>
+
+
+      <div
+        id="ordersLoading"
+        class="loading hidden"
+      >
+        Siparişler getiriliyor...
+      </div>
+
+
+      <div
+        id="ordersEmpty"
+        class="empty"
+      >
+        Henüz sipariş verisi alınmadı.
+      </div>
+
+
+      <div class="table-wrap">
+
+        <table
+          id="ordersTable"
+          class="hidden"
+        >
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Sipariş
+              </th>
+
+              <th>
+                Tarih
+              </th>
+
+              <th>
+                Müşteri
+              </th>
+
+              <th>
+                Ürün
+              </th>
+
+              <th>
+                Tutar
+              </th>
+
+              <th>
+                Durum
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="ordersBody"
+          ></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ÜRÜNLER -->
+
+    <div class="section">
+
+      <h2>
+        🍕 Ürün Satışları
+      </h2>
+
+
+      <div
+        id="productList"
+        class="product-list"
+      >
+
+        <div class="empty">
+          Siparişler getirildiğinde
+          ürün satışları burada görünecek.
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- MÜŞTERİLER -->
+
+    <div class="section">
+
+      <h2>
+        👤 Müşteriler
+      </h2>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Müşteri
+              </th>
+
+              <th>
+                Sipariş Sayısı
+              </th>
+
+              <th>
+                Toplam Harcama
+              </th>
+
+              <th>
+                Ortalama Sipariş
+              </th>
+
+              <th>
+                Son Sipariş
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="customersBody"
+          >
+
+            <tr>
+
+              <td
+                colspan="5"
+                class="empty"
+              >
+                Henüz müşteri verisi yok.
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- YORUMLAR -->
+
+    <div class="section">
+
+      <h2>
+        ⭐ Müşteri Yorumları
+      </h2>
+
+
+      <div
+        id="reviewsLoading"
+        class="loading hidden"
+      >
+        Yorumlar getiriliyor...
+      </div>
+
+
+      <div
+        id="reviewsContainer"
+      >
+
+        <div class="empty">
+          Henüz yorum verisi alınmadı.
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- RAPOR -->
+
+    <div class="section">
+
+      <h2>
+        📊 Finansal Özet
+      </h2>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <tbody>
+
+            <tr>
+
+              <td>
+                Brüt satış
+              </td>
+
+              <td
+                id="reportGross"
+              >
+                0,00 ₺
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                İndirim
+              </td>
+
+              <td
+                id="reportDiscount"
+              >
+                0,00 ₺
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                Komisyon (%38)
+              </td>
+
+              <td
+                id="reportCommission"
+              >
+                0,00 ₺
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                Tahmini net hak ediş
+              </td>
+
+              <td
+                id="reportNet"
+              >
+                0,00 ₺
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
   </div>
+
 </div>
 
-<section>
-<h2>📊 Satış Raporu</h2>
 
-<div class="filters">
-  <input id="startDate" type="date">
-  <input id="endDate" type="date">
-  <button class="btn" onclick="loadOrders()">Siparişleri Getir</button>
-</div>
 
-<div id="orderLoading" class="loading hidden">
-  Siparişler getiriliyor...
-</div>
-
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>Sipariş</th>
-<th>Tarih</th>
-<th>Ürün</th>
-<th>Adet</th>
-<th>Tutar</th>
-<th>İndirim</th>
-<th>Net</th>
-</tr>
-</thead>
-<tbody id="ordersTable"></tbody>
-</table>
-</div>
-</section>
-
-<section>
-<h2>🍕 Ürün Satışları</h2>
-
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>Ürün</th>
-<th>Adet</th>
-<th>Brüt Satış</th>
-</tr>
-</thead>
-<tbody id="productsTable"></tbody>
-</table>
-</div>
-</section>
-
-<section>
-<h2>💰 Hesaplama</h2>
-
-<div class="table-wrap">
-<table>
-<tbody>
-<tr>
-<td>Brüt satış</td>
-<td id="calcGross">₺0</td>
-</tr>
-<tr>
-<td>İndirim</td>
-<td id="calcDiscount">₺0</td>
-</tr>
-<tr>
-<td>İndirim sonrası</td>
-<td id="calcAfterDiscount">₺0</td>
-</tr>
-<tr>
-<td>%38 Komisyon</td>
-<td id="calcCommission">₺0</td>
-</tr>
-<tr>
-<td><strong>Net hak ediş</strong></td>
-<td><strong id="calcNet">₺0</strong></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-
-<section>
-<h2>⭐ Yorumlar</h2>
-
-<div class="filters">
-  <input id="storeId" placeholder="Store ID">
-  <button class="btn" onclick="loadReviews()">Yorumları Getir</button>
-</div>
-
-<div id="reviewsTable" class="empty">
-  Store ID girerek yorumları getirebilirsin.
-</div>
-</section>
-
-</main>
-</div>
+<!-- ========================= -->
+<!-- FIREBASE -->
+<!-- ========================= -->
 
 <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-auth-compat.js"></script>
 
+<script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore-compat.js"></script>
+
+
+
 <script>
+
+
+/* ================================================= */
+/* FIREBASE */
+/* ================================================= */
+
+
 const firebaseConfig = {
-  apiKey:"AIzaSyBaAUdtandBzmYNLkdnhsfXVpNDnOlS24",
-  authDomain:"hayal-pide-paket-servis.firebaseapp.com",
-  databaseURL:"https://hayal-pide-paket-servis-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId:"hayal-pide-paket-servis",
-  storageBucket:"hayal-pide-paket-servis.firebasestorage.app",
-  messagingSenderId:"551700082149",
-  appId:"1:551700082149:web:fc46e934f09a9a2755930c",
-  measurementId:"G-JKP9TQ8723"
+  apiKey: "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
+  authDomain: "hayal-pide-paket-servis.firebaseapp.com",
+  databaseURL: "https://hayal-pide-paket-servis-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "hayal-pide-paket-servis",
+  storageBucket: "hayal-pide-paket-servis.firebasestorage.app",
+  messagingSenderId: "551700082149",
+  appId: "1:551700082149:web:6d7f5aea7f8c51ff55930c",
+  measurementId: "G-8PEXMYJN3L"
 };
 
+
+/* ================================================= */
+/* CLOUDFLARE WORKER */
+/* ================================================= */
+
+
+const API_URL =
+  "https://muddy-wood-4234.hayalpide1.workers.dev";
+
+
+
+/* ================================================= */
+/* FIREBASE BAŞLAT */
+/* ================================================= */
+
+
 firebase.initializeApp(firebaseConfig);
-const auth=firebase.auth();
 
-const WORKER_URL=
-"https://muddy-wood-4234.hayalpide1.workers.dev";
+const auth =
+  firebase.auth();
 
-const COMMISSION=0.38;
+const db =
+  firebase.firestore();
 
-let orders=[];
-let products={};
 
-function money(n){
-  return new Intl.NumberFormat("tr-TR",{
-    style:"currency",
-    currency:"TRY"
-  }).format(Number(n)||0);
+
+/* ================================================= */
+/* GENEL DEĞİŞKENLER */
+/* ================================================= */
+
+
+let orders = [];
+
+let reviews = [];
+
+
+
+/* ================================================= */
+/* TARİH */
+/* ================================================= */
+
+
+function setDefaultDates(){
+
+  const now =
+    new Date();
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(now.getMonth()+1)
+      .padStart(2,"0");
+
+  const day =
+    String(now.getDate())
+      .padStart(2,"0");
+
+  const today =
+    `${year}-${month}-${day}`;
+
+  document
+    .getElementById("startDate")
+    .value = today;
+
+  document
+    .getElementById("endDate")
+    .value = today;
+
 }
 
-function login(){
-  const email=document.getElementById("email").value.trim();
-  const password=document.getElementById("password").value;
 
-  auth.signInWithEmailAndPassword(email,password)
-  .catch(e=>{
-    document.getElementById("loginError").textContent=
-      e.message;
-  });
-}
+setDefaultDates();
 
-function logout(){
-  auth.signOut();
-}
 
-auth.onAuthStateChanged(user=>{
+
+/* ================================================= */
+/* AUTH DURUMU */
+/* ================================================= */
+
+
+auth.onAuthStateChanged(function(user){
+
   if(user){
-    document.getElementById("loginPage").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-    document.getElementById("userEmail").textContent=user.email;
 
-    const today=new Date().toISOString().slice(0,10);
-    document.getElementById("startDate").value=today;
-    document.getElementById("endDate").value=today;
+    document
+      .getElementById("loginScreen")
+      .classList
+      .add("hidden");
 
-    testWorker();
+    document
+      .getElementById("dashboard")
+      .classList
+      .remove("hidden");
+
+    document
+      .getElementById("userEmail")
+      .textContent =
+      user.email || "";
+
+    testAPI();
+
   }else{
-    document.getElementById("loginPage").classList.remove("hidden");
-    document.getElementById("app").classList.add("hidden");
+
+    document
+      .getElementById("loginScreen")
+      .classList
+      .remove("hidden");
+
+    document
+      .getElementById("dashboard")
+      .classList
+      .add("hidden");
+
   }
+
 });
 
-async function testWorker(){
-  try{
-    const r=await fetch(WORKER_URL+"/api/test");
-    const data=await r.json();
 
-    if(data.success){
-      const status=document.getElementById("status");
-      status.className="status ok";
-      status.textContent=
-        "✓ Trendyol bağlantısı aktif • Supplier ID: "+
-        data.supplierId;
 
-      loadOrders();
-    }else{
-      throw new Error("Worker test başarısız");
-    }
-  }catch(e){
-    document.getElementById("status").className="status";
-    document.getElementById("status").textContent=
-      "✕ Cloudflare / Trendyol bağlantısı kurulamadı: "+
-      e.message;
+/* ================================================= */
+/* GİRİŞ */
+/* ================================================= */
+
+
+function login(){
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("password")
+      .value;
+
+  const error =
+    document
+      .getElementById("loginError");
+
+  error.textContent = "";
+
+  if(!email || !password){
+
+    error.textContent =
+      "E-posta ve şifre girin.";
+
+    return;
+
   }
+
+
+  auth
+    .signInWithEmailAndPassword(
+      email,
+      password
+    )
+    .catch(function(err){
+
+      console.error(err);
+
+      error.textContent =
+        "Giriş başarısız. E-posta veya şifreyi kontrol edin.";
+
+    });
+
 }
 
-async function loadOrders(){
-  const start=document.getElementById("startDate").value;
-  const end=document.getElementById("endDate").value;
 
-  const loading=document.getElementById("orderLoading");
-  loading.classList.remove("hidden");
+
+/* ================================================= */
+/* ÇIKIŞ */
+/* ================================================= */
+
+
+function logout(){
+
+  auth.signOut();
+
+}
+
+
+
+/* ================================================= */
+/* API TEST */
+/* ================================================= */
+
+
+async function testAPI(){
+
+  const status =
+    document
+      .getElementById("apiStatus");
 
   try{
 
-    let all=[];
-    let page=0;
-
-    while(true){
-
-      const params=new URLSearchParams({
-        page:String(page),
-        size:"50"
-      });
-
-      if(start){
-        params.set(
-          "packageModificationStartDate",
-          start+"T00:00:00"
-        );
-      }
-
-      if(end){
-        params.set(
-          "packageModificationEndDate",
-          end+"T23:59:59"
-        );
-      }
-
-      const response=await fetch(
-        WORKER_URL+"/api/orders?"+params.toString()
+    const response =
+      await fetch(
+        API_URL + "/api/test"
       );
 
-      const result=await response.json();
+    const data =
+      await response.json();
 
-      if(!response.ok || result.success===false){
-        throw new Error(
-          result.error||"Siparişler alınamadı"
-        );
-      }
+    if(data.ok){
 
-      const data=result.data;
+      status.textContent =
+        "🟢 Cloudflare bağlantısı aktif";
 
-      let content=[];
+      status.style.background =
+        "#dcfce7";
 
-      if(Array.isArray(data)){
-        content=data;
-      }else if(Array.isArray(data.content)){
-        content=data.content;
-      }else if(Array.isArray(data.packages)){
-        content=data.packages;
-      }else if(data.data && Array.isArray(data.data)){
-        content=data.data;
-      }
+      status.style.color =
+        "#166534";
 
-      all=all.concat(content);
+    }else{
 
-      const totalPages=
-        Number(data.totalPages||
-               data.pageCount||
-               0);
+      throw new Error();
 
-      if(
-        content.length<50 ||
-        (totalPages && page+1>=totalPages)
-      ){
-        break;
-      }
-
-      page++;
-
-      if(page>=100) break;
     }
 
-    orders=all;
+  }catch(error){
+
+    console.error(error);
+
+    status.textContent =
+      "🔴 Cloudflare bağlantısı yok";
+
+    status.style.background =
+      "#fee2e2";
+
+    status.style.color =
+      "#991b1b";
+
+  }
+
+}
+
+
+
+/* ================================================= */
+/* TÜM VERİLER */
+/* ================================================= */
+
+
+async function loadAllData(){
+
+  await Promise.all([
+
+    loadOrders(),
+
+    loadReviews()
+
+  ]);
+
+}
+
+
+
+/* ================================================= */
+/* SİPARİŞLER */
+/* ================================================= */
+
+
+async function loadOrders(){
+
+  const loading =
+    document
+      .getElementById("ordersLoading");
+
+  const empty =
+    document
+      .getElementById("ordersEmpty");
+
+  const table =
+    document
+      .getElementById("ordersTable");
+
+  loading.classList.remove("hidden");
+
+  empty.classList.add("hidden");
+
+  table.classList.add("hidden");
+
+
+  try{
+
+    const start =
+      document
+        .getElementById("startDate")
+        .value;
+
+    const end =
+      document
+        .getElementById("endDate")
+        .value;
+
+
+    const status =
+      document
+        .getElementById("statusFilter")
+        .value;
+
+
+    const params =
+      new URLSearchParams();
+
+
+    if(start){
+
+      params.set(
+        "packageModificationStartDate",
+        start + "T00:00:00"
+      );
+
+    }
+
+
+    if(end){
+
+      params.set(
+        "packageModificationEndDate",
+        end + "T23:59:59"
+      );
+
+    }
+
+
+    if(status){
+
+      params.set(
+        "packageStatuses",
+        status
+      );
+
+    }
+
+
+    params.set("page","0");
+
+    params.set("size","50");
+
+
+    const response =
+      await fetch(
+        API_URL +
+        "/api/orders?" +
+        params.toString()
+      );
+
+
+    if(!response.ok){
+
+      const text =
+        await response.text();
+
+      throw new Error(
+        "API " +
+        response.status +
+        ": " +
+        text
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    orders =
+      extractOrders(data);
+
 
     renderOrders();
-    calculate();
 
-  }catch(e){
+    renderProducts();
 
-    document.getElementById("status").className="status";
-    document.getElementById("status").textContent=
-      "✕ Sipariş alınamadı: "+e.message;
+    renderCustomers();
 
-  }finally{
+    calculateSummary();
+
+
     loading.classList.add("hidden");
+
+
+    if(!orders.length){
+
+      empty.textContent =
+        "Bu tarih aralığında sipariş bulunamadı.";
+
+      empty.classList.remove("hidden");
+
+    }else{
+
+      table.classList.remove("hidden");
+
+    }
+
+
+  }catch(error){
+
+    console.error(error);
+
+    loading.classList.add("hidden");
+
+    empty.textContent =
+      "Siparişler alınamadı: " +
+      error.message;
+
+    empty.classList.remove("hidden");
+
   }
+
 }
+
+
+
+/* ================================================= */
+/* ORDER PARSER */
+/* ================================================= */
+
+
+function extractOrders(data){
+
+  if(Array.isArray(data)){
+
+    return data;
+
+  }
+
+
+  if(data &&
+     Array.isArray(data.content)){
+
+    return data.content;
+
+  }
+
+
+  if(data &&
+     Array.isArray(data.orders)){
+
+    return data.orders;
+
+  }
+
+
+  if(data &&
+     data.data &&
+     Array.isArray(data.data)){
+
+    return data.data;
+
+  }
+
+
+  if(data &&
+     data.data &&
+     Array.isArray(data.data.content)){
+
+    return data.data.content;
+
+  }
+
+
+  if(data &&
+     data.result &&
+     Array.isArray(data.result)){
+
+    return data.result;
+
+  }
+
+
+  return [];
+
+}
+
+
+
+/* ================================================= */
+/* ÜRÜNLERİ BUL */
+/* ================================================= */
+
 
 function getLines(order){
 
   if(Array.isArray(order.lines))
     return order.lines;
 
-  if(Array.isArray(order.items))
-    return order.items;
-
   if(Array.isArray(order.products))
     return order.products;
 
+  if(Array.isArray(order.items))
+    return order.items;
+
+  if(order.package &&
+     Array.isArray(order.package.lines))
+    return order.package.lines;
+
   return [];
+
 }
 
-function lineItems(line){
 
-  if(Array.isArray(line.items))
-    return line.items;
 
-  return [line];
+/* ================================================= */
+/* ÜRÜN ADI */
+/* ================================================= */
+
+
+function getProductName(item){
+
+  return (
+
+    item.name ||
+
+    item.productName ||
+
+    item.title ||
+
+    item.productTitle ||
+
+    item.description ||
+
+    "Bilinmeyen ürün"
+
+  );
+
 }
 
-function getProductName(item,line){
 
-  return item.name||
-         item.productName||
-         line.name||
-         line.productName||
-         "Ürün";
-}
 
-function getQuantity(item,line){
+/* ================================================= */
+/* ÜRÜN ADEDİ */
+/* ================================================= */
+
+
+function getQuantity(item){
 
   return Number(
-    item.quantity||
-    item.count||
-    line.quantity||
-    line.count||
+
+    item.quantity ||
+
+    item.count ||
+
+    item.amount ||
+
     1
-  );
+
+  ) || 0;
+
 }
 
-function getPrice(item,line){
+
+
+/* ================================================= */
+/* SİPARİŞ NUMARASI */
+/* ================================================= */
+
+
+function getOrderNumber(order){
+
+  return (
+
+    order.orderNumber ||
+
+    order.orderParentId ||
+
+    order.orderId ||
+
+    order.id ||
+
+    order.packageId ||
+
+    "-"
+
+  );
+
+}
+
+
+
+/* ================================================= */
+/* MÜŞTERİ */
+/* ================================================= */
+
+
+function getCustomerName(order){
+
+  if(order.customer){
+
+    return (
+
+      order.customer.name ||
+
+      order.customer.fullName ||
+
+      [
+
+        order.customer.firstName,
+
+        order.customer.lastName
+
+      ]
+
+      .filter(Boolean)
+
+      .join(" ")
+
+    );
+
+  }
+
+
+  return (
+
+    order.customerName ||
+
+    order.customerFullName ||
+
+    "Müşteri"
+
+  );
+
+}
+
+
+
+/* ================================================= */
+/* MÜŞTERİ ID */
+/* ================================================= */
+
+
+function getCustomerId(order){
+
+  if(order.customer){
+
+    return (
+
+      order.customer.id ||
+
+      order.customer.customerId ||
+
+      ""
+
+    );
+
+  }
+
+
+  return (
+
+    order.customerId ||
+
+    ""
+
+  );
+
+}
+
+
+
+/* ================================================= */
+/* TUTAR */
+/* ================================================= */
+
+
+function getOrderAmount(order){
 
   return Number(
-    item.price||
-    item.totalPrice||
-    line.price||
-    line.totalPrice||
+
+    order.totalPrice ||
+
+    order.totalAmount ||
+
+    order.price ||
+
+    order.total ||
+
+    order.packageTotalPrice ||
+
     0
+
+  ) || 0;
+
+}
+
+
+
+/* ================================================= */
+/* TARİH */
+/* ================================================= */
+
+
+function getOrderDate(order){
+
+  return (
+
+    order.orderCreatedDate ||
+
+    order.createdDate ||
+
+    order.packageModificationDate ||
+
+    order.orderDate ||
+
+    order.createdAt ||
+
+    ""
+
   );
+
 }
 
-function getDiscount(order){
 
-  let discount=0;
 
-  if(order.discount)
-    discount+=Number(order.discount)||0;
+/* ================================================= */
+/* DURUM */
+/* ================================================= */
 
-  if(order.totalDiscount)
-    discount+=Number(order.totalDiscount)||0;
 
-  if(Array.isArray(order.coupon)){
-    order.coupon.forEach(x=>{
-      discount+=Number(
-        x.amount||
-        x.discountAmount||
-        0
-      );
-    });
-  }
+function getOrderStatus(order){
 
-  if(Array.isArray(order.promotions)){
-    order.promotions.forEach(x=>{
-      discount+=Number(
-        x.amount||
-        x.discountAmount||
-        0
-      );
-    });
-  }
+  return (
 
-  return discount;
+    order.packageStatus ||
+
+    order.status ||
+
+    order.orderStatus ||
+
+    "-"
+
+  );
+
 }
 
-function getDate(order){
 
-  return order.packageModificationDate||
-         order.orderDate||
-         order.createdDate||
-         order.packageCreatedDate||
-         "";
+
+/* ================================================= */
+/* PARA FORMAT */
+/* ================================================= */
+
+
+function money(value){
+
+  return Number(value || 0)
+    .toLocaleString(
+      "tr-TR",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    ) + " ₺";
+
 }
+
+
+
+/* ================================================= */
+/* SİPARİŞLERİ GÖSTER */
+/* ================================================= */
+
 
 function renderOrders(){
 
-  const tbody=document.getElementById("ordersTable");
-  tbody.innerHTML="";
+  const body =
+    document
+      .getElementById("ordersBody");
 
-  products={};
+  body.innerHTML = "";
 
-  if(!orders.length){
-    tbody.innerHTML=
-      '<tr><td colspan="7" class="empty">Sipariş bulunamadı.</td></tr>';
-    renderProducts();
-    updateCards();
-    return;
-  }
 
-  orders.forEach(order=>{
+  orders.forEach(function(order){
 
-    const lines=getLines(order);
+    const tr =
+      document.createElement("tr");
 
-    const orderNumber=
-      order.orderNumber||
-      order.id||
-      order.packageId||
-      "-";
 
-    const date=getDate(order);
+    const lines =
+      getLines(order);
 
-    const discount=getDiscount(order);
 
-    if(!lines.length){
+    const productText =
+      lines
+        .map(function(item){
 
-      const gross=Number(order.totalPrice)||0;
-      const net=gross-discount;
+          return (
+            getProductName(item) +
+            " x" +
+            getQuantity(item)
+          );
 
-      addRow(
-        orderNumber,
-        date,
-        "Sipariş",
-        1,
-        gross,
-        discount,
-        net
-      );
+        })
+        .join(", ") || "-";
 
-      return;
-    }
 
-    lines.forEach(line=>{
+    tr.innerHTML = `
 
-      lineItems(line).forEach(item=>{
+      <td>
+        <strong>
+          ${escapeHtml(
+            getOrderNumber(order)
+          )}
+        </strong>
+      </td>
 
-        const name=getProductName(item,line);
-        const qty=getQuantity(item,line);
-        const price=getPrice(item,line);
+      <td>
+        ${escapeHtml(
+          formatDate(
+            getOrderDate(order)
+          )
+        )}
+      </td>
 
-        const gross=price*qty;
+      <td>
+        ${escapeHtml(
+          getCustomerName(order)
+        )}
+      </td>
 
-        const lineDiscount=
-          lines.length===1 ? discount : 0;
+      <td>
+        ${escapeHtml(productText)}
+      </td>
 
-        const net=gross-lineDiscount;
+      <td>
+        <strong>
+          ${money(
+            getOrderAmount(order)
+          )}
+        </strong>
+      </td>
 
-        addRow(
-          orderNumber,
-          date,
-          name,
-          qty,
-          gross,
-          lineDiscount,
-          net
-        );
+      <td>
+        ${escapeHtml(
+          getOrderStatus(order)
+        )}
+      </td>
 
-        if(!products[name]){
-          products[name]={
-            qty:0,
-            gross:0
-          };
-        }
+    `;
 
-        products[name].qty+=qty;
-        products[name].gross+=gross;
-      });
 
-    });
+    body.appendChild(tr);
+
   });
 
-  renderProducts();
-  updateCards();
 }
 
-function addRow(
-  orderNumber,
-  date,
-  name,
-  qty,
-  gross,
-  discount,
-  net
-){
 
-  const tbody=document.getElementById("ordersTable");
 
-  const tr=document.createElement("tr");
+/* ================================================= */
+/* ÜRÜN RAPORU */
+/* ================================================= */
 
-  tr.innerHTML=`
-    <td>${escapeHtml(orderNumber)}</td>
-    <td>${escapeHtml(formatDate(date))}</td>
-    <td>${escapeHtml(name)}</td>
-    <td>${qty}</td>
-    <td>${money(gross)}</td>
-    <td>${money(discount)}</td>
-    <td>${money(net)}</td>
-  `;
-
-  tbody.appendChild(tr);
-}
 
 function renderProducts(){
 
-  const tbody=document.getElementById("productsTable");
-  tbody.innerHTML="";
+  const map = {};
 
-  const list=Object.entries(products)
-    .sort((a,b)=>b[1].qty-a[1].qty);
 
-  if(!list.length){
-    tbody.innerHTML=
-      '<tr><td colspan="3" class="empty">Ürün bulunamadı.</td></tr>';
+  orders.forEach(function(order){
+
+    const lines =
+      getLines(order);
+
+
+    lines.forEach(function(item){
+
+      const name =
+        getProductName(item);
+
+      const quantity =
+        getQuantity(item);
+
+
+      if(!map[name]){
+
+        map[name] = 0;
+
+      }
+
+
+      map[name] += quantity;
+
+    });
+
+  });
+
+
+  const list =
+    document
+      .getElementById("productList");
+
+
+  list.innerHTML = "";
+
+
+  const products =
+    Object.entries(map)
+      .sort(function(a,b){
+
+        return b[1] - a[1];
+
+      });
+
+
+  if(!products.length){
+
+    list.innerHTML =
+      '<div class="empty">Ürün verisi yok.</div>';
+
     return;
+
   }
 
-  list.forEach(([name,data])=>{
 
-    const tr=document.createElement("tr");
+  products.forEach(function(item){
 
-    tr.innerHTML=`
-      <td>${escapeHtml(name)}</td>
-      <td>${data.qty}</td>
-      <td>${money(data.gross)}</td>
+    const row =
+      document.createElement("div");
+
+    row.className =
+      "product-row";
+
+
+    row.innerHTML = `
+
+      <span class="product-name">
+        ${escapeHtml(item[0])}
+      </span>
+
+      <span class="product-count">
+        ${item[1]} adet
+      </span>
+
     `;
 
-    tbody.appendChild(tr);
-  });
-}
 
-function calculate(){
-
-  let gross=0;
-  let discount=0;
-
-  orders.forEach(order=>{
-
-    gross+=Number(order.totalPrice)||0;
-    discount+=getDiscount(order);
+    list.appendChild(row);
 
   });
 
-  const afterDiscount=Math.max(0,gross-discount);
-  const commission=afterDiscount*COMMISSION;
-  const net=afterDiscount-commission;
-
-  document.getElementById("calcGross").textContent=
-    money(gross);
-
-  document.getElementById("calcDiscount").textContent=
-    money(discount);
-
-  document.getElementById("calcAfterDiscount").textContent=
-    money(afterDiscount);
-
-  document.getElementById("calcCommission").textContent=
-    money(commission);
-
-  document.getElementById("calcNet").textContent=
-    money(net);
-
-  document.getElementById("grossSales").textContent=
-    money(gross);
-
-  document.getElementById("netSales").textContent=
-    money(net);
 }
 
-function updateCards(){
 
-  document.getElementById("orderCount").textContent=
+
+/* ================================================= */
+/* MÜŞTERİ RAPORU */
+/* ================================================= */
+
+
+function renderCustomers(){
+
+  const map = {};
+
+
+  orders.forEach(function(order){
+
+    const id =
+      getCustomerId(order) ||
+      getCustomerName(order);
+
+
+    if(!map[id]){
+
+      map[id] = {
+
+        name:getCustomerName(order),
+
+        count:0,
+
+        total:0,
+
+        lastDate:""
+
+      };
+
+    }
+
+
+    map[id].count++;
+
+    map[id].total +=
+      getOrderAmount(order);
+
+
+    const date =
+      getOrderDate(order);
+
+
+    if(
+      !map[id].lastDate ||
+      new Date(date) >
+      new Date(map[id].lastDate)
+    ){
+
+      map[id].lastDate = date;
+
+    }
+
+  });
+
+
+  const body =
+    document
+      .getElementById("customersBody");
+
+
+  body.innerHTML = "";
+
+
+  const customers =
+    Object.values(map)
+      .sort(function(a,b){
+
+        return b.total-a.total;
+
+      });
+
+
+  if(!customers.length){
+
+    body.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="5"
+          class="empty"
+        >
+          Müşteri verisi yok.
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+  customers.forEach(function(customer){
+
+    const tr =
+      document.createElement("tr");
+
+
+    const average =
+      customer.total /
+      customer.count;
+
+
+    tr.innerHTML = `
+
+      <td>
+        ${escapeHtml(customer.name)}
+      </td>
+
+      <td>
+        ${customer.count}
+      </td>
+
+      <td>
+        ${money(customer.total)}
+      </td>
+
+      <td>
+        ${money(average)}
+      </td>
+
+      <td>
+        ${escapeHtml(
+          formatDate(customer.lastDate)
+        )}
+      </td>
+
+    `;
+
+
+    body.appendChild(tr);
+
+  });
+
+}
+
+
+
+/* ================================================= */
+/* FİNANSAL ÖZET */
+/* ================================================= */
+
+
+function calculateSummary(){
+
+  let productCount = 0;
+
+  let gross = 0;
+
+
+  orders.forEach(function(order){
+
+    const lines =
+      getLines(order);
+
+
+    lines.forEach(function(item){
+
+      productCount +=
+        getQuantity(item);
+
+    });
+
+
+    gross +=
+      getOrderAmount(order);
+
+  });
+
+
+  const commission =
+    gross * 0.38;
+
+
+  const net =
+    gross - commission;
+
+
+  document
+    .getElementById("orderCount")
+    .textContent =
     orders.length;
 
-  let count=0;
 
-  Object.values(products).forEach(p=>{
-    count+=p.qty;
-  });
+  document
+    .getElementById("productCount")
+    .textContent =
+    productCount;
 
-  document.getElementById("productCount").textContent=
-    count;
+
+  document
+    .getElementById("grossSales")
+    .textContent =
+    money(gross);
+
+
+  document
+    .getElementById("netEarning")
+    .textContent =
+    money(net);
+
+
+  document
+    .getElementById("reportGross")
+    .textContent =
+    money(gross);
+
+
+  document
+    .getElementById("reportCommission")
+    .textContent =
+    money(commission);
+
+
+  document
+    .getElementById("reportNet")
+    .textContent =
+    money(net);
+
 }
+
+
+
+/* ================================================= */
+/* YORUMLAR */
+/* ================================================= */
+
 
 async function loadReviews(){
 
-  const storeId=
-    document.getElementById("storeId").value.trim();
+  const loading =
+    document
+      .getElementById("reviewsLoading");
 
-  if(!storeId){
-    alert("Önce Store ID gir.");
-    return;
-  }
+  const container =
+    document
+      .getElementById("reviewsContainer");
 
-  const box=document.getElementById("reviewsTable");
 
-  box.innerHTML=
-    '<div class="loading">Yorumlar getiriliyor...</div>';
+  loading.classList.remove("hidden");
+
 
   try{
 
-    const response=await fetch(
-      WORKER_URL+
-      "/api/reviews?storeId="+
-      encodeURIComponent(storeId)+
-      "&page=0&size=50"
-    );
+    const start =
+      document
+        .getElementById("startDate")
+        .value;
 
-    const result=await response.json();
 
-    if(!response.ok || result.success===false){
-      throw new Error(
-        result.error||"Yorumlar alınamadı"
+    const end =
+      document
+        .getElementById("endDate")
+        .value;
+
+
+    const params =
+      new URLSearchParams();
+
+
+    params.set("page","0");
+
+    params.set("size","50");
+
+    params.set("hasComment","true");
+
+
+    if(start){
+
+      params.set(
+        "startDate",
+        start + "T00:00:00"
       );
+
     }
 
-    const data=result.data;
 
-    let reviews=[];
+    if(end){
 
-    if(Array.isArray(data))
-      reviews=data;
-    else if(Array.isArray(data.content))
-      reviews=data.content;
-    else if(Array.isArray(data.reviews))
-      reviews=data.reviews;
+      params.set(
+        "endDate",
+        end + "T23:59:59"
+      );
 
-    if(!reviews.length){
-      box.innerHTML=
-        '<div class="empty">Yorum bulunamadı.</div>';
-      return;
     }
 
-    let html=`
-      <div class="table-wrap">
-      <table>
-      <thead>
-      <tr>
-      <th>Tarih</th>
-      <th>Sipariş</th>
-      <th>Puan</th>
-      <th>Yorum</th>
-      </tr>
-      </thead>
-      <tbody>
-    `;
 
-    reviews.forEach(r=>{
+    const response =
+      await fetch(
 
-      const score=
-        r.average||
-        r.averageScore||
-        r.restaurantScore||
-        "-";
+        API_URL +
+        "/api/reviews?" +
+        params.toString()
 
-      const comment=
-        r.comment||
-        "Yorum yok";
+      );
 
-      const date=
-        r.createdDate||
-        r.orderCreatedDate||
-        "";
 
-      const order=
-        r.orderParentId||
-        r.orderNumber||
-        "-";
+    if(!response.ok){
 
-      html+=`
-        <tr>
-        <td>${escapeHtml(formatDate(date))}</td>
-        <td>${escapeHtml(order)}</td>
-        <td>⭐ ${escapeHtml(score)}</td>
-        <td>${escapeHtml(comment)}</td>
-        </tr>
-      `;
-    });
+      const text =
+        await response.text();
 
-    html+=`
-      </tbody>
-      </table>
+      throw new Error(
+        "API " +
+        response.status +
+        ": " +
+        text
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    reviews =
+      extractReviews(data);
+
+
+    renderReviews();
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        Yorumlar alınamadı.<br><br>
+
+        ${escapeHtml(error.message)}
+
       </div>
+
     `;
 
-    box.innerHTML=html;
 
-  }catch(e){
+  }finally{
 
-    box.innerHTML=
-      '<div class="empty">✕ '+
-      escapeHtml(e.message)+
-      '</div>';
+    loading.classList.add("hidden");
 
   }
+
 }
+
+
+
+/* ================================================= */
+/* REVIEW PARSER */
+/* ================================================= */
+
+
+function extractReviews(data){
+
+  if(Array.isArray(data))
+    return data;
+
+
+  if(data &&
+     Array.isArray(data.content))
+    return data.content;
+
+
+  if(data &&
+     Array.isArray(data.reviews))
+    return data.reviews;
+
+
+  if(data &&
+     data.data &&
+     Array.isArray(data.data))
+    return data.data;
+
+
+  if(data &&
+     data.data &&
+     Array.isArray(data.data.content))
+    return data.data.content;
+
+
+  return [];
+
+}
+
+
+
+/* ================================================= */
+/* YORUMLARI GÖSTER */
+/* ================================================= */
+
+
+function renderReviews(){
+
+  const container =
+    document
+      .getElementById("reviewsContainer");
+
+
+  container.innerHTML = "";
+
+
+  if(!reviews.length){
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        Bu tarih aralığında yorum bulunamadı.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  reviews.forEach(function(review){
+
+    const box =
+      document.createElement("div");
+
+
+    box.className =
+      "review";
+
+
+    const rating =
+      Number(
+
+        review.averageScore ||
+
+        review.rating ||
+
+        review.flavorScore ||
+
+        0
+
+      );
+
+
+    const stars =
+      "★".repeat(
+        Math.max(
+          0,
+          Math.min(
+            5,
+            Math.round(rating)
+          )
+        )
+      );
+
+
+    const comment =
+      review.comment ||
+
+      review.commentText ||
+
+      review.reviewText ||
+
+      "";
+
+
+    const orderNumber =
+      review.orderParentId ||
+
+      review.orderNumber ||
+
+      "-";
+
+
+    const products =
+      Array.isArray(review.products)
+
+        ? review.products
+            .map(function(p){
+
+              return (
+                p.name ||
+                p.productName ||
+                ""
+              );
+
+            })
+            .filter(Boolean)
+            .join(", ")
+
+        : "-";
+
+
+    box.innerHTML = `
+
+      <div class="review-top">
+
+        <strong>
+          ${escapeHtml(
+            review.customerName ||
+            "Müşteri"
+          )}
+        </strong>
+
+        <span class="stars">
+          ${stars}
+        </span>
+
+      </div>
+
+
+      <div class="review-comment">
+
+        ${escapeHtml(comment)}
+
+      </div>
+
+
+      <div class="review-info">
+
+        Sipariş:
+        <strong>
+          ${escapeHtml(
+            orderNumber
+          )}
+        </strong>
+
+        &nbsp; | &nbsp;
+
+        Ürün:
+        ${escapeHtml(products)}
+
+        &nbsp; | &nbsp;
+
+        Tarih:
+        ${escapeHtml(
+          formatDate(
+            review.createdDate ||
+            review.orderCreatedDate
+          )
+        )}
+
+      </div>
+
+    `;
+
+
+    container.appendChild(box);
+
+  });
+
+}
+
+
+
+/* ================================================= */
+/* TARİH FORMAT */
+/* ================================================= */
+
 
 function formatDate(value){
 
-  if(!value) return "-";
+  if(!value)
+    return "-";
 
-  const d=new Date(value);
 
-  if(isNaN(d.getTime()))
+  const date =
+    new Date(value);
+
+
+  if(isNaN(date.getTime()))
     return String(value);
 
-  return d.toLocaleString("tr-TR");
+
+  return date.toLocaleString(
+    "tr-TR"
+  );
+
 }
+
+
+
+/* ================================================= */
+/* HTML GÜVENLİĞİ */
+/* ================================================= */
+
 
 function escapeHtml(value){
 
-  return String(value??"")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
 }
+
+
+
+/* ================================================= */
+/* BAŞLANGIÇ */
+/* ================================================= */
+
+
+testAPI();
+
+
 </script>
 
 </body>
