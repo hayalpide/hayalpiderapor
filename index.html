@@ -2196,10 +2196,7 @@ async function loadReviews(){
       new URLSearchParams();
 
 
-    const storeId = orders.length && orders[0].storeId ? orders[0].storeId : "";
-    if(!storeId){
-      throw new Error("storeId bulunamadı.");
-    }
+    const storeId = "465534";
     params.set("storeId", storeId);
 
 
@@ -2214,7 +2211,7 @@ async function loadReviews(){
 
       params.set(
         "startDate",
-        start + "T00:00:00"
+        new Date(start + "T00:00:00").getTime()
       );
 
     }
@@ -2224,7 +2221,7 @@ async function loadReviews(){
 
       params.set(
         "endDate",
-        end + "T23:59:59"
+        new Date(end + "T23:59:59").getTime()
       );
 
     }
