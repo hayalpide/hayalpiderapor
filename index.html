@@ -575,9 +575,9 @@ th{
               İptal
             </option>
 
-            <option value="Ready">
-              Hazır
-            </option>
+            <option value="Invoiced">
+  Faturalandı / Hazır
+</option>
 
             <option value="Picking">
               Hazırlanıyor
@@ -976,11 +976,9 @@ th{
 
 <script>
 
-
 /* ================================================= */
 /* FIREBASE */
 /* ================================================= */
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
@@ -995,49 +993,42 @@ const firebaseConfig = {
 
 
 /* ================================================= */
-/* CLOUDFLARE WORKER */
+/* CLOUDFLARE */
 /* ================================================= */
-
 
 const API_URL =
   "https://muddy-wood-4234.hayalpide1.workers.dev";
+
+const STORE_ID = "465534";
+
+const PAGE_SIZE = 50;
 
 
 /* ================================================= */
 /* FIREBASE BAŞLAT */
 /* ================================================= */
 
-
 firebase.initializeApp(firebaseConfig);
 
-const auth =
-  firebase.auth();
-
-const db =
-  firebase.firestore();
-
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 
 /* ================================================= */
-/* GENEL DEĞİŞKENLER */
+/* GENEL */
 /* ================================================= */
-
 
 let orders = [];
-
 let reviews = [];
-
 
 
 /* ================================================= */
 /* TARİH */
 /* ================================================= */
 
-
 function setDefaultDates(){
 
-  const now =
-    new Date();
+  const now = new Date();
 
   const year =
     now.getFullYear();
@@ -1053,25 +1044,19 @@ function setDefaultDates(){
   const today =
     `${year}-${month}-${day}`;
 
-  document
-    .getElementById("startDate")
-    .value = today;
+  document.getElementById("startDate").value =
+    today;
 
-  document
-    .getElementById("endDate")
-    .value = today;
-
+  document.getElementById("endDate").value =
+    today;
 }
-
 
 setDefaultDates();
 
 
-
 /* ================================================= */
-/* AUTH DURUMU */
+/* AUTH */
 /* ================================================= */
-
 
 auth.onAuthStateChanged(function(user){
 
@@ -1115,7 +1100,6 @@ auth.onAuthStateChanged(function(user){
 /* GİRİŞ */
 /* ================================================= */
 
-
 function login(){
 
   const email =
@@ -1141,9 +1125,7 @@ function login(){
       "E-posta ve şifre girin.";
 
     return;
-
   }
-
 
   auth
     .signInWithEmailAndPassword(
@@ -1162,11 +1144,9 @@ function login(){
 }
 
 
-
 /* ================================================= */
 /* ÇIKIŞ */
 /* ================================================= */
-
 
 function logout(){
 
@@ -1175,17 +1155,14 @@ function logout(){
 }
 
 
-
 /* ================================================= */
 /* API TEST */
 /* ================================================= */
 
-
 async function testAPI(){
 
   const status =
-    document
-      .getElementById("apiStatus");
+    document.getElementById("apiStatus");
 
   try{
 
@@ -1210,7 +1187,9 @@ async function testAPI(){
 
     }else{
 
-      throw new Error();
+      throw new Error(
+        "API testi başarısız"
+      );
 
     }
 
@@ -1236,7 +1215,6 @@ async function testAPI(){
 /* TÜM VERİLER */
 /* ================================================= */
 
-
 async function loadAllData(){
 
   await loadOrders();
@@ -1246,25 +1224,161 @@ async function loadAllData(){
 }
 
 
+/* ================================================= */
+/* ORTAK API SAYFALAMA */
+/* ================================================= */
+
+async function fetchAllPages(
+  endpoint,
+  baseParams,
+  extractor
+){
+
+  const all = [];
+
+  let page = 0;
+
+  let totalPages = null;
+
+  while(true){
+
+    const params =
+      new URLSearchParams(
+        baseParams.toString()
+      );
+
+    params.set(
+      "page",
+      String(page)
+    );
+
+    params.set(
+      "size",
+      String(PAGE_SIZE)
+    );
+
+    const response =
+      await fetch(
+        API_URL +
+        endpoint +
+        "?" +
+        params.toString()
+      );
+
+    if(!response.ok){
+
+      const text =
+        await response.text();
+
+      throw new Error(
+        "API " +
+        response.status +
+        ": " +
+        text
+      );
+
+    }
+
+    const data =
+      await response.json();
+
+    const items =
+      extractor(data);
+
+    if(Array.isArray(items)){
+
+      all.push(...items);
+
+    }
+
+    const payload =
+      data && data.data
+        ? data.data
+        : data;
+
+    if(
+      payload &&
+      Number.isFinite(
+        Number(payload.totalPages)
+      )
+    ){
+
+      totalPages =
+        Number(payload.totalPages);
+
+    }
+
+    /*
+      Eğer API totalPages veriyorsa
+      doğrudan onu kullanıyoruz.
+    */
+
+    if(
+      totalPages !== null &&
+      page + 1 >= totalPages
+    ){
+
+      break;
+
+    }
+
+    /*
+      Son sayfadaysak dur.
+    */
+
+    if(
+      !items.length ||
+      items.length < PAGE_SIZE
+    ){
+
+      break;
+
+    }
+
+    page++;
+
+    /*
+      Güvenlik sınırı.
+      Normal raporlarda buna yaklaşılmaz.
+    */
+
+    if(page >= 200){
+
+      console.warn(
+        "Sayfalama güvenlik sınırına ulaştı."
+      );
+
+      break;
+
+    }
+
+  }
+
+  return all;
+
+}
+
 
 /* ================================================= */
 /* SİPARİŞLER */
 /* ================================================= */
 
-
 async function loadOrders(){
 
   const loading =
-    document
-      .getElementById("ordersLoading");
+    document.getElementById(
+      "ordersLoading"
+    );
 
   const empty =
-    document
-      .getElementById("ordersEmpty");
+    document.getElementById(
+      "ordersEmpty"
+    );
 
   const table =
-    document
-      .getElementById("ordersTable");
+    document.getElementById(
+      "ordersTable"
+    );
 
   loading.classList.remove("hidden");
 
@@ -1285,7 +1399,6 @@ async function loadOrders(){
         .getElementById("endDate")
         .value;
 
-
     const status =
       document
         .getElementById("statusFilter")
@@ -1300,7 +1413,9 @@ async function loadOrders(){
 
       params.set(
         "packageModificationStartDate",
-        new Date(start + "T00:00:00").getTime()
+        new Date(
+          start + "T00:00:00"
+        ).getTime()
       );
 
     }
@@ -1310,7 +1425,9 @@ async function loadOrders(){
 
       params.set(
         "packageModificationEndDate",
-        new Date(end + "T23:59:59").getTime()
+        new Date(
+          end + "T23:59:59"
+        ).getTime()
       );
 
     }
@@ -1326,40 +1443,33 @@ async function loadOrders(){
     }
 
 
-    params.set("page","0");
+    /*
+      ARTIK SADECE PAGE=0 DEĞİL.
 
-    params.set("size","50");
-
-
-    const response =
-      await fetch(
-        API_URL +
-        "/api/orders?" +
-        params.toString()
-      );
-
-
-    if(!response.ok){
-
-      const text =
-        await response.text();
-
-      throw new Error(
-        "API " +
-        response.status +
-        ": " +
-        text
-      );
-
-    }
-
-
-    const data =
-      await response.json();
-
+      fetchAllPages bütün sayfaları
+      otomatik olarak getiriyor.
+    */
 
     orders =
-      extractOrders(data);
+      await fetchAllPages(
+        "/api/orders",
+        params,
+        extractOrders
+      );
+
+
+    /*
+      Yeniden eskiye sırala.
+    */
+
+    orders.sort(function(a,b){
+
+      return (
+        new Date(getOrderDate(b)) -
+        new Date(getOrderDate(a))
+      );
+
+    });
 
 
     renderOrders();
@@ -1385,6 +1495,8 @@ async function loadOrders(){
 
       table.classList.remove("hidden");
 
+      empty.classList.add("hidden");
+
     }
 
 
@@ -1409,7 +1521,6 @@ async function loadOrders(){
 /* ORDER PARSER */
 /* ================================================= */
 
-
 function extractOrders(data){
 
   if(Array.isArray(data)){
@@ -1418,86 +1529,126 @@ function extractOrders(data){
 
   }
 
-
-  if(data &&
-     Array.isArray(data.content)){
+  if(
+    data &&
+    Array.isArray(data.content)
+  ){
 
     return data.content;
 
   }
 
-
-  if(data &&
-     Array.isArray(data.orders)){
+  if(
+    data &&
+    Array.isArray(data.orders)
+  ){
 
     return data.orders;
 
   }
 
-
-  if(data &&
-     data.data &&
-     Array.isArray(data.data)){
+  if(
+    data &&
+    data.data &&
+    Array.isArray(data.data)
+  ){
 
     return data.data;
 
   }
 
-
-  if(data &&
-     data.data &&
-     Array.isArray(data.data.content)){
+  if(
+    data &&
+    data.data &&
+    Array.isArray(data.data.content)
+  ){
 
     return data.data.content;
 
   }
 
-
-  if(data &&
-     data.result &&
-     Array.isArray(data.result)){
+  if(
+    data &&
+    data.result &&
+    Array.isArray(data.result)
+  ){
 
     return data.result;
 
   }
 
-
   return [];
 
 }
 
 
-
 /* ================================================= */
-/* ÜRÜNLERİ BUL */
+/* LINES */
 /* ================================================= */
-
 
 function getLines(order){
 
-  if(Array.isArray(order.lines))
+  if(
+    Array.isArray(order.lines)
+  ){
+
     return order.lines;
 
-  if(Array.isArray(order.products))
+  }
+
+  if(
+    order.package &&
+    Array.isArray(order.package.lines)
+  ){
+
+    return order.package.lines;
+
+  }
+
+  if(
+    Array.isArray(order.products)
+  ){
+
     return order.products;
 
-  if(Array.isArray(order.items))
+  }
+
+  if(
+    Array.isArray(order.items)
+  ){
+
     return order.items;
 
-  if(order.package &&
-     Array.isArray(order.package.lines))
-    return order.package.lines;
+  }
 
   return [];
 
 }
 
+
+/* ================================================= */
+/* LINE ITEMS */
+/* ================================================= */
+
+function getLineItems(line){
+
+  if(
+    line &&
+    Array.isArray(line.items)
+  ){
+
+    return line.items;
+
+  }
+
+  return [];
+
+}
 
 
 /* ================================================= */
 /* ÜRÜN ADI */
 /* ================================================= */
-
 
 function getProductName(item){
 
@@ -1520,34 +1671,114 @@ function getProductName(item){
 }
 
 
-
 /* ================================================= */
 /* ÜRÜN ADEDİ */
 /* ================================================= */
 
-
 function getQuantity(item){
 
-  return Number(
+  /*
+    Trendyol Go meal response'unda
+    gerçek ürün adedi lines[].items[]
+    sayısından belirlenir.
+  */
 
-    item.quantity ||
+  const lineItems =
+    getLineItems(item);
 
-    item.count ||
+  if(lineItems.length){
 
-    item.amount ||
+    return lineItems.length;
 
-    1
+  }
 
-  ) || 0;
+
+  /*
+    Eski / farklı response yapıları
+    için yedek alanlar.
+  */
+
+  const quantity =
+    Number(
+      item.quantity ||
+      item.count ||
+      item.amount ||
+      0
+    );
+
+  if(quantity > 0){
+
+    return quantity;
+
+  }
+
+
+  /*
+    Line'ın kendisi bir ürünse
+    1 kabul et.
+  */
+
+  return 1;
 
 }
 
+
+/* ================================================= */
+/* ÜRÜN SATIŞLARINI ÇIKAR */
+/* ================================================= */
+
+function getProductSalesFromOrder(order){
+
+  const result = [];
+
+  const lines =
+    getLines(order);
+
+
+  lines.forEach(function(line){
+
+    const name =
+      getProductName(line);
+
+    const items =
+      getLineItems(line);
+
+
+    let quantity = 0;
+
+
+    if(items.length){
+
+      quantity =
+        items.length;
+
+    }else{
+
+      quantity =
+        getQuantity(line);
+
+    }
+
+
+    result.push({
+
+      name:name,
+
+      quantity:quantity
+
+    });
+
+  });
+
+
+  return result;
+
+}
 
 
 /* ================================================= */
 /* SİPARİŞ NUMARASI */
 /* ================================================= */
-
 
 function getOrderNumber(order){
 
@@ -1574,10 +1805,20 @@ function getOrderNumber(order){
 /* MÜŞTERİ */
 /* ================================================= */
 
-
 function getCustomerName(order){
 
   if(order.customer){
+
+    const fullName = [
+
+      order.customer.firstName,
+
+      order.customer.lastName
+
+    ]
+      .filter(Boolean)
+      .join(" ");
+
 
     return (
 
@@ -1585,17 +1826,9 @@ function getCustomerName(order){
 
       order.customer.fullName ||
 
-      [
+      fullName ||
 
-        order.customer.firstName,
-
-        order.customer.lastName
-
-      ]
-
-      .filter(Boolean)
-
-      .join(" ")
+      "Müşteri"
 
     );
 
@@ -1615,11 +1848,9 @@ function getCustomerName(order){
 }
 
 
-
 /* ================================================= */
 /* MÜŞTERİ ID */
 /* ================================================= */
-
 
 function getCustomerId(order){
 
@@ -1637,7 +1868,6 @@ function getCustomerId(order){
 
   }
 
-
   return (
 
     order.customerId ||
@@ -1649,11 +1879,9 @@ function getCustomerId(order){
 }
 
 
-
 /* ================================================= */
 /* TUTAR */
 /* ================================================= */
-
 
 function getOrderAmount(order){
 
@@ -1676,15 +1904,15 @@ function getOrderAmount(order){
 }
 
 
-
 /* ================================================= */
 /* TARİH */
 /* ================================================= */
 
-
 function getOrderDate(order){
 
   return (
+
+    order.packageCreationDate ||
 
     order.orderCreatedDate ||
 
@@ -1703,11 +1931,9 @@ function getOrderDate(order){
 }
 
 
-
 /* ================================================= */
 /* DURUM */
 /* ================================================= */
-
 
 function getOrderStatus(order){
 
@@ -1726,11 +1952,9 @@ function getOrderStatus(order){
 }
 
 
-
 /* ================================================= */
-/* PARA FORMAT */
+/* PARA */
 /* ================================================= */
-
 
 function money(value){
 
@@ -1750,12 +1974,12 @@ function money(value){
 /* SİPARİŞLERİ GÖSTER */
 /* ================================================= */
 
-
 function renderOrders(){
 
   const body =
-    document
-      .getElementById("ordersBody");
+    document.getElementById(
+      "ordersBody"
+    );
 
   body.innerHTML = "";
 
@@ -1766,18 +1990,20 @@ function renderOrders(){
       document.createElement("tr");
 
 
-    const lines =
-      getLines(order);
+    const products =
+      getProductSalesFromOrder(order);
 
 
     const productText =
-      lines
+      products
         .map(function(item){
 
           return (
-            getProductName(item) +
+            getProductName({
+              name:item.name
+            }) +
             " x" +
-            getQuantity(item)
+            item.quantity
           );
 
         })
@@ -1809,7 +2035,9 @@ function renderOrders(){
       </td>
 
       <td>
-        ${escapeHtml(productText)}
+        ${escapeHtml(
+          productText
+        )}
       </td>
 
       <td>
@@ -1836,11 +2064,9 @@ function renderOrders(){
 }
 
 
-
 /* ================================================= */
 /* ÜRÜN RAPORU */
 /* ================================================= */
-
 
 function renderProducts(){
 
@@ -1849,27 +2075,20 @@ function renderProducts(){
 
   orders.forEach(function(order){
 
-    const lines =
-      getLines(order);
+    const products =
+      getProductSalesFromOrder(order);
 
 
-    lines.forEach(function(item){
+    products.forEach(function(item){
 
-      const name =
-        getProductName(item);
+      if(!map[item.name]){
 
-      const quantity =
-        getQuantity(item);
-
-
-      if(!map[name]){
-
-        map[name] = 0;
+        map[item.name] = 0;
 
       }
 
-
-      map[name] += quantity;
+      map[item.name] +=
+        item.quantity;
 
     });
 
@@ -1877,9 +2096,9 @@ function renderProducts(){
 
 
   const list =
-    document
-      .getElementById("productList");
-
+    document.getElementById(
+      "productList"
+    );
 
   list.innerHTML = "";
 
@@ -1932,11 +2151,9 @@ function renderProducts(){
 }
 
 
-
 /* ================================================= */
-/* MÜŞTERİ RAPORU */
+/* MÜŞTERİLER */
 /* ================================================= */
-
 
 function renderCustomers(){
 
@@ -1954,7 +2171,8 @@ function renderCustomers(){
 
       map[id] = {
 
-        name:getCustomerName(order),
+        name:
+          getCustomerName(order),
 
         count:0,
 
@@ -1983,7 +2201,8 @@ function renderCustomers(){
       new Date(map[id].lastDate)
     ){
 
-      map[id].lastDate = date;
+      map[id].lastDate =
+        date;
 
     }
 
@@ -1991,8 +2210,9 @@ function renderCustomers(){
 
 
   const body =
-    document
-      .getElementById("customersBody");
+    document.getElementById(
+      "customersBody"
+    );
 
 
   body.innerHTML = "";
@@ -2043,7 +2263,9 @@ function renderCustomers(){
     tr.innerHTML = `
 
       <td>
-        ${escapeHtml(customer.name)}
+        ${escapeHtml(
+          customer.name
+        )}
       </td>
 
       <td>
@@ -2051,16 +2273,22 @@ function renderCustomers(){
       </td>
 
       <td>
-        ${money(customer.total)}
+        ${money(
+          customer.total
+        )}
       </td>
 
       <td>
-        ${money(average)}
+        ${money(
+          average
+        )}
       </td>
 
       <td>
         ${escapeHtml(
-          formatDate(customer.lastDate)
+          formatDate(
+            customer.lastDate
+          )
         )}
       </td>
 
@@ -2078,7 +2306,6 @@ function renderCustomers(){
 /* FİNANSAL ÖZET */
 /* ================================================= */
 
-
 function calculateSummary(){
 
   let productCount = 0;
@@ -2088,14 +2315,14 @@ function calculateSummary(){
 
   orders.forEach(function(order){
 
-    const lines =
-      getLines(order);
+    const products =
+      getProductSalesFromOrder(order);
 
 
-    lines.forEach(function(item){
+    products.forEach(function(item){
 
       productCount +=
-        getQuantity(item);
+        item.quantity;
 
     });
 
@@ -2108,7 +2335,6 @@ function calculateSummary(){
 
   const commission =
     gross * 0.38;
-
 
   const net =
     gross - commission;
@@ -2158,21 +2384,21 @@ function calculateSummary(){
 }
 
 
-
 /* ================================================= */
 /* YORUMLAR */
 /* ================================================= */
 
-
 async function loadReviews(){
 
   const loading =
-    document
-      .getElementById("reviewsLoading");
+    document.getElementById(
+      "reviewsLoading"
+    );
 
   const container =
-    document
-      .getElementById("reviewsContainer");
+    document.getElementById(
+      "reviewsContainer"
+    );
 
 
   loading.classList.remove("hidden");
@@ -2185,7 +2411,6 @@ async function loadReviews(){
         .getElementById("startDate")
         .value;
 
-
     const end =
       document
         .getElementById("endDate")
@@ -2196,22 +2421,24 @@ async function loadReviews(){
       new URLSearchParams();
 
 
-    const storeId = "465534";
-    params.set("storeId", storeId);
+    params.set(
+      "storeId",
+      STORE_ID
+    );
 
-
-    params.set("page","0");
-
-    params.set("size","50");
-
-    params.set("hasComment","true");
+    params.set(
+      "hasComment",
+      "true"
+    );
 
 
     if(start){
 
       params.set(
         "startDate",
-        new Date(start + "T00:00:00").getTime()
+        new Date(
+          start + "T00:00:00"
+        ).getTime()
       );
 
     }
@@ -2221,43 +2448,42 @@ async function loadReviews(){
 
       params.set(
         "endDate",
-        new Date(end + "T23:59:59").getTime()
+        new Date(
+          end + "T23:59:59"
+        ).getTime()
       );
 
     }
 
 
-    const response =
-      await fetch(
-
-        API_URL +
-        "/api/reviews?" +
-        params.toString()
-
-      );
-
-
-    if(!response.ok){
-
-      const text =
-        await response.text();
-
-      throw new Error(
-        "API " +
-        response.status +
-        ": " +
-        text
-      );
-
-    }
-
-
-    const data =
-      await response.json();
-
+    /*
+      Yorumların da bütün sayfalarını çek.
+    */
 
     reviews =
-      extractReviews(data);
+      await fetchAllPages(
+        "/api/reviews",
+        params,
+        extractReviews
+      );
+
+
+    /*
+      Yeniden eskiye.
+    */
+
+    reviews.sort(function(a,b){
+
+      return (
+        new Date(
+          a.createdDate || 0
+        ) -
+        new Date(
+          b.createdDate || 0
+        )
+      );
+
+    });
 
 
     renderReviews();
@@ -2274,12 +2500,13 @@ async function loadReviews(){
 
         Yorumlar alınamadı.<br><br>
 
-        ${escapeHtml(error.message)}
+        ${escapeHtml(
+          error.message
+        )}
 
       </div>
 
     `;
-
 
   }finally{
 
@@ -2294,33 +2521,55 @@ async function loadReviews(){
 /* REVIEW PARSER */
 /* ================================================= */
 
-
 function extractReviews(data){
 
-  if(Array.isArray(data))
+  if(Array.isArray(data)){
+
     return data;
 
+  }
 
-  if(data &&
-     Array.isArray(data.content))
+
+  if(
+    data &&
+    Array.isArray(data.content)
+  ){
+
     return data.content;
 
+  }
 
-  if(data &&
-     Array.isArray(data.reviews))
+
+  if(
+    data &&
+    Array.isArray(data.reviews)
+  ){
+
     return data.reviews;
 
+  }
 
-  if(data &&
-     data.data &&
-     Array.isArray(data.data))
+
+  if(
+    data &&
+    data.data &&
+    Array.isArray(data.data)
+  ){
+
     return data.data;
 
+  }
 
-  if(data &&
-     data.data &&
-     Array.isArray(data.data.content))
+
+  if(
+    data &&
+    data.data &&
+    Array.isArray(data.data.content)
+  ){
+
     return data.data.content;
+
+  }
 
 
   return [];
@@ -2328,17 +2577,57 @@ function extractReviews(data){
 }
 
 
+/* ================================================= */
+/* REVIEW MÜŞTERİ EŞLEŞTİRME */
+/* ================================================= */
+
+function findOrderForReview(review){
+
+  const reviewOrder =
+    String(
+      review.orderParentId ||
+      review.orderNumber ||
+      ""
+    );
+
+
+  if(!reviewOrder){
+
+    return null;
+
+  }
+
+
+  return (
+    orders.find(function(order){
+
+      const orderNumber =
+        String(
+          getOrderNumber(order)
+        );
+
+      return (
+        orderNumber ===
+        reviewOrder
+      );
+
+    }) ||
+    null
+  );
+
+}
+
 
 /* ================================================= */
 /* YORUMLARI GÖSTER */
 /* ================================================= */
 
-
 function renderReviews(){
 
   const container =
-    document
-      .getElementById("reviewsContainer");
+    document.getElementById(
+      "reviewsContainer"
+    );
 
 
   container.innerHTML = "";
@@ -2371,52 +2660,106 @@ function renderReviews(){
       "review";
 
 
+    /*
+      GERÇEK TRENDYOL YAPISI:
+
+      review.rating.average
+    */
+
     const rating =
       Number(
+        review.rating &&
+        review.rating.average
+          ? review.rating.average
+          : 0
+      );
 
-        review.averageScore ||
 
-        review.rating ||
-
-        review.flavorScore ||
-
-        0
-
+    const roundedRating =
+      Math.max(
+        0,
+        Math.min(
+          5,
+          Math.round(rating)
+        )
       );
 
 
     const stars =
       "★".repeat(
-        Math.max(
-          0,
-          Math.min(
-            5,
-            Math.round(rating)
-          )
-        )
+        roundedRating
+      ) +
+      "☆".repeat(
+        5 - roundedRating
       );
 
 
-    const comment =
-      review.comment ||
+    /*
+      GERÇEK TRENDYOL YAPISI:
 
-      review.commentText ||
+      review.comment.text
+    */
 
-      review.reviewText ||
-
-      "";
+    let comment = "";
 
 
-    const orderNumber =
-      review.orderParentId ||
+    if(
+      review.comment &&
+      typeof review.comment === "object"
+    ){
 
-      review.orderNumber ||
+      comment =
+        review.comment.text ||
+        "";
 
-      "-";
+    }else{
 
+      comment =
+        review.comment ||
+        review.commentText ||
+        review.reviewText ||
+        "";
+
+    }
+
+
+    /*
+      Aynı siparişten müşteri adını bul.
+    */
+
+    const relatedOrder =
+      findOrderForReview(review);
+
+
+    let customerName =
+      "Müşteri";
+
+
+    if(relatedOrder){
+
+      customerName =
+        getCustomerName(
+          relatedOrder
+        );
+
+    }else if(
+      review.customerName
+    ){
+
+      customerName =
+        review.customerName;
+
+    }
+
+
+    /*
+      Ürünler
+    */
 
     const products =
-      Array.isArray(review.products)
+      Array.isArray(
+        review.products
+      )
 
         ? review.products
             .map(function(p){
@@ -2434,19 +2777,33 @@ function renderReviews(){
         : "-";
 
 
+    const orderNumber =
+      review.orderParentId ||
+      review.orderNumber ||
+      "-";
+
+
+    const reviewDate =
+      review.createdDate ||
+      review.orderCreatedDate ||
+      "";
+
+
     box.innerHTML = `
 
       <div class="review-top">
 
         <strong>
           ${escapeHtml(
-            review.customerName ||
-            "Müşteri"
+            customerName
           )}
         </strong>
 
         <span class="stars">
           ${stars}
+          <small style="color:#6b7280;font-size:12px;">
+            ${rating ? rating + "/5" : ""}
+          </small>
         </span>
 
       </div>
@@ -2454,7 +2811,10 @@ function renderReviews(){
 
       <div class="review-comment">
 
-        ${escapeHtml(comment)}
+        ${escapeHtml(
+          comment ||
+          "Yorum metni bulunmuyor."
+        )}
 
       </div>
 
@@ -2471,15 +2831,16 @@ function renderReviews(){
         &nbsp; | &nbsp;
 
         Ürün:
-        ${escapeHtml(products)}
+        ${escapeHtml(
+          products
+        )}
 
         &nbsp; | &nbsp;
 
         Tarih:
         ${escapeHtml(
           formatDate(
-            review.createdDate ||
-            review.orderCreatedDate
+            reviewDate
           )
         )}
 
@@ -2499,7 +2860,6 @@ function renderReviews(){
 /* TARİH FORMAT */
 /* ================================================= */
 
-
 function formatDate(value){
 
   if(!value)
@@ -2510,8 +2870,15 @@ function formatDate(value){
     new Date(value);
 
 
-  if(isNaN(date.getTime()))
+  if(
+    isNaN(
+      date.getTime()
+    )
+  ){
+
     return String(value);
+
+  }
 
 
   return date.toLocaleString(
@@ -2521,32 +2888,44 @@ function formatDate(value){
 }
 
 
-
 /* ================================================= */
 /* HTML GÜVENLİĞİ */
 /* ================================================= */
 
-
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
-
 
 
 /* ================================================= */
 /* BAŞLANGIÇ */
 /* ================================================= */
 
-
 testAPI();
-
 
 </script>
 
