@@ -31,117 +31,209 @@
 <style>
 
 /* ================================================= */
+/* ROOT */
+/* ================================================= */
+
+:root{
+
+  --bg:#f4f5f7;
+
+  --surface:#ffffff;
+
+  --surface-2:#f8fafc;
+
+  --border:#e5e7eb;
+
+  --text:#111827;
+
+  --muted:#6b7280;
+
+  --dark:#111827;
+
+  --dark-2:#1f2937;
+
+  --green:#16a34a;
+
+  --green-bg:#dcfce7;
+
+  --orange:#f59e0b;
+
+  --orange-bg:#fef3c7;
+
+  --red:#dc2626;
+
+  --red-bg:#fee2e2;
+
+  --blue:#2563eb;
+
+  --blue-bg:#dbeafe;
+
+  --purple:#7c3aed;
+
+  --purple-bg:#ede9fe;
+
+  --sidebar-width:245px;
+
+}
+
+
+/* ================================================= */
 /* RESET */
 /* ================================================= */
 
 *{
+
   box-sizing:border-box;
+
 }
+
 
 html{
+
   scroll-behavior:smooth;
+
 }
+
 
 body{
+
   margin:0;
+
   font-family:
+
     Inter,
+
     -apple-system,
+
     BlinkMacSystemFont,
+
     "Segoe UI",
+
     Arial,
+
     Helvetica,
+
     sans-serif;
 
-  background:#f3f4f6;
-  color:#111827;
+  background:var(--bg);
+
+  color:var(--text);
+
 }
+
 
 button,
 input,
-select{
+select,
+textarea{
+
   font-family:inherit;
+
 }
+
 
 button{
+
   cursor:pointer;
+
 }
+
 
 .hidden{
+
   display:none!important;
+
 }
 
 
 /* ================================================= */
-/* APP HEADER */
+/* APP LAYOUT */
 /* ================================================= */
 
-.header{
+.app{
+
+  min-height:100vh;
+
+  display:flex;
+
+}
+
+
+/* ================================================= */
+/* SIDEBAR */
+/* ================================================= */
+
+.sidebar{
+
+  position:fixed;
+
+  left:0;
+
+  top:0;
+
+  bottom:0;
+
+  width:var(--sidebar-width);
 
   background:
+
     linear-gradient(
-      135deg,
+
+      180deg,
+
       #111827 0%,
-      #1f2937 55%,
-      #374151 100%
+
+      #172033 100%
+
     );
 
   color:white;
 
-  padding:
-    18px 0
-    20px;
-
-  box-shadow:
-    0 4px 20px
-    rgba(0,0,0,.15);
-
-  position:sticky;
-  top:0;
-  z-index:100;
-
-}
-
-.container{
-
-  width:100%;
-  max-width:1250px;
-
-  margin:auto;
-
-  padding:
-    0 18px;
-
-}
-
-.topbar{
+  z-index:200;
 
   display:flex;
 
-  justify-content:space-between;
+  flex-direction:column;
 
-  align-items:center;
+  padding:18px 13px;
 
-  gap:20px;
+  overflow-y:auto;
 
 }
 
-.brand{
+
+.sidebar-brand{
 
   display:flex;
 
   align-items:center;
 
-  gap:13px;
+  gap:11px;
+
+  padding:
+
+    5px 8px 20px;
 
 }
 
-.brand-icon{
 
-  width:48px;
-  height:48px;
+.sidebar-logo{
 
-  border-radius:14px;
+  width:42px;
+
+  height:42px;
+
+  border-radius:13px;
+
+  background:
+
+    rgba(255,255,255,.1);
+
+  border:
+
+    1px solid
+
+    rgba(255,255,255,.1);
 
   display:flex;
 
@@ -149,107 +241,563 @@ button{
 
   justify-content:center;
 
-  background:
-    rgba(255,255,255,.12);
-
-  border:
-    1px solid
-    rgba(255,255,255,.12);
-
-  font-size:25px;
-
-  box-shadow:
-    inset 0 1px 0
-    rgba(255,255,255,.12);
+  font-size:22px;
 
 }
 
-.logo-title{
 
-  margin:0;
+.sidebar-brand-title{
 
-  font-size:22px;
+  font-size:17px;
 
   font-weight:800;
 
-  letter-spacing:-.4px;
-
-}
-
-.logo-sub{
-
-  margin:4px 0 0;
-
-  font-size:13px;
-
-  color:#d1d5db;
+  letter-spacing:-.3px;
 
 }
 
 
-/* ================================================= */
-/* RESTAURANT SELECTOR */
-/* ================================================= */
+.sidebar-brand-sub{
 
-.restaurant-selector{
+  margin-top:2px;
+
+  font-size:10px;
+
+  color:#9ca3af;
+
+}
+
+
+.sidebar-section-title{
+
+  padding:
+
+    15px 10px 7px;
+
+  color:#6b7280;
+
+  font-size:10px;
+
+  font-weight:800;
+
+  text-transform:uppercase;
+
+  letter-spacing:.8px;
+
+}
+
+
+.nav{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:4px;
+
+}
+
+
+.nav-btn{
+
+  width:100%;
+
+  border:0;
+
+  background:transparent;
+
+  color:#9ca3af;
 
   display:flex;
 
   align-items:center;
 
-  gap:8px;
+  gap:11px;
 
   padding:
-    9px 13px;
 
-  border-radius:12px;
+    11px 12px;
+
+  border-radius:11px;
+
+  font-size:13px;
+
+  font-weight:600;
+
+  text-align:left;
+
+  transition:.18s;
+
+}
+
+
+.nav-btn:hover{
 
   background:
-    rgba(255,255,255,.10);
+    rgba(255,255,255,.06);
 
-  border:
-    1px solid
+  color:white;
+
+}
+
+
+.nav-btn.active{
+
+  background:
     rgba(255,255,255,.12);
 
   color:white;
 
-  font-size:13px;
+}
+
+
+.nav-icon{
+
+  width:22px;
+
+  text-align:center;
+
+  font-size:17px;
 
 }
 
-.restaurant-selector span{
 
-  color:#9ca3af;
+.nav-label{
 
-  font-size:11px;
+  flex:1;
 
 }
 
-.restaurant-selector strong{
 
-  font-size:13px;
+.nav-count{
+
+  min-width:20px;
+
+  height:20px;
+
+  border-radius:20px;
+
+  background:#ef4444;
+
+  color:white;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:10px;
+
+  font-weight:800;
 
 }
 
 
 /* ================================================= */
-/* MAIN */
+/* SIDEBAR RESTAURANT */
 /* ================================================= */
 
-main{
+.sidebar-restaurant{
+
+  margin-top:auto;
+
+  padding-top:15px;
+
+  border-top:
+
+    1px solid
+
+    rgba(255,255,255,.08);
+
+}
+
+
+.sidebar-restaurant-box{
+
+  background:
+    rgba(255,255,255,.05);
+
+  border:
+    1px solid
+
+    rgba(255,255,255,.07);
+
+  border-radius:12px;
+
+  padding:12px;
+
+}
+
+
+.sidebar-restaurant-label{
+
+  color:#6b7280;
+
+  font-size:9px;
+
+  font-weight:800;
+
+  text-transform:uppercase;
+
+  letter-spacing:.6px;
+
+}
+
+
+.sidebar-restaurant-name{
+
+  margin-top:5px;
+
+  font-size:13px;
+
+  font-weight:700;
+
+}
+
+
+.sidebar-restaurant-status{
+
+  margin-top:7px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
+
+  color:#86efac;
+
+  font-size:10px;
+
+}
+
+
+.online-dot{
+
+  width:6px;
+
+  height:6px;
+
+  border-radius:50%;
+
+  background:#22c55e;
+
+}
+
+
+/* ================================================= */
+/* MAIN WRAPPER */
+/* ================================================= */
+
+.main{
+
+  margin-left:var(--sidebar-width);
+
+  width:
+
+    calc(
+
+      100% -
+
+      var(--sidebar-width)
+
+    );
+
+  min-width:0;
+
+}
+
+
+/* ================================================= */
+/* TOP HEADER */
+/* ================================================= */
+
+.top-header{
+
+  height:68px;
+
+  background:white;
+
+  border-bottom:
+
+    1px solid
+
+    var(--border);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
 
   padding:
-    22px 0
-    45px;
+
+    0 24px;
+
+  position:sticky;
+
+  top:0;
+
+  z-index:100;
+
+}
+
+
+.mobile-menu-btn{
+
+  display:none;
+
+  border:0;
+
+  background:#f3f4f6;
+
+  width:40px;
+
+  height:40px;
+
+  border-radius:10px;
+
+  font-size:20px;
+
+}
+
+
+.top-left{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+}
+
+
+.mobile-page-title{
+
+  display:none;
+
+  font-weight:800;
+
+  font-size:16px;
+
+}
+
+
+.top-actions{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+}
+
+
+.restaurant-select{
+
+  border:
+
+    1px solid
+
+    var(--border);
+
+  background:#fff;
+
+  border-radius:10px;
+
+  padding:
+
+    9px 12px;
+
+  font-size:12px;
+
+  font-weight:700;
+
+  color:var(--text);
+
+  outline:none;
+
+}
+
+
+.icon-action{
+
+  width:38px;
+
+  height:38px;
+
+  border:
+
+    1px solid
+
+    var(--border);
+
+  background:white;
+
+  border-radius:10px;
+
+  font-size:16px;
+
+}
+
+
+.icon-action:hover{
+
+  background:#f9fafb;
 
 }
 
 
 /* ================================================= */
-/* STATUS ROW */
+/* PAGE */
 /* ================================================= */
 
-.status-row{
+.page{
+
+  padding:
+
+    24px;
+
+  max-width:1500px;
+
+  margin:auto;
+
+}
+
+
+.page-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:flex-start;
+
+  gap:20px;
+
+  margin-bottom:20px;
+
+}
+
+
+.page-title{
+
+  margin:0;
+
+  font-size:25px;
+
+  font-weight:850;
+
+  letter-spacing:-.7px;
+
+}
+
+
+.page-description{
+
+  margin:
+
+    5px 0 0;
+
+  color:var(--muted);
+
+  font-size:13px;
+
+}
+
+
+.page-actions{
+
+  display:flex;
+
+  gap:8px;
+
+}
+
+
+/* ================================================= */
+/* BUTTONS */
+/* ================================================= */
+
+.btn{
+
+  border:0;
+
+  border-radius:10px;
+
+  padding:
+
+    10px 14px;
+
+  font-size:12px;
+
+  font-weight:700;
+
+  transition:.18s;
+
+}
+
+
+.btn-dark{
+
+  background:var(--dark);
+
+  color:white;
+
+}
+
+
+.btn-dark:hover{
+
+  background:var(--dark-2);
+
+}
+
+
+.btn-light{
+
+  background:#f3f4f6;
+
+  color:var(--text);
+
+}
+
+
+.btn-green{
+
+  background:#16a34a;
+
+  color:white;
+
+}
+
+
+.btn-red{
+
+  background:#dc2626;
+
+  color:white;
+
+}
+
+
+.btn-blue{
+
+  background:#2563eb;
+
+  color:white;
+
+}
+
+
+/* ================================================= */
+/* STATUS */
+/* ================================================= */
+
+.status-grid{
 
   display:grid;
 
@@ -262,74 +810,454 @@ main{
 
 }
 
-.status{
 
-  background:#dcfce7;
+.status-card{
 
-  color:#166534;
+  display:flex;
 
-  padding:
-    12px 15px;
+  align-items:center;
+
+  gap:11px;
+
+  background:white;
+
+  border:
+
+    1px solid
+
+    var(--border);
 
   border-radius:13px;
 
-  font-size:13px;
-
-  font-weight:600;
-
-  border:
-    1px solid
-    #bbf7d0;
+  padding:13px 15px;
 
 }
 
-.api-status{
 
-  background:#fef3c7;
+.status-icon{
 
-  color:#92400e;
+  width:34px;
 
-  padding:
-    12px 15px;
+  height:34px;
 
-  border-radius:13px;
+  border-radius:10px;
 
-  font-size:13px;
+  display:flex;
 
-  font-weight:600;
+  align-items:center;
 
-  border:
-    1px solid
-    #fde68a;
+  justify-content:center;
+
+  background:var(--green-bg);
+
+}
+
+
+.status-info{
+
+  min-width:0;
+
+}
+
+
+.status-title{
+
+  font-size:12px;
+
+  font-weight:700;
+
+}
+
+
+.status-text{
+
+  margin-top:2px;
+
+  font-size:10px;
+
+  color:var(--muted);
 
 }
 
 
 /* ================================================= */
-/* SECTION TITLE */
+/* OVERVIEW GRID */
 /* ================================================= */
 
-.page-title{
+.stats-grid{
 
-  margin:
-    5px 0 4px;
+  display:grid;
 
-  font-size:25px;
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:13px;
+
+  margin-bottom:18px;
+
+}
+
+
+.stat-card{
+
+  background:white;
+
+  border:
+
+    1px solid
+
+    var(--border);
+
+  border-radius:15px;
+
+  padding:17px;
+
+  position:relative;
+
+  overflow:hidden;
+
+}
+
+
+.stat-top{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+}
+
+
+.stat-label{
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  font-weight:600;
+
+}
+
+
+.stat-icon{
+
+  width:30px;
+
+  height:30px;
+
+  border-radius:9px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:15px;
+
+  background:#f3f4f6;
+
+}
+
+
+.stat-value{
+
+  margin-top:9px;
+
+  font-size:24px;
+
+  font-weight:850;
+
+  letter-spacing:-.5px;
+
+}
+
+
+.stat-footer{
+
+  margin-top:6px;
+
+  font-size:10px;
+
+  color:var(--muted);
+
+}
+
+
+/* ================================================= */
+/* DASHBOARD TWO COLUMN */
+/* ================================================= */
+
+.dashboard-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1.4fr)
+    minmax(300px,.8fr);
+
+  gap:16px;
+
+  margin-bottom:18px;
+
+}
+
+
+/* ================================================= */
+/* PANEL */
+/* ================================================= */
+
+.panel{
+
+  background:white;
+
+  border:
+
+    1px solid
+
+    var(--border);
+
+  border-radius:15px;
+
+  overflow:hidden;
+
+}
+
+
+.panel-header{
+
+  padding:
+
+    16px 17px;
+
+  border-bottom:
+
+    1px solid
+
+    var(--border);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+}
+
+
+.panel-title{
+
+  font-size:14px;
 
   font-weight:800;
 
-  letter-spacing:-.6px;
+}
+
+
+.panel-subtitle{
+
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:10px;
 
 }
 
-.page-description{
 
-  margin:
-    0 0 20px;
+.panel-body{
 
-  color:#6b7280;
+  padding:15px;
 
-  font-size:14px;
+}
+
+
+/* ================================================= */
+/* PLATFORM CARDS */
+/* ================================================= */
+
+.platform-list{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:8px;
+
+}
+
+
+.platform{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding:11px;
+
+  border:
+
+    1px solid
+
+    var(--border);
+
+  border-radius:11px;
+
+}
+
+
+.platform-logo{
+
+  width:34px;
+
+  height:34px;
+
+  border-radius:9px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:16px;
+
+  background:#f3f4f6;
+
+}
+
+
+.platform-info{
+
+  flex:1;
+
+  min-width:0;
+
+}
+
+
+.platform-name{
+
+  font-size:12px;
+
+  font-weight:800;
+
+}
+
+
+.platform-status{
+
+  margin-top:2px;
+
+  font-size:9px;
+
+  color:var(--muted);
+
+}
+
+
+.platform-right{
+
+  text-align:right;
+
+}
+
+
+.platform-orders{
+
+  font-size:13px;
+
+  font-weight:800;
+
+}
+
+
+.platform-orders-label{
+
+  font-size:8px;
+
+  color:var(--muted);
+
+}
+
+
+/* ================================================= */
+/* QUICK ACTIONS */
+/* ================================================= */
+
+.quick-actions{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:8px;
+
+}
+
+
+.quick-action{
+
+  border:
+
+    1px solid
+
+    var(--border);
+
+  background:#fafafa;
+
+  border-radius:11px;
+
+  padding:13px;
+
+  text-align:left;
+
+  transition:.18s;
+
+}
+
+
+.quick-action:hover{
+
+  background:#f3f4f6;
+
+}
+
+
+.quick-action-icon{
+
+  font-size:19px;
+
+}
+
+
+.quick-action-title{
+
+  margin-top:7px;
+
+  font-size:11px;
+
+  font-weight:800;
+
+}
+
+
+.quick-action-text{
+
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:9px;
 
 }
 
@@ -342,21 +1270,20 @@ main{
 
   background:white;
 
-  padding:18px;
+  border:
 
-  border-radius:18px;
+    1px solid
+
+    var(--border);
+
+  padding:17px;
+
+  border-radius:15px;
 
   margin-bottom:18px;
 
-  border:
-    1px solid
-    #e5e7eb;
-
-  box-shadow:
-    0 4px 18px
-    rgba(0,0,0,.04);
-
 }
+
 
 .filter-header{
 
@@ -366,34 +1293,40 @@ main{
 
   justify-content:space-between;
 
-  gap:15px;
+  gap:10px;
 
-  margin-bottom:15px;
+  margin-bottom:14px;
 
 }
+
 
 .filter-title{
 
+  font-size:14px;
+
   font-weight:800;
 
-  font-size:16px;
-
 }
+
 
 .filter-badge{
 
   background:#f3f4f6;
 
-  color:#6b7280;
+  color:var(--muted);
 
   padding:
-    6px 10px;
 
-  border-radius:8px;
+    6px 9px;
 
-  font-size:11px;
+  border-radius:7px;
+
+  font-size:9px;
+
+  font-weight:700;
 
 }
+
 
 .filter-grid{
 
@@ -402,242 +1335,71 @@ main{
   grid-template-columns:
     repeat(3,1fr);
 
-  gap:12px;
+  gap:10px;
 
 }
+
 
 .field label{
 
   display:block;
 
-  font-size:12px;
+  font-size:10px;
 
-  font-weight:600;
+  font-weight:700;
 
-  color:#6b7280;
+  color:var(--muted);
 
-  margin-bottom:6px;
+  margin-bottom:5px;
 
 }
+
 
 .field input,
 .field select{
 
   width:100%;
 
-  padding:
-    12px;
+  padding:10px;
 
   border:
+
     1px solid
+
     #d1d5db;
 
-  border-radius:11px;
+  border-radius:9px;
 
   background:white;
 
-  color:#111827;
+  color:var(--text);
 
   outline:none;
 
-  transition:
-    .2s;
+  font-size:12px;
 
 }
+
 
 .field input:focus,
 .field select:focus{
 
-  border-color:#374151;
+  border-color:#6b7280;
 
   box-shadow:
+
     0 0 0 3px
-    rgba(55,65,81,.08);
+
+    rgba(17,24,39,.06);
 
 }
 
-.primary-btn{
+
+.filter-button{
 
   width:100%;
 
-  background:#111827;
-
-  color:white;
-
-  border:0;
-
-  border-radius:11px;
-
-  padding:13px;
-
-  margin-top:17px;
-
-  font-size:14px;
-
-  font-weight:700;
-
-  transition:.2s;
-
-}
-
-.primary-btn:hover{
-
-  background:#1f2937;
-
-  transform:
-    translateY(-1px);
-
-}
-
-.primary-btn:active{
-
-  transform:
-    translateY(0);
-
-}
-
-.secondary-btn{
-
-  background:#e5e7eb;
-
-  color:#111827;
-
-  border:0;
-
-  border-radius:10px;
-
-  padding:
-    11px 15px;
-
-}
-
-
-/* ================================================= */
-/* DASHBOARD CARDS */
-/* ================================================= */
-
-.cards{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:14px;
-
-  margin-bottom:18px;
-
-}
-
-.card{
-
-  background:white;
-
-  padding:19px;
-
-  border-radius:17px;
-
-  border:
-    1px solid
-    #e5e7eb;
-
-  box-shadow:
-    0 4px 18px
-    rgba(0,0,0,.04);
-
-  position:relative;
-
-  overflow:hidden;
-
-}
-
-.card::after{
-
-  content:"";
-
-  position:absolute;
-
-  width:70px;
-  height:70px;
-
-  right:-25px;
-  bottom:-25px;
-
-  background:
-    #f3f4f6;
-
-  border-radius:50%;
-
-}
-
-.card-title{
-
-  color:#6b7280;
-
-  font-size:12px;
-
-  font-weight:600;
-
-}
-
-.card-value{
-
-  margin-top:8px;
-
-  font-size:25px;
-
-  font-weight:800;
-
-  letter-spacing:-.5px;
-
-}
-
-
-/* ================================================= */
-/* SECTION */
-/* ================================================= */
-
-.section{
-
-  background:white;
-
-  border-radius:17px;
-
-  padding:19px;
-
-  margin-bottom:18px;
-
-  border:
-    1px solid
-    #e5e7eb;
-
-  box-shadow:
-    0 4px 18px
-    rgba(0,0,0,.04);
-
-}
-
-.section-header{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  gap:10px;
-
-  margin-bottom:14px;
-
-}
-
-.section h2{
-
-  margin:0;
-
-  font-size:18px;
-
-  font-weight:800;
+  margin-top:13px;
 
 }
 
@@ -656,15 +1418,17 @@ main{
 
 }
 
+
 table{
 
   width:100%;
 
   border-collapse:collapse;
 
-  min-width:650px;
+  min-width:680px;
 
 }
+
 
 th,
 td{
@@ -672,27 +1436,32 @@ td{
   text-align:left;
 
   padding:
-    12px 9px;
+
+    11px 9px;
 
   border-bottom:
-    1px solid
-    #e5e7eb;
 
-  font-size:13px;
+    1px solid
+
+    var(--border);
+
+  font-size:11px;
 
 }
+
 
 th{
 
-  background:#f9fafb;
+  background:#f8fafc;
 
   color:#374151;
 
-  font-size:12px;
+  font-size:10px;
 
-  font-weight:700;
+  font-weight:800;
 
 }
+
 
 tbody tr:hover{
 
@@ -702,25 +1471,7 @@ tbody tr:hover{
 
 
 /* ================================================= */
-/* EMPTY */
-/* ================================================= */
-
-.empty{
-
-  padding:
-    28px 10px;
-
-  text-align:center;
-
-  color:#6b7280;
-
-  font-size:13px;
-
-}
-
-
-/* ================================================= */
-/* PRODUCT */
+/* PRODUCT LIST */
 /* ================================================= */
 
 .product-list{
@@ -729,47 +1480,44 @@ tbody tr:hover{
 
   flex-direction:column;
 
-  gap:8px;
+  gap:7px;
 
 }
+
 
 .product-row{
 
   display:flex;
 
-  justify-content:space-between;
-
   align-items:center;
+
+  justify-content:space-between;
 
   gap:10px;
 
-  padding:13px;
+  padding:11px;
 
-  background:#f9fafb;
+  background:#f8fafc;
 
-  border-radius:11px;
-
-  border:
-    1px solid
-    #f0f0f0;
+  border-radius:9px;
 
 }
+
 
 .product-name{
 
-  font-weight:700;
+  font-size:11px;
 
-  font-size:13px;
+  font-weight:700;
 
 }
 
+
 .product-count{
 
+  font-size:11px;
+
   font-weight:800;
-
-  font-size:13px;
-
-  color:#374151;
 
 }
 
@@ -781,18 +1529,19 @@ tbody tr:hover{
 .review{
 
   border:
+
     1px solid
-    #e5e7eb;
 
-  border-radius:13px;
+    var(--border);
 
-  padding:15px;
+  border-radius:11px;
 
-  margin-bottom:10px;
+  padding:13px;
 
-  background:#fff;
+  margin-bottom:8px;
 
 }
+
 
 .review-top{
 
@@ -806,52 +1555,438 @@ tbody tr:hover{
 
 }
 
+
+.review-top strong{
+
+  font-size:12px;
+
+}
+
+
 .stars{
 
   color:#f59e0b;
 
-  font-size:18px;
+  font-size:15px;
 
   white-space:nowrap;
 
 }
 
+
 .review-comment{
 
-  margin-top:10px;
+  margin-top:8px;
 
   line-height:1.5;
-
-  font-size:14px;
-
-}
-
-.review-info{
-
-  margin-top:9px;
-
-  color:#6b7280;
 
   font-size:12px;
 
+}
+
+
+.review-info{
+
+  margin-top:7px;
+
+  color:var(--muted);
+
+  font-size:9px;
+
   line-height:1.5;
 
 }
 
 
 /* ================================================= */
-/* LOADING */
+/* EMPTY */
 /* ================================================= */
 
-.loading{
+.empty{
+
+  padding:
+
+    28px 10px;
 
   text-align:center;
 
-  padding:25px;
+  color:var(--muted);
+
+  font-size:11px;
+
+}
+
+
+.loading{
+
+  padding:
+
+    25px;
+
+  text-align:center;
+
+  color:var(--muted);
+
+  font-size:11px;
+
+}
+
+
+/* ================================================= */
+/* MODULE PAGES */
+/* ================================================= */
+
+.module-placeholder{
+
+  background:white;
+
+  border:
+
+    1px solid
+
+    var(--border);
+
+  border-radius:16px;
+
+  min-height:420px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  padding:30px;
+
+}
+
+
+.placeholder-icon{
+
+  font-size:45px;
+
+  margin-bottom:13px;
+
+}
+
+
+.placeholder-title{
+
+  font-size:20px;
+
+  font-weight:800;
+
+}
+
+
+.placeholder-text{
+
+  margin-top:7px;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.6;
+
+  max-width:430px;
+
+}
+
+
+/* ================================================= */
+/* INTEGRATION PREVIEW */
+/* ================================================= */
+
+.integration-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:13px;
+
+}
+
+
+.integration-card{
+
+  border:
+
+    1px solid
+
+    var(--border);
+
+  border-radius:14px;
+
+  padding:16px;
+
+  background:white;
+
+}
+
+
+.integration-top{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+}
+
+
+.integration-icon{
+
+  width:42px;
+
+  height:42px;
+
+  border-radius:12px;
+
+  background:#f3f4f6;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:21px;
+
+}
+
+
+.integration-status{
+
+  font-size:9px;
+
+  font-weight:800;
+
+  padding:
+
+    5px 8px;
+
+  border-radius:20px;
+
+}
+
+
+.integration-connected{
+
+  background:var(--green-bg);
+
+  color:#166534;
+
+}
+
+
+.integration-disconnected{
+
+  background:#f3f4f6;
 
   color:#6b7280;
 
-  font-size:13px;
+}
+
+
+.integration-name{
+
+  margin-top:13px;
+
+  font-size:14px;
+
+  font-weight:800;
+
+}
+
+
+.integration-description{
+
+  margin-top:4px;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  line-height:1.5;
+
+}
+
+
+.integration-button{
+
+  width:100%;
+
+  margin-top:13px;
+
+}
+
+
+/* ================================================= */
+/* RESTAURANT CARDS */
+/* ================================================= */
+
+.restaurant-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:13px;
+
+}
+
+
+.restaurant-card{
+
+  background:white;
+
+  border:
+
+    1px solid
+
+    var(--border);
+
+  border-radius:14px;
+
+  padding:16px;
+
+}
+
+
+.restaurant-card-top{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+}
+
+
+.restaurant-avatar{
+
+  width:43px;
+
+  height:43px;
+
+  border-radius:12px;
+
+  background:#f3f4f6;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:20px;
+
+}
+
+
+.restaurant-card-name{
+
+  font-size:14px;
+
+  font-weight:800;
+
+}
+
+
+.restaurant-card-address{
+
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:9px;
+
+}
+
+
+.restaurant-card-platforms{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:5px;
+
+  margin-top:14px;
+
+}
+
+
+.restaurant-platform-tag{
+
+  padding:
+
+    5px 7px;
+
+  border-radius:6px;
+
+  background:#f3f4f6;
+
+  color:#4b5563;
+
+  font-size:9px;
+
+  font-weight:700;
+
+}
+
+
+.restaurant-card-actions{
+
+  display:flex;
+
+  gap:7px;
+
+  margin-top:14px;
+
+}
+
+
+.restaurant-card-actions button{
+
+  flex:1;
+
+}
+
+
+/* ================================================= */
+/* FINANCIAL */
+/* ================================================= */
+
+.financial-table{
+
+  width:100%;
+
+  min-width:0;
+
+}
+
+
+.financial-table td{
+
+  font-size:12px;
+
+}
+
+
+.financial-table td:last-child{
+
+  text-align:right;
+
+  font-weight:800;
 
 }
 
@@ -866,10 +2001,33 @@ tbody tr:hover{
 
   color:#9ca3af;
 
-  font-size:11px;
+  font-size:9px;
 
   padding:
-    8px 0 25px;
+
+    10px 0 25px;
+
+}
+
+
+/* ================================================= */
+/* MOBILE NAV */
+/* ================================================= */
+
+.mobile-nav{
+
+  display:none;
+
+}
+
+
+/* ================================================= */
+/* OVERLAY */
+/* ================================================= */
+
+.sidebar-overlay{
+
+  display:none;
 
 }
 
@@ -878,14 +2036,193 @@ tbody tr:hover{
 /* MOBILE */
 /* ================================================= */
 
-@media(max-width:900px){
+@media(max-width:1000px){
 
-  .cards{
+  :root{
+
+    --sidebar-width:220px;
+
+  }
+
+
+  .stats-grid{
 
     grid-template-columns:
       repeat(2,1fr);
 
   }
+
+
+  .dashboard-grid{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .integration-grid{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+
+  .restaurant-grid{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+}
+
+
+@media(max-width:750px){
+
+  .sidebar{
+
+    transform:
+      translateX(-100%);
+
+    transition:
+      transform .25s ease;
+
+  }
+
+
+  .sidebar.open{
+
+    transform:
+      translateX(0);
+
+  }
+
+
+  .sidebar-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+      rgba(0,0,0,.4);
+
+    z-index:150;
+
+  }
+
+
+  .sidebar-overlay.show{
+
+    display:block;
+
+  }
+
+
+  .main{
+
+    margin-left:0;
+
+    width:100%;
+
+  }
+
+
+  .top-header{
+
+    height:60px;
+
+    padding:
+      0 12px;
+
+  }
+
+
+  .mobile-menu-btn{
+
+    display:block;
+
+  }
+
+
+  .mobile-page-title{
+
+    display:block;
+
+  }
+
+
+  .top-left{
+
+    gap:8px;
+
+  }
+
+
+  .restaurant-select{
+
+    max-width:130px;
+
+    padding:
+      8px;
+
+  }
+
+
+  .icon-action{
+
+    width:35px;
+
+    height:35px;
+
+  }
+
+
+  .page{
+
+    padding:
+      16px 12px 82px;
+
+  }
+
+
+  .page-header{
+
+    margin-bottom:15px;
+
+  }
+
+
+  .page-title{
+
+    font-size:21px;
+
+  }
+
+
+  .page-description{
+
+    font-size:11px;
+
+  }
+
+
+  .page-actions{
+
+    display:none;
+
+  }
+
+
+  .status-grid{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
 
   .filter-grid{
 
@@ -894,153 +2231,195 @@ tbody tr:hover{
 
   }
 
-}
 
-
-@media(max-width:600px){
-
-  .container{
-
-    padding:
-      0 12px;
-
-  }
-
-  .header{
-
-    padding:
-      14px 0;
-
-  }
-
-  .topbar{
-
-    align-items:center;
-
-  }
-
-  .brand-icon{
-
-    width:42px;
-    height:42px;
-
-    font-size:21px;
-
-    border-radius:12px;
-
-  }
-
-  .logo-title{
-
-    font-size:18px;
-
-  }
-
-  .logo-sub{
-
-    font-size:11px;
-
-  }
-
-  .restaurant-selector{
-
-    padding:
-      8px 9px;
-
-  }
-
-  .restaurant-selector span{
-
-    display:none;
-
-  }
-
-  .page-title{
-
-    font-size:22px;
-
-  }
-
-  .cards{
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-    gap:9px;
-
-  }
-
-  .card{
-
-    padding:14px;
-
-    border-radius:14px;
-
-  }
-
-  .card-value{
-
-    font-size:20px;
-
-  }
-
-  .section{
-
-    padding:14px;
-
-    border-radius:14px;
-
-  }
-
-  .section h2{
-
-    font-size:16px;
-
-  }
-
-  .status-row{
+  .integration-grid{
 
     grid-template-columns:
       1fr;
+
+  }
+
+
+  .restaurant-grid{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .mobile-nav{
+
+    display:flex;
+
+    position:fixed;
+
+    left:0;
+
+    right:0;
+
+    bottom:0;
+
+    height:65px;
+
+    background:white;
+
+    border-top:
+
+      1px solid
+
+      var(--border);
+
+    z-index:300;
+
+    padding:
+      5px 4px;
+
+  }
+
+
+  .mobile-nav-btn{
+
+    flex:1;
+
+    border:0;
+
+    background:transparent;
+
+    color:#9ca3af;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:2px;
+
+    font-size:9px;
+
+    font-weight:700;
+
+  }
+
+
+  .mobile-nav-btn span:first-child{
+
+    font-size:17px;
+
+  }
+
+
+  .mobile-nav-btn.active{
+
+    color:#111827;
+
+  }
+
+}
+
+
+@media(max-width:500px){
+
+  .stats-grid{
+
+    grid-template-columns:
+      repeat(2,1fr);
 
     gap:8px;
 
   }
 
+
+  .stat-card{
+
+    padding:13px;
+
+    border-radius:13px;
+
+  }
+
+
+  .stat-value{
+
+    font-size:20px;
+
+  }
+
+
+  .stat-label{
+
+    font-size:10px;
+
+  }
+
+
+  .dashboard-grid{
+
+    gap:10px;
+
+  }
+
+
+  .panel{
+
+    border-radius:13px;
+
+  }
+
+
+  .panel-header{
+
+    padding:
+      13px;
+
+  }
+
+
+  .panel-body{
+
+    padding:
+      12px;
+
+  }
+
+
   .filter-box{
 
-    padding:14px;
+    padding:
+      13px;
 
-    border-radius:14px;
-
-  }
-
-}
-
-
-@media(max-width:380px){
-
-  .logo-sub{
-
-    display:none;
+    border-radius:13px;
 
   }
 
-  .restaurant-selector strong{
 
-    font-size:11px;
+  .restaurant-select{
+
+    max-width:115px;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
 
   }
 
-  .card-title{
 
-    font-size:11px;
+  .top-actions{
+
+    gap:5px;
 
   }
 
-  .card-value{
 
-    font-size:18px;
+  .status-card{
+
+    padding:
+      10px 12px;
 
   }
 
@@ -1048,33 +2427,37 @@ tbody tr:hover{
 
 
 /* ================================================= */
-/* SCROLLBAR */
+/* ANIMATION */
 /* ================================================= */
 
-::-webkit-scrollbar{
+.page-section{
 
-  width:7px;
-  height:7px;
+  animation:
 
-}
-
-::-webkit-scrollbar-track{
-
-  background:#f3f4f6;
+    fadeIn .2s ease;
 
 }
 
-::-webkit-scrollbar-thumb{
 
-  background:#cbd5e1;
+@keyframes fadeIn{
 
-  border-radius:20px;
+  from{
 
-}
+    opacity:0;
 
-::-webkit-scrollbar-thumb:hover{
+    transform:
+      translateY(4px);
 
-  background:#94a3b8;
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      translateY(0);
+
+  }
 
 }
 
@@ -1086,108 +2469,370 @@ tbody tr:hover{
 <body>
 
 
+<div class="app">
+
+
 <!-- ================================================= -->
-<!-- HEADER -->
+<!-- SIDEBAR -->
 <!-- ================================================= -->
 
-<header class="header">
+<aside
+  class="sidebar"
+  id="sidebar"
+>
 
-  <div class="container">
 
-    <div class="topbar">
+  <div class="sidebar-brand">
 
+    <div class="sidebar-logo">
+      🏪
+    </div>
 
-      <div class="brand">
+    <div>
 
-        <div class="brand-icon">
-          🏪
-        </div>
-
-        <div>
-
-          <h1 class="logo-title">
-            Fero Restaurant Hub
-          </h1>
-
-          <p class="logo-sub">
-            Restoran & Sipariş Yönetim Merkezi
-          </p>
-
-        </div>
-
+      <div class="sidebar-brand-title">
+        Fero Restaurant
       </div>
 
-
-      <div class="restaurant-selector">
-
-        <span>
-          AKTİF RESTORAN
-        </span>
-
-        <strong>
-          Hayal Pide
-        </strong>
-
-        <span>
-          ▼
-        </span>
-
+      <div class="sidebar-brand-sub">
+        HUB
       </div>
-
 
     </div>
 
   </div>
 
-</header>
+
+  <div class="sidebar-section-title">
+    Yönetim
+  </div>
+
+
+  <nav class="nav">
+
+
+    <button
+      class="nav-btn active"
+      data-page="dashboard"
+      onclick="showPage('dashboard')"
+    >
+
+      <span class="nav-icon">
+        🏠
+      </span>
+
+      <span class="nav-label">
+        Genel Bakış
+      </span>
+
+    </button>
+
+
+    <button
+      class="nav-btn"
+      data-page="orders"
+      onclick="showPage('orders')"
+    >
+
+      <span class="nav-icon">
+        📦
+      </span>
+
+      <span class="nav-label">
+        Siparişler
+      </span>
+
+      <span
+        class="nav-count"
+        id="newOrderBadge"
+      >
+        0
+      </span>
+
+    </button>
+
+
+    <button
+      class="nav-btn"
+      data-page="restaurants"
+      onclick="showPage('restaurants')"
+    >
+
+      <span class="nav-icon">
+        🏪
+      </span>
+
+      <span class="nav-label">
+        Restoranlar
+      </span>
+
+    </button>
+
+
+    <button
+      class="nav-btn"
+      data-page="integrations"
+      onclick="showPage('integrations')"
+    >
+
+      <span class="nav-icon">
+        🔌
+      </span>
+
+      <span class="nav-label">
+        Entegrasyonlar
+      </span>
+
+    </button>
+
+
+    <button
+      class="nav-btn"
+      data-page="reports"
+      onclick="showPage('reports')"
+    >
+
+      <span class="nav-icon">
+        📊
+      </span>
+
+      <span class="nav-label">
+        Raporlar
+      </span>
+
+    </button>
+
+
+  </nav>
+
+
+  <div class="sidebar-section-title">
+    Sistem
+  </div>
+
+
+  <nav class="nav">
+
+
+    <button
+      class="nav-btn"
+      data-page="settings"
+      onclick="showPage('settings')"
+    >
+
+      <span class="nav-icon">
+        ⚙️
+      </span>
+
+      <span class="nav-label">
+        Ayarlar
+      </span>
+
+    </button>
+
+
+  </nav>
+
+
+  <div class="sidebar-restaurant">
+
+    <div class="sidebar-restaurant-box">
+
+      <div class="sidebar-restaurant-label">
+        Aktif Restoran
+      </div>
+
+      <div class="sidebar-restaurant-name">
+        Hayal Pide
+      </div>
+
+      <div class="sidebar-restaurant-status">
+
+        <span class="online-dot"></span>
+
+        Sistem aktif
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+</aside>
+
+
+<!-- ================================================= -->
+<!-- SIDEBAR OVERLAY -->
+<!-- ================================================= -->
+
+<div
+  class="sidebar-overlay"
+  id="sidebarOverlay"
+  onclick="closeSidebar()"
+></div>
 
 
 <!-- ================================================= -->
 <!-- MAIN -->
 <!-- ================================================= -->
 
-<main>
-
-<div class="container">
+<div class="main">
 
 
-  <!-- ================================================= -->
-  <!-- BAŞLIK -->
-  <!-- ================================================= -->
+<!-- ================================================= -->
+<!-- TOP HEADER -->
+<!-- ================================================= -->
 
-  <div>
-
-    <h2 class="page-title">
-      Genel Bakış
-    </h2>
-
-    <p class="page-description">
-      Restoranınızın sipariş, satış ve finansal verilerini tek merkezden yönetin.
-    </p>
-
-  </div>
+<header class="top-header">
 
 
-  <!-- ================================================= -->
-  <!-- DURUM -->
-  <!-- ================================================= -->
+  <div class="top-left">
 
-  <div class="status-row">
-
-
-    <div class="status">
-
-      🟢 Firebase bağlantısı aktif
-
-    </div>
+    <button
+      class="mobile-menu-btn"
+      onclick="toggleSidebar()"
+    >
+      ☰
+    </button>
 
 
     <div
-      id="apiStatus"
-      class="api-status"
+      class="mobile-page-title"
+      id="mobilePageTitle"
+    >
+      Genel Bakış
+    </div>
+
+  </div>
+
+
+  <div class="top-actions">
+
+
+    <select
+      class="restaurant-select"
+      id="restaurantSelector"
+      onchange="changeRestaurant()"
     >
 
-      🟡 Cloudflare bağlantısı kontrol ediliyor...
+      <option value="hayal-pide">
+        🏪 Hayal Pide
+      </option>
+
+    </select>
+
+
+    <button
+      class="icon-action"
+      title="Yenile"
+      onclick="refreshCurrentPage()"
+    >
+      ↻
+    </button>
+
+
+  </div>
+
+
+</header>
+
+
+<!-- ================================================= -->
+<!-- CONTENT -->
+<!-- ================================================= -->
+
+<div class="page">
+
+
+<!-- ================================================= -->
+<!-- DASHBOARD PAGE -->
+<!-- ================================================= -->
+
+<section
+  id="page-dashboard"
+  class="page-section"
+>
+
+
+  <div class="page-header">
+
+    <div>
+
+      <h1 class="page-title">
+        Genel Bakış
+      </h1>
+
+      <p class="page-description">
+        Restoranınızın operasyonlarını tek merkezden yönetin.
+      </p>
+
+    </div>
+
+
+    <div class="page-actions">
+
+      <button
+        class="btn btn-dark"
+        onclick="loadAllData()"
+      >
+        ↻ Verileri Getir
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- STATUS -->
+
+  <div class="status-grid">
+
+
+    <div class="status-card">
+
+      <div class="status-icon">
+        🟢
+      </div>
+
+      <div class="status-info">
+
+        <div class="status-title">
+          Firebase
+        </div>
+
+        <div class="status-text">
+          Bağlantı aktif
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="status-card">
+
+      <div
+        class="status-icon"
+        id="cloudflareIcon"
+      >
+        🟡
+      </div>
+
+      <div class="status-info">
+
+        <div class="status-title">
+          Cloudflare API
+        </div>
+
+        <div
+          class="status-text"
+          id="cloudflareStatus"
+        >
+          Bağlantı kontrol ediliyor...
+        </div>
+
+      </div>
 
     </div>
 
@@ -1195,9 +2840,435 @@ tbody tr:hover{
   </div>
 
 
-  <!-- ================================================= -->
-  <!-- FİLTRE -->
-  <!-- ================================================= -->
+  <!-- STATS -->
+
+  <div class="stats-grid">
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+
+        <div class="stat-label">
+          Bugünkü Sipariş
+        </div>
+
+        <div class="stat-icon">
+          📦
+        </div>
+
+      </div>
+
+      <div
+        class="stat-value"
+        id="orderCount"
+      >
+        0
+      </div>
+
+      <div class="stat-footer">
+        Seçilen tarih aralığı
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+
+        <div class="stat-label">
+          Ürün Adedi
+        </div>
+
+        <div class="stat-icon">
+          🍕
+        </div>
+
+      </div>
+
+      <div
+        class="stat-value"
+        id="productCount"
+      >
+        0
+      </div>
+
+      <div class="stat-footer">
+        Satılan toplam ürün
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+
+        <div class="stat-label">
+          Brüt Ciro
+        </div>
+
+        <div class="stat-icon">
+          ₺
+        </div>
+
+      </div>
+
+      <div
+        class="stat-value"
+        id="grossSales"
+      >
+        0,00 ₺
+      </div>
+
+      <div class="stat-footer">
+        Sipariş toplamı
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+
+        <div class="stat-label">
+          Tahmini Net
+        </div>
+
+        <div class="stat-icon">
+          💰
+        </div>
+
+      </div>
+
+      <div
+        class="stat-value"
+        id="netEarning"
+      >
+        0,00 ₺
+      </div>
+
+      <div class="stat-footer">
+        %38 komisyon sonrası
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- DASHBOARD GRID -->
+
+  <div class="dashboard-grid">
+
+
+    <!-- PLATFORMLAR -->
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <div>
+
+          <div class="panel-title">
+            Platform Durumu
+          </div>
+
+          <div class="panel-subtitle">
+            Bağlı satış kanalları
+          </div>
+
+        </div>
+
+
+        <button
+          class="btn btn-light"
+          onclick="showPage('integrations')"
+        >
+          Yönet
+        </button>
+
+      </div>
+
+
+      <div class="panel-body">
+
+
+        <div class="platform-list">
+
+
+          <div class="platform">
+
+            <div class="platform-logo">
+              🟠
+            </div>
+
+            <div class="platform-info">
+
+              <div class="platform-name">
+                Trendyol
+              </div>
+
+              <div class="platform-status">
+                Mevcut Cloudflare bağlantısı
+              </div>
+
+            </div>
+
+            <div class="platform-right">
+
+              <div
+                class="platform-orders"
+                id="trendyolOrderCount"
+              >
+                0
+              </div>
+
+              <div class="platform-orders-label">
+                sipariş
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="platform">
+
+            <div class="platform-logo">
+              🟢
+            </div>
+
+            <div class="platform-info">
+
+              <div class="platform-name">
+                Migros Yemek
+              </div>
+
+              <div class="platform-status">
+                Entegrasyon hazırlanıyor
+              </div>
+
+            </div>
+
+            <div class="platform-right">
+
+              <div class="platform-orders">
+                —
+              </div>
+
+              <div class="platform-orders-label">
+                bağlantı yok
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="platform">
+
+            <div class="platform-logo">
+              🟡
+            </div>
+
+            <div class="platform-info">
+
+              <div class="platform-name">
+                Yemeksepeti
+              </div>
+
+              <div class="platform-status">
+                Entegrasyon hazırlanıyor
+              </div>
+
+            </div>
+
+            <div class="platform-right">
+
+              <div class="platform-orders">
+                —
+              </div>
+
+              <div class="platform-orders-label">
+                bağlantı yok
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+    <!-- HIZLI İŞLEMLER -->
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <div>
+
+          <div class="panel-title">
+            Hızlı İşlemler
+          </div>
+
+          <div class="panel-subtitle">
+            Yönetim merkezine hızlı erişim
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="panel-body">
+
+
+        <div class="quick-actions">
+
+
+          <button
+            class="quick-action"
+            onclick="showPage('orders')"
+          >
+
+            <div class="quick-action-icon">
+              📦
+            </div>
+
+            <div class="quick-action-title">
+              Siparişler
+            </div>
+
+            <div class="quick-action-text">
+              Siparişleri görüntüle
+            </div>
+
+          </button>
+
+
+          <button
+            class="quick-action"
+            onclick="showPage('restaurants')"
+          >
+
+            <div class="quick-action-icon">
+              🏪
+            </div>
+
+            <div class="quick-action-title">
+              Restoranlar
+            </div>
+
+            <div class="quick-action-text">
+              Restoranları yönet
+            </div>
+
+          </button>
+
+
+          <button
+            class="quick-action"
+            onclick="showPage('integrations')"
+          >
+
+            <div class="quick-action-icon">
+              🔌
+            </div>
+
+            <div class="quick-action-title">
+              Entegrasyonlar
+            </div>
+
+            <div class="quick-action-text">
+              API bağlantılarını yönet
+            </div>
+
+          </button>
+
+
+          <button
+            class="quick-action"
+            onclick="showPage('reports')"
+          >
+
+            <div class="quick-action-icon">
+              📊
+            </div>
+
+            <div class="quick-action-title">
+              Raporlar
+            </div>
+
+            <div class="quick-action-text">
+              Satış ve finans
+            </div>
+
+          </button>
+
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- ORDERS PAGE -->
+<!-- ================================================= -->
+
+<section
+  id="page-orders"
+  class="page-section hidden"
+>
+
+
+  <div class="page-header">
+
+    <div>
+
+      <h1 class="page-title">
+        Siparişler
+      </h1>
+
+      <p class="page-description">
+        Bağlı platformlardan gelen siparişleri yönetin.
+      </p>
+
+    </div>
+
+
+    <div class="page-actions">
+
+      <button
+        class="btn btn-dark"
+        onclick="loadOrders()"
+      >
+        ↻ Yenile
+      </button>
+
+    </div>
+
+  </div>
+
 
   <div class="filter-box">
 
@@ -1205,16 +3276,11 @@ tbody tr:hover{
     <div class="filter-header">
 
       <div class="filter-title">
-
-        📅 Rapor Filtreleri
-
+        Sipariş Filtreleri
       </div>
 
-
       <div class="filter-badge">
-
         Hayal Pide
-
       </div>
 
     </div>
@@ -1226,7 +3292,7 @@ tbody tr:hover{
       <div class="field">
 
         <label>
-          Başlangıç Tarihi
+          Başlangıç
         </label>
 
         <input
@@ -1240,7 +3306,7 @@ tbody tr:hover{
       <div class="field">
 
         <label>
-          Bitiş Tarihi
+          Bitiş
         </label>
 
         <input
@@ -1254,7 +3320,7 @@ tbody tr:hover{
       <div class="field">
 
         <label>
-          Sipariş Durumu
+          Sipariş durumu
         </label>
 
         <select
@@ -1290,435 +3356,1017 @@ tbody tr:hover{
 
 
     <button
-      class="primary-btn"
+      class="btn btn-dark filter-button"
       onclick="loadAllData()"
     >
-
       🔄 Verileri Getir
-
     </button>
 
 
   </div>
 
 
-  <!-- ================================================= -->
-  <!-- ÖZET KARTLARI -->
-  <!-- ================================================= -->
-
-  <div class="cards">
+  <div class="panel">
 
 
-    <div class="card">
+    <div class="panel-header">
 
-      <div class="card-title">
-        Sipariş Sayısı
+      <div>
+
+        <div class="panel-title">
+          Sipariş Listesi
+        </div>
+
+        <div class="panel-subtitle">
+          Trendyol verileri
+        </div>
+
       </div>
+
+    </div>
+
+
+    <div class="panel-body">
+
 
       <div
-        class="card-value"
-        id="orderCount"
+        id="ordersLoading"
+        class="loading hidden"
       >
-        0
+        Siparişler getiriliyor...
       </div>
 
-    </div>
-
-
-    <div class="card">
-
-      <div class="card-title">
-        Ürün Adedi
-      </div>
 
       <div
-        class="card-value"
-        id="productCount"
+        id="ordersEmpty"
+        class="empty"
       >
-        0
+        Henüz sipariş verisi alınmadı.
       </div>
 
-    </div>
 
+      <div class="table-wrap">
 
-    <div class="card">
-
-      <div class="card-title">
-        Brüt Ciro
-      </div>
-
-      <div
-        class="card-value"
-        id="grossSales"
-      >
-        0,00 ₺
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="card-title">
-        Tahmini Net Hak Ediş
-      </div>
-
-      <div
-        class="card-value"
-        id="netEarning"
-      >
-        0,00 ₺
-      </div>
-
-    </div>
-
-
-  </div>
-
-
-  <!-- ================================================= -->
-  <!-- SİPARİŞLER -->
-  <!-- ================================================= -->
-
-  <section class="section">
-
-
-    <div class="section-header">
-
-      <h2>
-        📦 Siparişler
-      </h2>
-
-    </div>
-
-
-    <div
-      id="ordersLoading"
-      class="loading hidden"
-    >
-
-      Siparişler getiriliyor...
-
-    </div>
-
-
-    <div
-      id="ordersEmpty"
-      class="empty"
-    >
-
-      Henüz sipariş verisi alınmadı.
-
-    </div>
-
-
-    <div class="table-wrap">
-
-      <table
-        id="ordersTable"
-        class="hidden"
-      >
-
-        <thead>
-
-          <tr>
-
-            <th>
-              Sipariş
-            </th>
-
-            <th>
-              Tarih
-            </th>
-
-            <th>
-              Müşteri
-            </th>
-
-            <th>
-              Ürün
-            </th>
-
-            <th>
-              Tutar
-            </th>
-
-            <th>
-              Durum
-            </th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody
-          id="ordersBody"
-        ></tbody>
-
-      </table>
-
-    </div>
-
-
-  </section>
-
-
-  <!-- ================================================= -->
-  <!-- ÜRÜN SATIŞLARI -->
-  <!-- ================================================= -->
-
-  <section class="section">
-
-
-    <div class="section-header">
-
-      <h2>
-        🍕 Ürün Satışları
-      </h2>
-
-    </div>
-
-
-    <div
-      id="productList"
-      class="product-list"
-    >
-
-      <div class="empty">
-
-        Siparişler getirildiğinde
-        ürün satışları burada görünecek.
-
-      </div>
-
-    </div>
-
-
-  </section>
-
-
-  <!-- ================================================= -->
-  <!-- MÜŞTERİLER -->
-  <!-- ================================================= -->
-
-  <section class="section">
-
-
-    <div class="section-header">
-
-      <h2>
-        👤 Müşteriler
-      </h2>
-
-    </div>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>
-              Müşteri
-            </th>
-
-            <th>
-              Sipariş Sayısı
-            </th>
-
-            <th>
-              Toplam Harcama
-            </th>
-
-            <th>
-              Ortalama Sipariş
-            </th>
-
-            <th>
-              Son Sipariş
-            </th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody
-          id="customersBody"
+        <table
+          id="ordersTable"
+          class="hidden"
         >
 
-          <tr>
+          <thead>
 
-            <td
-              colspan="5"
-              class="empty"
-            >
+            <tr>
 
-              Henüz müşteri verisi yok.
+              <th>
+                Sipariş
+              </th>
 
-            </td>
+              <th>
+                Tarih
+              </th>
 
-          </tr>
+              <th>
+                Müşteri
+              </th>
 
-        </tbody>
+              <th>
+                Ürün
+              </th>
 
-      </table>
+              <th>
+                Tutar
+              </th>
+
+              <th>
+                Durum
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="ordersBody"
+          ></tbody>
+
+        </table>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- RESTAURANTS PAGE -->
+<!-- ================================================= -->
+
+<section
+  id="page-restaurants"
+  class="page-section hidden"
+>
+
+
+  <div class="page-header">
+
+    <div>
+
+      <h1 class="page-title">
+        Restoranlar
+      </h1>
+
+      <p class="page-description">
+        Sisteme bağlı restoranları yönetin.
+      </p>
 
     </div>
 
 
-  </section>
+    <div class="page-actions">
+
+      <button
+        class="btn btn-dark"
+        onclick="alert('Restoran ekleme modülü bir sonraki aşamada aktif olacak.')"
+      >
+        + Yeni Restoran
+      </button>
+
+    </div>
+
+  </div>
 
 
-  <!-- ================================================= -->
-  <!-- YORUMLAR -->
-  <!-- ================================================= -->
-
-  <section class="section">
+  <div class="restaurant-grid">
 
 
-    <div class="section-header">
+    <div class="restaurant-card">
 
-      <h2>
-        ⭐ Müşteri Yorumları
-      </h2>
+
+      <div class="restaurant-card-top">
+
+
+        <div class="restaurant-avatar">
+          🏪
+        </div>
+
+
+        <div>
+
+          <div class="restaurant-card-name">
+            Hayal Pide
+          </div>
+
+          <div class="restaurant-card-address">
+            Aktif restoran
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="restaurant-card-platforms">
+
+        <span class="restaurant-platform-tag">
+          🟠 Trendyol
+        </span>
+
+        <span class="restaurant-platform-tag">
+          🟢 Migros
+        </span>
+
+      </div>
+
+
+      <div class="restaurant-card-actions">
+
+        <button
+          class="btn btn-dark"
+          onclick="selectRestaurant('hayal-pide')"
+        >
+          Seç
+        </button>
+
+        <button
+          class="btn btn-light"
+          onclick="alert('Restoran düzenleme modülü bir sonraki aşamada aktif olacak.')"
+        >
+          Düzenle
+        </button>
+
+      </div>
+
 
     </div>
 
 
-    <div
-      id="reviewsLoading"
-      class="loading hidden"
-    >
+    <div class="restaurant-card">
 
-      Yorumlar getiriliyor...
+
+      <div
+        class="restaurant-card-top"
+        style="opacity:.55"
+      >
+
+        <div class="restaurant-avatar">
+          +
+        </div>
+
+
+        <div>
+
+          <div class="restaurant-card-name">
+            Yeni Restoran
+          </div>
+
+          <div class="restaurant-card-address">
+            Henüz eklenmedi
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <button
+        class="btn btn-light"
+        style="width:100%;margin-top:14px"
+        onclick="alert('Yeni restoran oluşturma modülü bir sonraki aşamada aktif olacak.')"
+      >
+        + Restoran Ekle
+      </button>
+
 
     </div>
 
 
-    <div
-      id="reviewsContainer"
-    >
+  </div>
 
-      <div class="empty">
 
-        Henüz yorum verisi alınmadı.
+</section>
+
+
+<!-- ================================================= -->
+<!-- INTEGRATIONS PAGE -->
+<!-- ================================================= -->
+
+<section
+  id="page-integrations"
+  class="page-section hidden"
+>
+
+
+  <div class="page-header">
+
+    <div>
+
+      <h1 class="page-title">
+        Entegrasyonlar
+      </h1>
+
+      <p class="page-description">
+        Restoranlarınızın satış platformlarını ve API bağlantılarını yönetin.
+      </p>
+
+    </div>
+
+
+    <div class="page-actions">
+
+      <button
+        class="btn btn-dark"
+        onclick="alert('Özel API bağlantısı bir sonraki aşamada eklenecek.')"
+      >
+        + Entegrasyon Ekle
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="integration-grid">
+
+
+    <div class="integration-card">
+
+
+      <div class="integration-top">
+
+        <div class="integration-icon">
+          🟠
+        </div>
+
+        <div
+          class="integration-status integration-connected"
+        >
+          BAĞLI
+        </div>
+
+      </div>
+
+
+      <div class="integration-name">
+        Trendyol
+      </div>
+
+
+      <div class="integration-description">
+        Mevcut Cloudflare Worker bağlantınız üzerinden sipariş ve rapor verileri alınmaktadır.
+      </div>
+
+
+      <button
+        class="btn btn-dark integration-button"
+        onclick="alert('Trendyol API yönetim ekranı bir sonraki aşamada açılacak.')"
+      >
+        Yönet
+      </button>
+
+
+    </div>
+
+
+    <div class="integration-card">
+
+
+      <div class="integration-top">
+
+        <div class="integration-icon">
+          🟢
+        </div>
+
+        <div
+          class="integration-status integration-disconnected"
+        >
+          BAĞLI DEĞİL
+        </div>
+
+      </div>
+
+
+      <div class="integration-name">
+        Migros Yemek
+      </div>
+
+
+      <div class="integration-description">
+        API bilgileri girildiğinde sipariş ve operasyon bağlantısı kurulacak.
+      </div>
+
+
+      <button
+        class="btn btn-light integration-button"
+        onclick="alert('Migros Yemek bağlantı ekranı bir sonraki aşamada açılacak.')"
+      >
+        Bağla
+      </button>
+
+
+    </div>
+
+
+    <div class="integration-card">
+
+
+      <div class="integration-top">
+
+        <div class="integration-icon">
+          🟡
+        </div>
+
+        <div
+          class="integration-status integration-disconnected"
+        >
+          BAĞLI DEĞİL
+        </div>
+
+      </div>
+
+
+      <div class="integration-name">
+        Yemeksepeti
+      </div>
+
+
+      <div class="integration-description">
+        Platform API bilgileri eklenerek sisteme dahil edilecek.
+      </div>
+
+
+      <button
+        class="btn btn-light integration-button"
+        onclick="alert('Yemeksepeti bağlantı ekranı bir sonraki aşamada açılacak.')"
+      >
+        Bağla
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- REPORTS PAGE -->
+<!-- ================================================= -->
+
+<section
+  id="page-reports"
+  class="page-section hidden"
+>
+
+
+  <div class="page-header">
+
+    <div>
+
+      <h1 class="page-title">
+        Raporlar
+      </h1>
+
+      <p class="page-description">
+        Satış, ürün, müşteri, yorum ve finansal raporlar.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- FINANCIAL -->
+
+  <div class="panel">
+
+
+    <div class="panel-header">
+
+      <div>
+
+        <div class="panel-title">
+          Finansal Özet
+        </div>
+
+        <div class="panel-subtitle">
+          Seçilen tarih aralığı
+        </div>
 
       </div>
 
     </div>
 
 
-  </section>
+    <div class="panel-body">
 
 
-  <!-- ================================================= -->
-  <!-- FİNANSAL ÖZET -->
-  <!-- ================================================= -->
+      <div class="table-wrap">
 
-  <section class="section">
+        <table
+          class="financial-table"
+        >
+
+          <tbody>
 
 
-    <div class="section-header">
+            <tr>
 
-      <h2>
-        📊 Finansal Özet
-      </h2>
+              <td>
+                Brüt satış
+              </td>
+
+              <td
+                id="reportGross"
+              >
+                0,00 ₺
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                İndirim
+              </td>
+
+              <td
+                id="reportDiscount"
+              >
+                0,00 ₺
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                Komisyon (%38)
+              </td>
+
+              <td
+                id="reportCommission"
+              >
+                0,00 ₺
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                Tahmini net hak ediş
+              </td>
+
+              <td
+                id="reportNet"
+              >
+                0,00 ₺
+              </td>
+
+            </tr>
+
+
+          </tbody>
+
+        </table>
+
+      </div>
+
 
     </div>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <tbody>
-
-
-          <tr>
-
-            <td>
-              Brüt satış
-            </td>
-
-            <td
-              id="reportGross"
-            >
-              0,00 ₺
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              İndirim
-            </td>
-
-            <td
-              id="reportDiscount"
-            >
-              0,00 ₺
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Komisyon (%38)
-            </td>
-
-            <td
-              id="reportCommission"
-            >
-              0,00 ₺
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Tahmini net hak ediş
-            </td>
-
-            <td
-              id="reportNet"
-            >
-              0,00 ₺
-            </td>
-
-          </tr>
-
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-
-  </section>
-
-
-  <div class="footer">
-
-    Fero Restaurant Hub • Yönetim Merkezi
 
   </div>
+
+
+  <br>
+
+
+  <!-- PRODUCTS -->
+
+  <div class="panel">
+
+
+    <div class="panel-header">
+
+      <div>
+
+        <div class="panel-title">
+          🍕 Ürün Satışları
+        </div>
+
+        <div class="panel-subtitle">
+          Satılan ürün adetleri
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="panel-body">
+
+
+      <div
+        id="productList"
+        class="product-list"
+      >
+
+        <div class="empty">
+          Siparişler getirildiğinde ürün satışları burada görünecek.
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <br>
+
+
+  <!-- CUSTOMERS -->
+
+  <div class="panel">
+
+
+    <div class="panel-header">
+
+      <div>
+
+        <div class="panel-title">
+          👤 Müşteriler
+        </div>
+
+        <div class="panel-subtitle">
+          Müşteri sipariş ve harcama özeti
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="panel-body">
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Müşteri
+              </th>
+
+              <th>
+                Sipariş
+              </th>
+
+              <th>
+                Toplam
+              </th>
+
+              <th>
+                Ortalama
+              </th>
+
+              <th>
+                Son Sipariş
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="customersBody"
+          >
+
+            <tr>
+
+              <td
+                colspan="5"
+                class="empty"
+              >
+                Henüz müşteri verisi yok.
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <br>
+
+
+  <!-- REVIEWS -->
+
+  <div class="panel">
+
+
+    <div class="panel-header">
+
+      <div>
+
+        <div class="panel-title">
+          ⭐ Müşteri Yorumları
+        </div>
+
+        <div class="panel-subtitle">
+          Platform yorumları
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="panel-body">
+
+
+      <div
+        id="reviewsLoading"
+        class="loading hidden"
+      >
+        Yorumlar getiriliyor...
+      </div>
+
+
+      <div
+        id="reviewsContainer"
+      >
+
+        <div class="empty">
+          Henüz yorum verisi alınmadı.
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- SETTINGS PAGE -->
+<!-- ================================================= -->
+
+<section
+  id="page-settings"
+  class="page-section hidden"
+>
+
+
+  <div class="page-header">
+
+    <div>
+
+      <h1 class="page-title">
+        Ayarlar
+      </h1>
+
+      <p class="page-description">
+        Fero Restaurant Hub sistem ayarları.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel">
+
+
+    <div class="panel-header">
+
+      <div>
+
+        <div class="panel-title">
+          Sistem Bilgileri
+        </div>
+
+        <div class="panel-subtitle">
+          Mevcut bağlantı bilgileri
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="panel-body">
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <tbody>
+
+
+            <tr>
+
+              <td>
+                Sistem
+              </td>
+
+              <td>
+                Fero Restaurant Hub
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                Aktif restoran
+              </td>
+
+              <td>
+                Hayal Pide
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                Veri altyapısı
+              </td>
+
+              <td>
+                Firebase
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                API Gateway
+              </td>
+
+              <td>
+                Cloudflare Worker
+              </td>
+
+            </tr>
+
+
+            <tr>
+
+              <td>
+                Trendyol Store ID
+              </td>
+
+              <td>
+                465534
+              </td>
+
+            </tr>
+
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <br>
+
+
+  <div class="panel">
+
+
+    <div class="panel-header">
+
+      <div>
+
+        <div class="panel-title">
+          🔐 Güvenlik
+        </div>
+
+        <div class="panel-subtitle">
+          API anahtarları sonraki aşamada güvenli olarak Cloudflare tarafında tutulacak.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="panel-body">
+
+
+      <div class="empty">
+
+        API Key ve Secret bilgilerini bu HTML dosyasına yazmayacağız.
+
+        <br><br>
+
+        Bir sonraki aşamada güvenli entegrasyon ekranı ve Cloudflare Secrets altyapısı kurulacak.
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- FOOTER -->
+<!-- ================================================= -->
+
+<div class="footer">
+
+  Fero Restaurant Hub • Restaurant Operations Center
+
+</div>
 
 
 </div>
 
-</main>
+</div>
+
+
+<!-- ================================================= -->
+<!-- MOBILE NAV -->
+<!-- ================================================= -->
+
+<nav class="mobile-nav">
+
+
+  <button
+    class="mobile-nav-btn active"
+    data-mobile-page="dashboard"
+    onclick="showPage('dashboard')"
+  >
+
+    <span>🏠</span>
+
+    <span>Ana</span>
+
+  </button>
+
+
+  <button
+    class="mobile-nav-btn"
+    data-mobile-page="orders"
+    onclick="showPage('orders')"
+  >
+
+    <span>📦</span>
+
+    <span>Sipariş</span>
+
+  </button>
+
+
+  <button
+    class="mobile-nav-btn"
+    data-mobile-page="restaurants"
+    onclick="showPage('restaurants')"
+  >
+
+    <span>🏪</span>
+
+    <span>Restoran</span>
+
+  </button>
+
+
+  <button
+    class="mobile-nav-btn"
+    data-mobile-page="integrations"
+    onclick="showPage('integrations')"
+  >
+
+    <span>🔌</span>
+
+    <span>Entegrasyon</span>
+
+  </button>
+
+
+  <button
+    class="mobile-nav-btn"
+    data-mobile-page="reports"
+    onclick="showPage('reports')"
+  >
+
+    <span>📊</span>
+
+    <span>Rapor</span>
+
+  </button>
+
+
+</nav>
 
 
 <!-- ================================================= -->
@@ -1775,13 +4423,6 @@ const API_URL =
   "https://muddy-wood-4234.hayalpide1.workers.dev";
 
 
-/*
-  Şimdilik mevcut mağaza ID'si korunuyor.
-
-  Bir sonraki aşamada bu sabit değer kaldırılacak
-  ve restoran seçimine göre dinamik hale getirilecek.
-*/
-
 const STORE_ID =
   "465534";
 
@@ -1798,20 +4439,351 @@ firebase.initializeApp(
   firebaseConfig
 );
 
+
 const auth =
   firebase.auth();
+
 
 const db =
   firebase.firestore();
 
 
 /* ================================================= */
-/* GENEL */
+/* GLOBAL */
 /* ================================================= */
 
 let orders = [];
 
 let reviews = [];
+
+let currentPage =
+  "dashboard";
+
+
+let currentRestaurant =
+  "hayal-pide";
+
+
+/* ================================================= */
+/* RESTAURANT DEĞİŞTİR */
+/* ================================================= */
+
+function changeRestaurant(){
+
+  const selector =
+    document.getElementById(
+      "restaurantSelector"
+    );
+
+
+  currentRestaurant =
+    selector.value;
+
+
+  if(
+    currentRestaurant ===
+    "hayal-pide"
+  ){
+
+    loadAllData();
+
+  }
+
+}
+
+
+/* ================================================= */
+/* RESTAURANT SEÇ */
+/* ================================================= */
+
+function selectRestaurant(id){
+
+  currentRestaurant =
+    id;
+
+
+  const selector =
+    document.getElementById(
+      "restaurantSelector"
+    );
+
+
+  selector.value =
+    id;
+
+
+  showPage(
+    "dashboard"
+  );
+
+}
+
+
+/* ================================================= */
+/* SAYFA DEĞİŞTİR */
+/* ================================================= */
+
+function showPage(page){
+
+  currentPage =
+    page;
+
+
+  const pages = [
+
+    "dashboard",
+
+    "orders",
+
+    "restaurants",
+
+    "integrations",
+
+    "reports",
+
+    "settings"
+
+  ];
+
+
+  pages.forEach(
+
+    function(name){
+
+      const element =
+        document.getElementById(
+          "page-" +
+          name
+        );
+
+
+      if(element){
+
+        element.classList.toggle(
+
+          "hidden",
+
+          name !== page
+
+        );
+
+      }
+
+    }
+
+  );
+
+
+  document
+    .querySelectorAll(
+      ".nav-btn"
+    )
+    .forEach(
+
+      function(button){
+
+        button.classList.toggle(
+
+          "active",
+
+          button.dataset.page ===
+          page
+
+        );
+
+      }
+
+    );
+
+
+  document
+    .querySelectorAll(
+      ".mobile-nav-btn"
+    )
+    .forEach(
+
+      function(button){
+
+        button.classList.toggle(
+
+          "active",
+
+          button.dataset.mobilePage ===
+          page
+
+        );
+
+      }
+
+    );
+
+
+  const titles = {
+
+    dashboard:
+      "Genel Bakış",
+
+    orders:
+      "Siparişler",
+
+    restaurants:
+      "Restoranlar",
+
+    integrations:
+      "Entegrasyonlar",
+
+    reports:
+      "Raporlar",
+
+    settings:
+      "Ayarlar"
+
+  };
+
+
+  document
+    .getElementById(
+      "mobilePageTitle"
+    )
+    .textContent =
+    titles[page] ||
+    "Fero Restaurant Hub";
+
+
+  closeSidebar();
+
+
+  if(page === "orders"){
+
+    /*
+      Sipariş sayfasına girildiğinde
+      mevcut rapor verilerini kullan.
+    */
+
+    if(!orders.length){
+
+      loadOrders();
+
+    }
+
+  }
+
+
+  if(page === "reports"){
+
+    /*
+      Rapor sayfasında veri yoksa
+      mevcut API'den çek.
+    */
+
+    if(!orders.length){
+
+      loadAllData();
+
+    }
+
+  }
+
+}
+
+
+/* ================================================= */
+/* SIDEBAR */
+/* ================================================= */
+
+function toggleSidebar(){
+
+  document
+    .getElementById(
+      "sidebar"
+    )
+    .classList
+    .toggle(
+      "open"
+    );
+
+
+  document
+    .getElementById(
+      "sidebarOverlay"
+    )
+    .classList
+    .toggle(
+      "show"
+    );
+
+}
+
+
+function closeSidebar(){
+
+  document
+    .getElementById(
+      "sidebar"
+    )
+    .classList
+    .remove(
+      "open"
+    );
+
+
+  document
+    .getElementById(
+      "sidebarOverlay"
+    )
+    .classList
+    .remove(
+      "show"
+    );
+
+}
+
+
+/* ================================================= */
+/* YENİLE */
+/* ================================================= */
+
+function refreshCurrentPage(){
+
+  if(
+    currentPage ===
+    "dashboard"
+  ){
+
+    loadAllData();
+
+    return;
+
+  }
+
+
+  if(
+    currentPage ===
+    "orders"
+  ){
+
+    loadOrders();
+
+    return;
+
+  }
+
+
+  if(
+    currentPage ===
+    "reports"
+  ){
+
+    loadAllData();
+
+    return;
+
+  }
+
+
+  testAPI();
+
+}
 
 
 /* ================================================= */
@@ -1868,9 +4840,6 @@ function setDefaultDates(){
 }
 
 
-setDefaultDates();
-
-
 /* ================================================= */
 /* API TEST */
 /* ================================================= */
@@ -1879,7 +4848,13 @@ async function testAPI(){
 
   const status =
     document.getElementById(
-      "apiStatus"
+      "cloudflareStatus"
+    );
+
+
+  const icon =
+    document.getElementById(
+      "cloudflareIcon"
     );
 
 
@@ -1887,8 +4862,10 @@ async function testAPI(){
 
     const response =
       await fetch(
+
         API_URL +
         "/api/test"
+
       );
 
 
@@ -1909,20 +4886,11 @@ async function testAPI(){
     if(data.success){
 
       status.textContent =
-        "🟢 Cloudflare bağlantısı aktif";
+        "Bağlantı aktif";
 
 
-      status.style.background =
-        "#dcfce7";
-
-
-      status.style.color =
-        "#166534";
-
-
-      status.style.borderColor =
-        "#bbf7d0";
-
+      icon.textContent =
+        "🟢";
 
     }else{
 
@@ -1942,19 +4910,11 @@ async function testAPI(){
 
 
     status.textContent =
-      "🔴 Cloudflare bağlantısı yok";
+      "Bağlantı kurulamadı";
 
 
-    status.style.background =
-      "#fee2e2";
-
-
-    status.style.color =
-      "#991b1b";
-
-
-    status.style.borderColor =
-      "#fecaca";
+    icon.textContent =
+      "🔴";
 
   }
 
@@ -1975,7 +4935,7 @@ async function loadAllData(){
 
 
 /* ================================================= */
-/* ORTAK API SAYFALAMA */
+/* SAYFALAMA */
 /* ================================================= */
 
 async function fetchAllPages(
@@ -2127,7 +5087,7 @@ async function fetchAllPages(
     if(page >= 200){
 
       console.warn(
-        "Sayfalama güvenlik sınırına ulaştı."
+        "Sayfalama sınırına ulaşıldı."
       );
 
       break;
@@ -2218,8 +5178,10 @@ async function loadOrders(){
         "packageModificationStartDate",
 
         new Date(
+
           start +
           "T00:00:00"
+
         ).getTime()
 
       );
@@ -2234,8 +5196,10 @@ async function loadOrders(){
         "packageModificationEndDate",
 
         new Date(
+
           end +
           "T23:59:59"
+
         ).getTime()
 
       );
@@ -2298,6 +5262,22 @@ async function loadOrders(){
     calculateSummary();
 
 
+    document
+      .getElementById(
+        "trendyolOrderCount"
+      )
+      .textContent =
+      orders.length;
+
+
+    document
+      .getElementById(
+        "newOrderBadge"
+      )
+      .textContent =
+      orders.length;
+
+
     loading.classList.add(
       "hidden"
     );
@@ -2307,6 +5287,7 @@ async function loadOrders(){
 
       empty.textContent =
         "Bu tarih aralığında sipariş bulunamadı.";
+
 
       empty.classList.remove(
         "hidden"
@@ -2611,7 +5592,7 @@ function getQuantity(item){
 
 
 /* ================================================= */
-/* ÜRÜN SATIŞLARINI ÇIKAR */
+/* ÜRÜN SATIŞLARI */
 /* ================================================= */
 
 function getProductSalesFromOrder(order){
@@ -2992,7 +5973,7 @@ function renderOrders(){
 
 
 /* ================================================= */
-/* ÜRÜN RAPORU */
+/* ÜRÜNLER */
 /* ================================================= */
 
 function renderProducts(){
@@ -3091,6 +6072,7 @@ function renderProducts(){
           )}
 
         </span>
+
 
         <span class="product-count">
 
@@ -3295,7 +6277,7 @@ function renderCustomers(){
 
 
 /* ================================================= */
-/* FİNANSAL ÖZET */
+/* FİNANSAL */
 /* ================================================= */
 
 function calculateSummary(){
@@ -3400,6 +6382,14 @@ function calculateSummary(){
     )
     .textContent =
     money(net);
+
+
+  document
+    .getElementById(
+      "reportDiscount"
+    )
+    .textContent =
+    money(0);
 
 }
 
@@ -3649,7 +6639,7 @@ function extractReviews(data){
 
 
 /* ================================================= */
-/* REVIEW MÜŞTERİ EŞLEŞTİRME */
+/* REVIEW ORDER */
 /* ================================================= */
 
 function findOrderForReview(review){
@@ -3708,7 +6698,7 @@ function findOrderForReview(review){
 
 
 /* ================================================= */
-/* YORUMLARI GÖSTER */
+/* REVIEW RENDER */
 /* ================================================= */
 
 function renderReviews(){
@@ -3933,7 +6923,7 @@ function renderReviews(){
             <small
               style="
                 color:#6b7280;
-                font-size:12px;
+                font-size:10px;
               "
             >
 
