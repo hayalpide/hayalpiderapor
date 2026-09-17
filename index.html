@@ -1,20 +1,58 @@
 <!DOCTYPE html>
 <html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>Hayal Pide Rapor Merkezi</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
+<meta
+  name="theme-color"
+  content="#111827"
+>
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black-translucent"
+>
+
+<title>Fero Restaurant Hub</title>
+
 
 <style>
+
+/* ================================================= */
+/* RESET */
+/* ================================================= */
 
 *{
   box-sizing:border-box;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   margin:0;
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
+
   background:#f3f4f6;
   color:#111827;
 }
@@ -25,953 +63,1673 @@ select{
   font-family:inherit;
 }
 
+button{
+  cursor:pointer;
+}
+
 .hidden{
   display:none!important;
 }
 
-/* HEADER */
+
+/* ================================================= */
+/* APP HEADER */
+/* ================================================= */
 
 .header{
-  background:#111827;
+
+  background:
+    linear-gradient(
+      135deg,
+      #111827 0%,
+      #1f2937 55%,
+      #374151 100%
+    );
+
   color:white;
-  padding:18px 0;
+
+  padding:
+    18px 0
+    20px;
+
+  box-shadow:
+    0 4px 20px
+    rgba(0,0,0,.15);
+
+  position:sticky;
+  top:0;
+  z-index:100;
+
 }
 
 .container{
+
   width:100%;
-  max-width:1200px;
+  max-width:1250px;
+
   margin:auto;
-  padding:0 16px;
+
+  padding:
+    0 18px;
+
 }
 
 .topbar{
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
-  gap:15px;
+
+  gap:20px;
+
+}
+
+.brand{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:13px;
+
+}
+
+.brand-icon{
+
+  width:48px;
+  height:48px;
+
+  border-radius:14px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:
+    rgba(255,255,255,.12);
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  font-size:25px;
+
+  box-shadow:
+    inset 0 1px 0
+    rgba(255,255,255,.12);
+
 }
 
 .logo-title{
+
   margin:0;
+
   font-size:22px;
+
+  font-weight:800;
+
+  letter-spacing:-.4px;
+
 }
 
 .logo-sub{
-  margin:5px 0 0;
+
+  margin:4px 0 0;
+
   font-size:13px;
-  opacity:.7;
+
+  color:#d1d5db;
+
 }
 
-.logout-btn{
-  border:0;
-  background:#ef4444;
+
+/* ================================================= */
+/* RESTAURANT SELECTOR */
+/* ================================================= */
+
+.restaurant-selector{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:
+    9px 13px;
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.10);
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
   color:white;
-  padding:11px 15px;
-  border-radius:10px;
-  font-size:14px;
+
+  font-size:13px;
+
 }
 
-/* LOGIN */
+.restaurant-selector span{
 
-.login-area{
-  min-height:100vh;
+  color:#9ca3af;
+
+  font-size:11px;
+
 }
 
-.login-box{
-  width:calc(100% - 30px);
-  max-width:420px;
-  margin:80px auto;
-  background:white;
-  padding:25px;
-  border-radius:18px;
-  box-shadow:0 5px 25px rgba(0,0,0,.08);
+.restaurant-selector strong{
+
+  font-size:13px;
+
 }
 
-.login-box h2{
-  margin-top:0;
+
+/* ================================================= */
+/* MAIN */
+/* ================================================= */
+
+main{
+
+  padding:
+    22px 0
+    45px;
+
 }
 
-.login-box p{
-  color:#6b7280;
-}
 
-.login-input{
-  width:100%;
-  padding:14px;
-  margin:7px 0;
-  border:1px solid #d1d5db;
-  border-radius:10px;
-  font-size:16px;
-}
-
-.login-btn{
-  width:100%;
-  border:0;
-  background:#111827;
-  color:white;
-  padding:14px;
-  margin-top:10px;
-  border-radius:10px;
-  font-size:16px;
-}
-
-.error{
-  color:#dc2626;
-  margin-top:12px;
-  font-size:14px;
-}
-
-/* STATUS */
+/* ================================================= */
+/* STATUS ROW */
+/* ================================================= */
 
 .status-row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin:18px 0;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:12px;
+
+  margin-bottom:18px;
+
 }
 
 .status{
+
   background:#dcfce7;
+
   color:#166534;
-  padding:9px 13px;
-  border-radius:20px;
+
+  padding:
+    12px 15px;
+
+  border-radius:13px;
+
   font-size:13px;
+
+  font-weight:600;
+
+  border:
+    1px solid
+    #bbf7d0;
+
 }
 
 .api-status{
+
   background:#fef3c7;
+
   color:#92400e;
-  padding:9px 13px;
-  border-radius:20px;
+
+  padding:
+    12px 15px;
+
+  border-radius:13px;
+
   font-size:13px;
+
+  font-weight:600;
+
+  border:
+    1px solid
+    #fde68a;
+
 }
 
+
+/* ================================================= */
+/* SECTION TITLE */
+/* ================================================= */
+
+.page-title{
+
+  margin:
+    5px 0 4px;
+
+  font-size:25px;
+
+  font-weight:800;
+
+  letter-spacing:-.6px;
+
+}
+
+.page-description{
+
+  margin:
+    0 0 20px;
+
+  color:#6b7280;
+
+  font-size:14px;
+
+}
+
+
+/* ================================================= */
 /* FILTER */
+/* ================================================= */
 
 .filter-box{
+
   background:white;
-  padding:16px;
-  border-radius:16px;
+
+  padding:18px;
+
+  border-radius:18px;
+
   margin-bottom:18px;
-  box-shadow:0 3px 15px rgba(0,0,0,.05);
+
+  border:
+    1px solid
+    #e5e7eb;
+
+  box-shadow:
+    0 4px 18px
+    rgba(0,0,0,.04);
+
+}
+
+.filter-header{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:15px;
+
+  margin-bottom:15px;
+
 }
 
 .filter-title{
-  font-weight:bold;
-  margin-bottom:12px;
+
+  font-weight:800;
+
+  font-size:16px;
+
+}
+
+.filter-badge{
+
+  background:#f3f4f6;
+
+  color:#6b7280;
+
+  padding:
+    6px 10px;
+
+  border-radius:8px;
+
+  font-size:11px;
+
 }
 
 .filter-grid{
+
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:12px;
+
 }
 
 .field label{
+
   display:block;
+
   font-size:12px;
+
+  font-weight:600;
+
   color:#6b7280;
-  margin-bottom:5px;
+
+  margin-bottom:6px;
+
 }
 
 .field input,
 .field select{
+
   width:100%;
-  padding:11px;
-  border:1px solid #d1d5db;
-  border-radius:9px;
+
+  padding:
+    12px;
+
+  border:
+    1px solid
+    #d1d5db;
+
+  border-radius:11px;
+
   background:white;
+
+  color:#111827;
+
+  outline:none;
+
+  transition:
+    .2s;
+
+}
+
+.field input:focus,
+.field select:focus{
+
+  border-color:#374151;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(55,65,81,.08);
+
 }
 
 .primary-btn{
+
   width:100%;
+
   background:#111827;
+
   color:white;
+
   border:0;
-  border-radius:9px;
-  padding:12px;
-  margin-top:18px;
+
+  border-radius:11px;
+
+  padding:13px;
+
+  margin-top:17px;
+
+  font-size:14px;
+
+  font-weight:700;
+
+  transition:.2s;
+
+}
+
+.primary-btn:hover{
+
+  background:#1f2937;
+
+  transform:
+    translateY(-1px);
+
+}
+
+.primary-btn:active{
+
+  transform:
+    translateY(0);
+
 }
 
 .secondary-btn{
+
   background:#e5e7eb;
+
   color:#111827;
+
   border:0;
-  border-radius:9px;
-  padding:11px 15px;
+
+  border-radius:10px;
+
+  padding:
+    11px 15px;
+
 }
 
-/* CARDS */
+
+/* ================================================= */
+/* DASHBOARD CARDS */
+/* ================================================= */
 
 .cards{
+
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+
+  grid-template-columns:
+    repeat(4,1fr);
+
   gap:14px;
+
   margin-bottom:18px;
+
 }
 
 .card{
+
   background:white;
-  padding:18px;
-  border-radius:16px;
-  box-shadow:0 3px 15px rgba(0,0,0,.05);
+
+  padding:19px;
+
+  border-radius:17px;
+
+  border:
+    1px solid
+    #e5e7eb;
+
+  box-shadow:
+    0 4px 18px
+    rgba(0,0,0,.04);
+
+  position:relative;
+
+  overflow:hidden;
+
+}
+
+.card::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:70px;
+  height:70px;
+
+  right:-25px;
+  bottom:-25px;
+
+  background:
+    #f3f4f6;
+
+  border-radius:50%;
+
 }
 
 .card-title{
+
   color:#6b7280;
-  font-size:13px;
+
+  font-size:12px;
+
+  font-weight:600;
+
 }
 
 .card-value{
+
   margin-top:8px;
+
   font-size:25px;
-  font-weight:bold;
+
+  font-weight:800;
+
+  letter-spacing:-.5px;
+
 }
 
+
+/* ================================================= */
 /* SECTION */
+/* ================================================= */
 
 .section{
+
   background:white;
-  border-radius:16px;
-  padding:18px;
+
+  border-radius:17px;
+
+  padding:19px;
+
   margin-bottom:18px;
-  box-shadow:0 3px 15px rgba(0,0,0,.05);
+
+  border:
+    1px solid
+    #e5e7eb;
+
+  box-shadow:
+    0 4px 18px
+    rgba(0,0,0,.04);
+
+}
+
+.section-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:10px;
+
+  margin-bottom:14px;
+
 }
 
 .section h2{
-  margin-top:0;
-  font-size:19px;
+
+  margin:0;
+
+  font-size:18px;
+
+  font-weight:800;
+
 }
 
+
+/* ================================================= */
 /* TABLE */
+/* ================================================= */
 
 .table-wrap{
+
   width:100%;
+
   overflow-x:auto;
+
+  -webkit-overflow-scrolling:touch;
+
 }
 
 table{
+
   width:100%;
+
   border-collapse:collapse;
+
   min-width:650px;
+
 }
 
 th,
 td{
+
   text-align:left;
-  padding:11px 9px;
-  border-bottom:1px solid #e5e7eb;
+
+  padding:
+    12px 9px;
+
+  border-bottom:
+    1px solid
+    #e5e7eb;
+
   font-size:13px;
+
 }
 
 th{
+
   background:#f9fafb;
+
   color:#374151;
+
+  font-size:12px;
+
+  font-weight:700;
+
 }
+
+tbody tr:hover{
+
+  background:#fafafa;
+
+}
+
+
+/* ================================================= */
+/* EMPTY */
+/* ================================================= */
 
 .empty{
-  padding:25px 10px;
+
+  padding:
+    28px 10px;
+
   text-align:center;
+
   color:#6b7280;
+
+  font-size:13px;
+
 }
 
+
+/* ================================================= */
 /* PRODUCT */
+/* ================================================= */
 
 .product-list{
+
   display:flex;
+
   flex-direction:column;
+
   gap:8px;
+
 }
 
 .product-row{
+
   display:flex;
+
   justify-content:space-between;
+
+  align-items:center;
+
   gap:10px;
-  padding:12px;
+
+  padding:13px;
+
   background:#f9fafb;
-  border-radius:10px;
+
+  border-radius:11px;
+
+  border:
+    1px solid
+    #f0f0f0;
+
 }
 
 .product-name{
-  font-weight:bold;
+
+  font-weight:700;
+
+  font-size:13px;
+
 }
 
 .product-count{
-  font-weight:bold;
+
+  font-weight:800;
+
+  font-size:13px;
+
+  color:#374151;
+
 }
 
+
+/* ================================================= */
 /* REVIEW */
+/* ================================================= */
 
 .review{
-  border:1px solid #e5e7eb;
-  border-radius:12px;
-  padding:14px;
+
+  border:
+    1px solid
+    #e5e7eb;
+
+  border-radius:13px;
+
+  padding:15px;
+
   margin-bottom:10px;
+
+  background:#fff;
+
 }
 
 .review-top{
+
   display:flex;
+
   justify-content:space-between;
+
+  align-items:center;
+
   gap:10px;
+
 }
 
 .stars{
+
   color:#f59e0b;
+
   font-size:18px;
+
+  white-space:nowrap;
+
 }
 
 .review-comment{
+
   margin-top:10px;
+
   line-height:1.5;
+
+  font-size:14px;
+
 }
 
 .review-info{
-  margin-top:8px;
+
+  margin-top:9px;
+
   color:#6b7280;
+
   font-size:12px;
+
+  line-height:1.5;
+
 }
 
+
+/* ================================================= */
 /* LOADING */
+/* ================================================= */
 
 .loading{
+
   text-align:center;
+
   padding:25px;
+
   color:#6b7280;
+
+  font-size:13px;
+
 }
 
-/* MOBILE */
 
-@media(max-width:800px){
+/* ================================================= */
+/* FOOTER */
+/* ================================================= */
+
+.footer{
+
+  text-align:center;
+
+  color:#9ca3af;
+
+  font-size:11px;
+
+  padding:
+    8px 0 25px;
+
+}
+
+
+/* ================================================= */
+/* MOBILE */
+/* ================================================= */
+
+@media(max-width:900px){
 
   .cards{
-    grid-template-columns:repeat(2,1fr);
+
+    grid-template-columns:
+      repeat(2,1fr);
+
   }
 
   .filter-grid{
-    grid-template-columns:1fr;
+
+    grid-template-columns:
+      1fr;
+
   }
 
 }
 
-@media(max-width:500px){
+
+@media(max-width:600px){
+
+  .container{
+
+    padding:
+      0 12px;
+
+  }
+
+  .header{
+
+    padding:
+      14px 0;
+
+  }
 
   .topbar{
-    align-items:flex-start;
+
+    align-items:center;
+
+  }
+
+  .brand-icon{
+
+    width:42px;
+    height:42px;
+
+    font-size:21px;
+
+    border-radius:12px;
+
   }
 
   .logo-title{
-    font-size:19px;
+
+    font-size:18px;
+
+  }
+
+  .logo-sub{
+
+    font-size:11px;
+
+  }
+
+  .restaurant-selector{
+
+    padding:
+      8px 9px;
+
+  }
+
+  .restaurant-selector span{
+
+    display:none;
+
+  }
+
+  .page-title{
+
+    font-size:22px;
+
   }
 
   .cards{
-    grid-template-columns:1fr 1fr;
+
+    grid-template-columns:
+      repeat(2,1fr);
+
     gap:9px;
+
   }
 
   .card{
+
     padding:14px;
+
+    border-radius:14px;
+
   }
 
   .card-value{
-    font-size:21px;
+
+    font-size:20px;
+
   }
 
   .section{
+
     padding:14px;
+
+    border-radius:14px;
+
   }
+
+  .section h2{
+
+    font-size:16px;
+
+  }
+
+  .status-row{
+
+    grid-template-columns:
+      1fr;
+
+    gap:8px;
+
+  }
+
+  .filter-box{
+
+    padding:14px;
+
+    border-radius:14px;
+
+  }
+
+}
+
+
+@media(max-width:380px){
+
+  .logo-sub{
+
+    display:none;
+
+  }
+
+  .restaurant-selector strong{
+
+    font-size:11px;
+
+  }
+
+  .card-title{
+
+    font-size:11px;
+
+  }
+
+  .card-value{
+
+    font-size:18px;
+
+  }
+
+}
+
+
+/* ================================================= */
+/* SCROLLBAR */
+/* ================================================= */
+
+::-webkit-scrollbar{
+
+  width:7px;
+  height:7px;
+
+}
+
+::-webkit-scrollbar-track{
+
+  background:#f3f4f6;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+  background:#cbd5e1;
+
+  border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+  background:#94a3b8;
 
 }
 
 </style>
+
 </head>
+
 
 <body>
 
-<!-- ========================= -->
-<!-- LOGIN -->
-<!-- ========================= -->
 
-<div id="loginScreen" class="login-area">
+<!-- ================================================= -->
+<!-- HEADER -->
+<!-- ================================================= -->
 
-  <div class="header">
+<header class="header">
 
-    <div class="container">
+  <div class="container">
 
-      <h1 class="logo-title">
-        Hayal Pide
-      </h1>
-
-      <p class="logo-sub">
-        Trendyol Go Rapor Merkezi
-      </p>
-
-    </div>
-
-  </div>
+    <div class="topbar">
 
 
-  <div class="login-box">
+      <div class="brand">
 
-    <h2>Yönetici Girişi</h2>
-
-    <p>
-      Rapor paneline devam etmek için giriş yapın.
-    </p>
-
-    <input
-      class="login-input"
-      type="email"
-      id="email"
-      placeholder="E-posta adresi"
-      autocomplete="email"
-    >
-
-    <input
-      class="login-input"
-      type="password"
-      id="password"
-      placeholder="Şifre"
-      autocomplete="current-password"
-    >
-
-    <button
-      class="login-btn"
-      onclick="login()"
-    >
-      Giriş Yap
-    </button>
-
-    <div
-      id="loginError"
-      class="error"
-    ></div>
-
-  </div>
-
-</div>
-
-
-<!-- ========================= -->
-<!-- DASHBOARD -->
-<!-- ========================= -->
-
-<div id="dashboard" class="hidden">
-
-
-  <div class="header">
-
-    <div class="container">
-
-      <div class="topbar">
+        <div class="brand-icon">
+          🏪
+        </div>
 
         <div>
 
           <h1 class="logo-title">
-            Hayal Pide Rapor Merkezi
+            Fero Restaurant Hub
           </h1>
 
-          <p
-            class="logo-sub"
-            id="userEmail"
-          ></p>
+          <p class="logo-sub">
+            Restoran & Sipariş Yönetim Merkezi
+          </p>
 
         </div>
 
+      </div>
 
-        <button
-          class="logout-btn"
-          onclick="logout()"
-        >
-          Çıkış Yap
-        </button>
+
+      <div class="restaurant-selector">
+
+        <span>
+          AKTİF RESTORAN
+        </span>
+
+        <strong>
+          Hayal Pide
+        </strong>
+
+        <span>
+          ▼
+        </span>
 
       </div>
+
 
     </div>
 
   </div>
 
+</header>
 
 
-  <div class="container">
+<!-- ================================================= -->
+<!-- MAIN -->
+<!-- ================================================= -->
+
+<main>
+
+<div class="container">
 
 
-    <!-- DURUM -->
+  <!-- ================================================= -->
+  <!-- BAŞLIK -->
+  <!-- ================================================= -->
 
-    <div class="status-row">
+  <div>
 
-      <div class="status">
-        🟢 Firebase bağlantısı aktif
+    <h2 class="page-title">
+      Genel Bakış
+    </h2>
+
+    <p class="page-description">
+      Restoranınızın sipariş, satış ve finansal verilerini tek merkezden yönetin.
+    </p>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- DURUM -->
+  <!-- ================================================= -->
+
+  <div class="status-row">
+
+
+    <div class="status">
+
+      🟢 Firebase bağlantısı aktif
+
+    </div>
+
+
+    <div
+      id="apiStatus"
+      class="api-status"
+    >
+
+      🟡 Cloudflare bağlantısı kontrol ediliyor...
+
+    </div>
+
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- FİLTRE -->
+  <!-- ================================================= -->
+
+  <div class="filter-box">
+
+
+    <div class="filter-header">
+
+      <div class="filter-title">
+
+        📅 Rapor Filtreleri
+
+      </div>
+
+
+      <div class="filter-badge">
+
+        Hayal Pide
+
+      </div>
+
+    </div>
+
+
+    <div class="filter-grid">
+
+
+      <div class="field">
+
+        <label>
+          Başlangıç Tarihi
+        </label>
+
+        <input
+          type="date"
+          id="startDate"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Bitiş Tarihi
+        </label>
+
+        <input
+          type="date"
+          id="endDate"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Sipariş Durumu
+        </label>
+
+        <select
+          id="statusFilter"
+        >
+
+          <option value="">
+            Tüm siparişler
+          </option>
+
+          <option value="Delivered">
+            Teslim edildi
+          </option>
+
+          <option value="Cancelled">
+            İptal
+          </option>
+
+          <option value="Invoiced">
+            Faturalandı / Hazır
+          </option>
+
+          <option value="Picking">
+            Hazırlanıyor
+          </option>
+
+        </select>
+
+      </div>
+
+
+    </div>
+
+
+    <button
+      class="primary-btn"
+      onclick="loadAllData()"
+    >
+
+      🔄 Verileri Getir
+
+    </button>
+
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- ÖZET KARTLARI -->
+  <!-- ================================================= -->
+
+  <div class="cards">
+
+
+    <div class="card">
+
+      <div class="card-title">
+        Sipariş Sayısı
       </div>
 
       <div
-        id="apiStatus"
-        class="api-status"
+        class="card-value"
+        id="orderCount"
       >
-        🟡 Trendyol bağlantısı bekleniyor
+        0
       </div>
 
     </div>
 
 
+    <div class="card">
 
-    <!-- TARİH -->
-
-    <div class="filter-box">
-
-      <div class="filter-title">
-        📅 Rapor Tarihi
+      <div class="card-title">
+        Ürün Adedi
       </div>
 
-
-      <div class="filter-grid">
-
-
-        <div class="field">
-
-          <label>
-            Başlangıç
-          </label>
-
-          <input
-            type="date"
-            id="startDate"
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Bitiş
-          </label>
-
-          <input
-            type="date"
-            id="endDate"
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Sipariş durumu
-          </label>
-
-          <select id="statusFilter">
-
-            <option value="">
-              Tüm siparişler
-            </option>
-
-            <option value="Delivered">
-              Teslim edildi
-            </option>
-
-            <option value="Cancelled">
-              İptal
-            </option>
-
-            <option value="Invoiced">
-  Faturalandı / Hazır
-</option>
-
-            <option value="Picking">
-              Hazırlanıyor
-            </option>
-
-          </select>
-
-        </div>
-
-
-      </div>
-
-
-      <button
-        class="primary-btn"
-        onclick="loadAllData()"
+      <div
+        class="card-value"
+        id="productCount"
       >
-        🔄 Verileri Getir
-      </button>
+        0
+      </div>
 
     </div>
 
 
-    <!-- ÖZET -->
+    <div class="card">
 
-    <div class="cards">
-
-
-      <div class="card">
-
-        <div class="card-title">
-          Sipariş Sayısı
-        </div>
-
-        <div
-          class="card-value"
-          id="orderCount"
-        >
-          0
-        </div>
-
+      <div class="card-title">
+        Brüt Ciro
       </div>
 
-
-      <div class="card">
-
-        <div class="card-title">
-          Ürün Adedi
-        </div>
-
-        <div
-          class="card-value"
-          id="productCount"
-        >
-          0
-        </div>
-
+      <div
+        class="card-value"
+        id="grossSales"
+      >
+        0,00 ₺
       </div>
-
-
-      <div class="card">
-
-        <div class="card-title">
-          Brüt Ciro
-        </div>
-
-        <div
-          class="card-value"
-          id="grossSales"
-        >
-          0,00 ₺
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="card-title">
-          Tahmini Net Hak Ediş
-        </div>
-
-        <div
-          class="card-value"
-          id="netEarning"
-        >
-          0,00 ₺
-        </div>
-
-      </div>
-
 
     </div>
 
 
+    <div class="card">
 
-    <!-- SİPARİŞLER -->
+      <div class="card-title">
+        Tahmini Net Hak Ediş
+      </div>
 
-    <div class="section">
+      <div
+        class="card-value"
+        id="netEarning"
+      >
+        0,00 ₺
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- SİPARİŞLER -->
+  <!-- ================================================= -->
+
+  <section class="section">
+
+
+    <div class="section-header">
 
       <h2>
         📦 Siparişler
       </h2>
 
-
-      <div
-        id="ordersLoading"
-        class="loading hidden"
-      >
-        Siparişler getiriliyor...
-      </div>
+    </div>
 
 
-      <div
-        id="ordersEmpty"
-        class="empty"
-      >
-        Henüz sipariş verisi alınmadı.
-      </div>
+    <div
+      id="ordersLoading"
+      class="loading hidden"
+    >
 
-
-      <div class="table-wrap">
-
-        <table
-          id="ordersTable"
-          class="hidden"
-        >
-
-          <thead>
-
-            <tr>
-
-              <th>
-                Sipariş
-              </th>
-
-              <th>
-                Tarih
-              </th>
-
-              <th>
-                Müşteri
-              </th>
-
-              <th>
-                Ürün
-              </th>
-
-              <th>
-                Tutar
-              </th>
-
-              <th>
-                Durum
-              </th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody
-            id="ordersBody"
-          ></tbody>
-
-        </table>
-
-      </div>
+      Siparişler getiriliyor...
 
     </div>
 
 
-    <!-- ÜRÜNLER -->
+    <div
+      id="ordersEmpty"
+      class="empty"
+    >
 
-    <div class="section">
+      Henüz sipariş verisi alınmadı.
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table
+        id="ordersTable"
+        class="hidden"
+      >
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Sipariş
+            </th>
+
+            <th>
+              Tarih
+            </th>
+
+            <th>
+              Müşteri
+            </th>
+
+            <th>
+              Ürün
+            </th>
+
+            <th>
+              Tutar
+            </th>
+
+            <th>
+              Durum
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody
+          id="ordersBody"
+        ></tbody>
+
+      </table>
+
+    </div>
+
+
+  </section>
+
+
+  <!-- ================================================= -->
+  <!-- ÜRÜN SATIŞLARI -->
+  <!-- ================================================= -->
+
+  <section class="section">
+
+
+    <div class="section-header">
 
       <h2>
         🍕 Ürün Satışları
       </h2>
 
+    </div>
 
-      <div
-        id="productList"
-        class="product-list"
-      >
 
-        <div class="empty">
-          Siparişler getirildiğinde
-          ürün satışları burada görünecek.
-        </div>
+    <div
+      id="productList"
+      class="product-list"
+    >
+
+      <div class="empty">
+
+        Siparişler getirildiğinde
+        ürün satışları burada görünecek.
 
       </div>
 
     </div>
 
 
+  </section>
 
-    <!-- MÜŞTERİLER -->
 
-    <div class="section">
+  <!-- ================================================= -->
+  <!-- MÜŞTERİLER -->
+  <!-- ================================================= -->
+
+  <section class="section">
+
+
+    <div class="section-header">
 
       <h2>
         👤 Müşteriler
       </h2>
 
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-
-            <tr>
-
-              <th>
-                Müşteri
-              </th>
-
-              <th>
-                Sipariş Sayısı
-              </th>
-
-              <th>
-                Toplam Harcama
-              </th>
-
-              <th>
-                Ortalama Sipariş
-              </th>
-
-              <th>
-                Son Sipariş
-              </th>
-
-            </tr>
-
-          </thead>
+    </div>
 
 
-          <tbody
-            id="customersBody"
-          >
+    <div class="table-wrap">
 
-            <tr>
+      <table>
 
-              <td
-                colspan="5"
-                class="empty"
-              >
-                Henüz müşteri verisi yok.
-              </td>
+        <thead>
 
-            </tr>
+          <tr>
 
-          </tbody>
+            <th>
+              Müşteri
+            </th>
 
-        </table>
+            <th>
+              Sipariş Sayısı
+            </th>
 
-      </div>
+            <th>
+              Toplam Harcama
+            </th>
+
+            <th>
+              Ortalama Sipariş
+            </th>
+
+            <th>
+              Son Sipariş
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody
+          id="customersBody"
+        >
+
+          <tr>
+
+            <td
+              colspan="5"
+              class="empty"
+            >
+
+              Henüz müşteri verisi yok.
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
 
     </div>
 
 
+  </section>
 
-    <!-- YORUMLAR -->
 
-    <div class="section">
+  <!-- ================================================= -->
+  <!-- YORUMLAR -->
+  <!-- ================================================= -->
+
+  <section class="section">
+
+
+    <div class="section-header">
 
       <h2>
         ⭐ Müşteri Yorumları
       </h2>
 
-
-      <div
-        id="reviewsLoading"
-        class="loading hidden"
-      >
-        Yorumlar getiriliyor...
-      </div>
+    </div>
 
 
-      <div
-        id="reviewsContainer"
-      >
+    <div
+      id="reviewsLoading"
+      class="loading hidden"
+    >
 
-        <div class="empty">
-          Henüz yorum verisi alınmadı.
-        </div>
+      Yorumlar getiriliyor...
+
+    </div>
+
+
+    <div
+      id="reviewsContainer"
+    >
+
+      <div class="empty">
+
+        Henüz yorum verisi alınmadı.
 
       </div>
 
     </div>
 
 
+  </section>
 
-    <!-- RAPOR -->
 
-    <div class="section">
+  <!-- ================================================= -->
+  <!-- FİNANSAL ÖZET -->
+  <!-- ================================================= -->
+
+  <section class="section">
+
+
+    <div class="section-header">
 
       <h2>
         📊 Finansal Özet
       </h2>
 
-
-      <div class="table-wrap">
-
-        <table>
-
-          <tbody>
-
-            <tr>
-
-              <td>
-                Brüt satış
-              </td>
-
-              <td
-                id="reportGross"
-              >
-                0,00 ₺
-              </td>
-
-            </tr>
+    </div>
 
 
-            <tr>
+    <div class="table-wrap">
 
-              <td>
-                İndirim
-              </td>
+      <table>
 
-              <td
-                id="reportDiscount"
-              >
-                0,00 ₺
-              </td>
-
-            </tr>
+        <tbody>
 
 
-            <tr>
+          <tr>
 
-              <td>
-                Komisyon (%38)
-              </td>
+            <td>
+              Brüt satış
+            </td>
 
-              <td
-                id="reportCommission"
-              >
-                0,00 ₺
-              </td>
+            <td
+              id="reportGross"
+            >
+              0,00 ₺
+            </td>
 
-            </tr>
+          </tr>
 
 
-            <tr>
+          <tr>
 
-              <td>
-                Tahmini net hak ediş
-              </td>
+            <td>
+              İndirim
+            </td>
 
-              <td
-                id="reportNet"
-              >
-                0,00 ₺
-              </td>
+            <td
+              id="reportDiscount"
+            >
+              0,00 ₺
+            </td>
 
-            </tr>
+          </tr>
 
-          </tbody>
 
-        </table>
+          <tr>
 
-      </div>
+            <td>
+              Komisyon (%38)
+            </td>
+
+            <td
+              id="reportCommission"
+            >
+              0,00 ₺
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Tahmini net hak ediş
+            </td>
+
+            <td
+              id="reportNet"
+            >
+              0,00 ₺
+            </td>
+
+          </tr>
+
+
+        </tbody>
+
+      </table>
 
     </div>
 
 
+  </section>
+
+
+  <div class="footer">
+
+    Fero Restaurant Hub • Yönetim Merkezi
 
   </div>
 
+
 </div>
 
+</main>
 
-<!-- ========================= -->
+
+<!-- ================================================= -->
 <!-- FIREBASE -->
-<!-- ========================= -->
+<!-- ================================================= -->
 
 <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-app-compat.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-auth-compat.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore-compat.js"></script>
-
 
 
 <script>
@@ -981,14 +1739,31 @@ th{
 /* ================================================= */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
-  authDomain: "hayal-pide-paket-servis.firebaseapp.com",
-  databaseURL: "https://hayal-pide-paket-servis-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "hayal-pide-paket-servis",
-  storageBucket: "hayal-pide-paket-servis.firebasestorage.app",
-  messagingSenderId: "551700082149",
-  appId: "1:551700082149:web:6d7f5aea7f8c51ff55930c",
-  measurementId: "G-8PEXMYJN3L"
+
+  apiKey:
+    "AIzaSyBaAUdtandBzmWyNLkdnhsfXVpNDnOlS24",
+
+  authDomain:
+    "hayal-pide-paket-servis.firebaseapp.com",
+
+  databaseURL:
+    "https://hayal-pide-paket-servis-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId:
+    "hayal-pide-paket-servis",
+
+  storageBucket:
+    "hayal-pide-paket-servis.firebasestorage.app",
+
+  messagingSenderId:
+    "551700082149",
+
+  appId:
+    "1:551700082149:web:6d7f5aea7f8c51ff55930c",
+
+  measurementId:
+    "G-8PEXMYJN3L"
+
 };
 
 
@@ -999,19 +1774,35 @@ const firebaseConfig = {
 const API_URL =
   "https://muddy-wood-4234.hayalpide1.workers.dev";
 
-const STORE_ID = "465534";
 
-const PAGE_SIZE = 50;
+/*
+  Şimdilik mevcut mağaza ID'si korunuyor.
+
+  Bir sonraki aşamada bu sabit değer kaldırılacak
+  ve restoran seçimine göre dinamik hale getirilecek.
+*/
+
+const STORE_ID =
+  "465534";
+
+
+const PAGE_SIZE =
+  50;
 
 
 /* ================================================= */
 /* FIREBASE BAŞLAT */
 /* ================================================= */
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(
+  firebaseConfig
+);
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+const auth =
+  firebase.auth();
+
+const db =
+  firebase.firestore();
 
 
 /* ================================================= */
@@ -1019,6 +1810,7 @@ const db = firebase.firestore();
 /* ================================================= */
 
 let orders = [];
+
 let reviews = [];
 
 
@@ -1028,131 +1820,55 @@ let reviews = [];
 
 function setDefaultDates(){
 
-  const now = new Date();
+  const now =
+    new Date();
+
 
   const year =
     now.getFullYear();
 
+
   const month =
-    String(now.getMonth()+1)
-      .padStart(2,"0");
+    String(
+      now.getMonth()+1
+    ).padStart(
+      2,
+      "0"
+    );
+
 
   const day =
-    String(now.getDate())
-      .padStart(2,"0");
+    String(
+      now.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
 
   const today =
     `${year}-${month}-${day}`;
 
-  document.getElementById("startDate").value =
+
+  document
+    .getElementById(
+      "startDate"
+    )
+    .value =
     today;
 
-  document.getElementById("endDate").value =
+
+  document
+    .getElementById(
+      "endDate"
+    )
+    .value =
     today;
+
 }
+
 
 setDefaultDates();
-
-
-/* ================================================= */
-/* AUTH */
-/* ================================================= */
-
-auth.onAuthStateChanged(function(user){
-
-  if(user){
-
-    document
-      .getElementById("loginScreen")
-      .classList
-      .add("hidden");
-
-    document
-      .getElementById("dashboard")
-      .classList
-      .remove("hidden");
-
-    document
-      .getElementById("userEmail")
-      .textContent =
-      user.email || "";
-
-    testAPI();
-
-  }else{
-
-    document
-      .getElementById("loginScreen")
-      .classList
-      .remove("hidden");
-
-    document
-      .getElementById("dashboard")
-      .classList
-      .add("hidden");
-
-  }
-
-});
-
-
-/* ================================================= */
-/* GİRİŞ */
-/* ================================================= */
-
-function login(){
-
-  const email =
-    document
-      .getElementById("email")
-      .value
-      .trim();
-
-  const password =
-    document
-      .getElementById("password")
-      .value;
-
-  const error =
-    document
-      .getElementById("loginError");
-
-  error.textContent = "";
-
-  if(!email || !password){
-
-    error.textContent =
-      "E-posta ve şifre girin.";
-
-    return;
-  }
-
-  auth
-    .signInWithEmailAndPassword(
-      email,
-      password
-    )
-    .catch(function(err){
-
-      console.error(err);
-
-      error.textContent =
-        "Giriş başarısız. E-posta veya şifreyi kontrol edin.";
-
-    });
-
-}
-
-
-/* ================================================= */
-/* ÇIKIŞ */
-/* ================================================= */
-
-function logout(){
-
-  auth.signOut();
-
-}
 
 
 /* ================================================= */
@@ -1162,28 +1878,51 @@ function logout(){
 async function testAPI(){
 
   const status =
-    document.getElementById("apiStatus");
+    document.getElementById(
+      "apiStatus"
+    );
+
 
   try{
 
     const response =
       await fetch(
-        API_URL + "/api/test"
+        API_URL +
+        "/api/test"
       );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
 
     const data =
       await response.json();
+
 
     if(data.success){
 
       status.textContent =
         "🟢 Cloudflare bağlantısı aktif";
 
+
       status.style.background =
         "#dcfce7";
 
+
       status.style.color =
         "#166534";
+
+
+      status.style.borderColor =
+        "#bbf7d0";
+
 
     }else{
 
@@ -1193,18 +1932,29 @@ async function testAPI(){
 
     }
 
+
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "Cloudflare test:",
+      error
+    );
+
 
     status.textContent =
       "🔴 Cloudflare bağlantısı yok";
 
+
     status.style.background =
       "#fee2e2";
 
+
     status.style.color =
       "#991b1b";
+
+
+    status.style.borderColor =
+      "#fecaca";
 
   }
 
@@ -1229,9 +1979,13 @@ async function loadAllData(){
 /* ================================================= */
 
 async function fetchAllPages(
+
   endpoint,
+
   baseParams,
+
   extractor
+
 ){
 
   const all = [];
@@ -1240,6 +1994,7 @@ async function fetchAllPages(
 
   let totalPages = null;
 
+
   while(true){
 
     const params =
@@ -1247,100 +2002,127 @@ async function fetchAllPages(
         baseParams.toString()
       );
 
+
     params.set(
       "page",
       String(page)
     );
+
 
     params.set(
       "size",
       String(PAGE_SIZE)
     );
 
+
     const response =
       await fetch(
+
         API_URL +
         endpoint +
         "?" +
         params.toString()
+
       );
+
 
     if(!response.ok){
 
       const text =
         await response.text();
 
+
       throw new Error(
+
         "API " +
         response.status +
         ": " +
         text
+
       );
 
     }
 
+
     const data =
       await response.json();
+
 
     const items =
       extractor(data);
 
+
     if(Array.isArray(items)){
 
-      all.push(...items);
+      all.push(
+        ...items
+      );
 
     }
 
+
     const payload =
-      data && data.data
+
+      data &&
+      data.data
+
         ? data.data
+
         : data;
 
+
     if(
+
       payload &&
+
       Number.isFinite(
-        Number(payload.totalPages)
+
+        Number(
+          payload.totalPages
+        )
+
       )
+
     ){
 
       totalPages =
-        Number(payload.totalPages);
+        Number(
+          payload.totalPages
+        );
 
     }
 
-    /*
-      Eğer API totalPages veriyorsa
-      doğrudan onu kullanıyoruz.
-    */
 
     if(
+
       totalPages !== null &&
-      page + 1 >= totalPages
+
+      page + 1 >=
+      totalPages
+
     ){
 
       break;
 
     }
 
-    /*
-      Son sayfadaysak dur.
-    */
 
     if(
+
       !items.length ||
-      items.length < PAGE_SIZE
+
+      items.length <
+      PAGE_SIZE
+
     ){
 
       break;
 
     }
+
 
     page++;
 
-    /*
-      Güvenlik sınırı.
-      Normal raporlarda buna yaklaşılmaz.
-    */
 
     if(page >= 200){
 
@@ -1353,6 +2135,7 @@ async function fetchAllPages(
     }
 
   }
+
 
   return all;
 
@@ -1370,38 +2153,57 @@ async function loadOrders(){
       "ordersLoading"
     );
 
+
   const empty =
     document.getElementById(
       "ordersEmpty"
     );
+
 
   const table =
     document.getElementById(
       "ordersTable"
     );
 
-  loading.classList.remove("hidden");
 
-  empty.classList.add("hidden");
+  loading.classList.remove(
+    "hidden"
+  );
 
-  table.classList.add("hidden");
+
+  empty.classList.add(
+    "hidden"
+  );
+
+
+  table.classList.add(
+    "hidden"
+  );
 
 
   try{
 
     const start =
       document
-        .getElementById("startDate")
+        .getElementById(
+          "startDate"
+        )
         .value;
+
 
     const end =
       document
-        .getElementById("endDate")
+        .getElementById(
+          "endDate"
+        )
         .value;
+
 
     const status =
       document
-        .getElementById("statusFilter")
+        .getElementById(
+          "statusFilter"
+        )
         .value;
 
 
@@ -1412,10 +2214,14 @@ async function loadOrders(){
     if(start){
 
       params.set(
+
         "packageModificationStartDate",
+
         new Date(
-          start + "T00:00:00"
+          start +
+          "T00:00:00"
         ).getTime()
+
       );
 
     }
@@ -1424,10 +2230,14 @@ async function loadOrders(){
     if(end){
 
       params.set(
+
         "packageModificationEndDate",
+
         new Date(
-          end + "T23:59:59"
+          end +
+          "T23:59:59"
         ).getTime()
+
       );
 
     }
@@ -1436,40 +2246,47 @@ async function loadOrders(){
     if(status){
 
       params.set(
+
         "packageStatuses",
+
         status
+
       );
 
     }
 
 
-    /*
-      ARTIK SADECE PAGE=0 DEĞİL.
-
-      fetchAllPages bütün sayfaları
-      otomatik olarak getiriyor.
-    */
-
     orders =
       await fetchAllPages(
+
         "/api/orders",
+
         params,
+
         extractOrders
+
       );
 
 
-    /*
-      Yeniden eskiye sırala.
-    */
+    orders.sort(
 
-    orders.sort(function(a,b){
+      function(a,b){
 
-      return (
-        new Date(getOrderDate(b)) -
-        new Date(getOrderDate(a))
-      );
+        return (
 
-    });
+          new Date(
+            getOrderDate(b)
+          ) -
+
+          new Date(
+            getOrderDate(a)
+          )
+
+        );
+
+      }
+
+    );
 
 
     renderOrders();
@@ -1481,7 +2298,9 @@ async function loadOrders(){
     calculateSummary();
 
 
-    loading.classList.add("hidden");
+    loading.classList.add(
+      "hidden"
+    );
 
 
     if(!orders.length){
@@ -1489,28 +2308,44 @@ async function loadOrders(){
       empty.textContent =
         "Bu tarih aralığında sipariş bulunamadı.";
 
-      empty.classList.remove("hidden");
+      empty.classList.remove(
+        "hidden"
+      );
 
     }else{
 
-      table.classList.remove("hidden");
+      table.classList.remove(
+        "hidden"
+      );
 
-      empty.classList.add("hidden");
+      empty.classList.add(
+        "hidden"
+      );
 
     }
 
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "Siparişler:",
+      error
+    );
 
-    loading.classList.add("hidden");
+
+    loading.classList.add(
+      "hidden"
+    );
+
 
     empty.textContent =
       "Siparişler alınamadı: " +
       error.message;
 
-    empty.classList.remove("hidden");
+
+    empty.classList.remove(
+      "hidden"
+    );
 
   }
 
@@ -1529,53 +2364,87 @@ function extractOrders(data){
 
   }
 
+
   if(
+
     data &&
-    Array.isArray(data.content)
+
+    Array.isArray(
+      data.content
+    )
+
   ){
 
     return data.content;
 
   }
 
+
   if(
+
     data &&
-    Array.isArray(data.orders)
+
+    Array.isArray(
+      data.orders
+    )
+
   ){
 
     return data.orders;
 
   }
 
+
   if(
+
     data &&
+
     data.data &&
-    Array.isArray(data.data)
+
+    Array.isArray(
+      data.data
+    )
+
   ){
 
     return data.data;
 
   }
 
+
   if(
+
     data &&
+
     data.data &&
-    Array.isArray(data.data.content)
+
+    Array.isArray(
+      data.data.content
+    )
+
   ){
 
     return data.data.content;
 
   }
 
+
   if(
+
     data &&
+
     data.result &&
-    Array.isArray(data.result)
+
+    Array.isArray(
+      data.result
+    )
+
   ){
 
     return data.result;
 
   }
+
 
   return [];
 
@@ -1589,37 +2458,58 @@ function extractOrders(data){
 function getLines(order){
 
   if(
-    Array.isArray(order.lines)
+
+    Array.isArray(
+      order.lines
+    )
+
   ){
 
     return order.lines;
 
   }
 
+
   if(
+
     order.package &&
-    Array.isArray(order.package.lines)
+
+    Array.isArray(
+      order.package.lines
+    )
+
   ){
 
     return order.package.lines;
 
   }
 
+
   if(
-    Array.isArray(order.products)
+
+    Array.isArray(
+      order.products
+    )
+
   ){
 
     return order.products;
 
   }
 
+
   if(
-    Array.isArray(order.items)
+
+    Array.isArray(
+      order.items
+    )
+
   ){
 
     return order.items;
 
   }
+
 
   return [];
 
@@ -1633,13 +2523,19 @@ function getLines(order){
 function getLineItems(line){
 
   if(
+
     line &&
-    Array.isArray(line.items)
+
+    Array.isArray(
+      line.items
+    )
+
   ){
 
     return line.items;
 
   }
+
 
   return [];
 
@@ -1677,14 +2573,9 @@ function getProductName(item){
 
 function getQuantity(item){
 
-  /*
-    Trendyol Go meal response'unda
-    gerçek ürün adedi lines[].items[]
-    sayısından belirlenir.
-  */
-
   const lineItems =
     getLineItems(item);
+
 
   if(lineItems.length){
 
@@ -1693,18 +2584,19 @@ function getQuantity(item){
   }
 
 
-  /*
-    Eski / farklı response yapıları
-    için yedek alanlar.
-  */
-
   const quantity =
     Number(
+
       item.quantity ||
+
       item.count ||
+
       item.amount ||
+
       0
+
     );
+
 
   if(quantity > 0){
 
@@ -1712,11 +2604,6 @@ function getQuantity(item){
 
   }
 
-
-  /*
-    Line'ın kendisi bir ürünse
-    1 kabul et.
-  */
 
   return 1;
 
@@ -1731,44 +2618,50 @@ function getProductSalesFromOrder(order){
 
   const result = [];
 
+
   const lines =
     getLines(order);
 
 
-  lines.forEach(function(line){
+  lines.forEach(
 
-    const name =
-      getProductName(line);
+    function(line){
 
-    const items =
-      getLineItems(line);
-
-
-    let quantity = 0;
+      const name =
+        getProductName(line);
 
 
-    if(items.length){
+      const items =
+        getLineItems(line);
 
-      quantity =
-        items.length;
 
-    }else{
+      let quantity = 0;
 
-      quantity =
-        getQuantity(line);
+
+      if(items.length){
+
+        quantity =
+          items.length;
+
+      }else{
+
+        quantity =
+          getQuantity(line);
+
+      }
+
+
+      result.push({
+
+        name:name,
+
+        quantity:quantity
+
+      });
 
     }
 
-
-    result.push({
-
-      name:name,
-
-      quantity:quantity
-
-    });
-
-  });
+  );
 
 
   return result;
@@ -1816,7 +2709,9 @@ function getCustomerName(order){
       order.customer.lastName
 
     ]
+
       .filter(Boolean)
+
       .join(" ");
 
 
@@ -1867,6 +2762,7 @@ function getCustomerId(order){
     );
 
   }
+
 
   return (
 
@@ -1959,13 +2855,22 @@ function getOrderStatus(order){
 function money(value){
 
   return Number(value || 0)
+
     .toLocaleString(
+
       "tr-TR",
+
       {
+
         minimumFractionDigits:2,
+
         maximumFractionDigits:2
+
       }
-    ) + " ₺";
+
+    )
+
+    + " ₺";
 
 }
 
@@ -1981,85 +2886,107 @@ function renderOrders(){
       "ordersBody"
     );
 
+
   body.innerHTML = "";
 
 
-  orders.forEach(function(order){
+  orders.forEach(
 
-    const tr =
-      document.createElement("tr");
+    function(order){
 
-
-    const products =
-      getProductSalesFromOrder(order);
-
-
-    const productText =
-      products
-        .map(function(item){
-
-          return (
-            getProductName({
-              name:item.name
-            }) +
-            " x" +
-            item.quantity
-          );
-
-        })
-        .join(", ") || "-";
+      const tr =
+        document.createElement(
+          "tr"
+        );
 
 
-    tr.innerHTML = `
+      const products =
+        getProductSalesFromOrder(
+          order
+        );
 
-      <td>
-        <strong>
-          ${escapeHtml(
-            getOrderNumber(order)
-          )}
-        </strong>
-      </td>
 
-      <td>
-        ${escapeHtml(
-          formatDate(
-            getOrderDate(order)
+      const productText =
+
+        products
+
+          .map(
+
+            function(item){
+
+              return (
+
+                item.name +
+
+                " x" +
+
+                item.quantity
+
+              );
+
+            }
+
           )
-        )}
-      </td>
 
-      <td>
-        ${escapeHtml(
-          getCustomerName(order)
-        )}
-      </td>
+          .join(", ")
 
-      <td>
-        ${escapeHtml(
-          productText
-        )}
-      </td>
+          || "-";
 
-      <td>
-        <strong>
-          ${money(
-            getOrderAmount(order)
+
+      tr.innerHTML = `
+
+        <td>
+          <strong>
+            ${escapeHtml(
+              getOrderNumber(order)
+            )}
+          </strong>
+        </td>
+
+        <td>
+          ${escapeHtml(
+            formatDate(
+              getOrderDate(order)
+            )
           )}
-        </strong>
-      </td>
+        </td>
 
-      <td>
-        ${escapeHtml(
-          getOrderStatus(order)
-        )}
-      </td>
+        <td>
+          ${escapeHtml(
+            getCustomerName(order)
+          )}
+        </td>
 
-    `;
+        <td>
+          ${escapeHtml(
+            productText
+          )}
+        </td>
+
+        <td>
+          <strong>
+            ${money(
+              getOrderAmount(order)
+            )}
+          </strong>
+        </td>
+
+        <td>
+          ${escapeHtml(
+            getOrderStatus(order)
+          )}
+        </td>
+
+      `;
 
 
-    body.appendChild(tr);
+      body.appendChild(
+        tr
+      );
 
-  });
+    }
+
+  );
 
 }
 
@@ -2073,26 +3000,38 @@ function renderProducts(){
   const map = {};
 
 
-  orders.forEach(function(order){
+  orders.forEach(
 
-    const products =
-      getProductSalesFromOrder(order);
+    function(order){
+
+      const products =
+        getProductSalesFromOrder(
+          order
+        );
 
 
-    products.forEach(function(item){
+      products.forEach(
 
-      if(!map[item.name]){
+        function(item){
 
-        map[item.name] = 0;
+          if(!map[item.name]){
 
-      }
+            map[item.name] =
+              0;
 
-      map[item.name] +=
-        item.quantity;
+          }
 
-    });
 
-  });
+          map[item.name] +=
+            item.quantity;
+
+        }
+
+      );
+
+    }
+
+  );
 
 
   const list =
@@ -2100,16 +3039,23 @@ function renderProducts(){
       "productList"
     );
 
+
   list.innerHTML = "";
 
 
   const products =
+
     Object.entries(map)
-      .sort(function(a,b){
 
-        return b[1] - a[1];
+      .sort(
 
-      });
+        function(a,b){
+
+          return b[1] - a[1];
+
+        }
+
+      );
 
 
   if(!products.length){
@@ -2122,31 +3068,46 @@ function renderProducts(){
   }
 
 
-  products.forEach(function(item){
+  products.forEach(
 
-    const row =
-      document.createElement("div");
+    function(item){
 
-    row.className =
-      "product-row";
-
-
-    row.innerHTML = `
-
-      <span class="product-name">
-        ${escapeHtml(item[0])}
-      </span>
-
-      <span class="product-count">
-        ${item[1]} adet
-      </span>
-
-    `;
+      const row =
+        document.createElement(
+          "div"
+        );
 
 
-    list.appendChild(row);
+      row.className =
+        "product-row";
 
-  });
+
+      row.innerHTML = `
+
+        <span class="product-name">
+
+          ${escapeHtml(
+            item[0]
+          )}
+
+        </span>
+
+        <span class="product-count">
+
+          ${item[1]} adet
+
+        </span>
+
+      `;
+
+
+      list.appendChild(
+        row
+      );
+
+    }
+
+  );
 
 }
 
@@ -2160,53 +3121,68 @@ function renderCustomers(){
   const map = {};
 
 
-  orders.forEach(function(order){
+  orders.forEach(
 
-    const id =
-      getCustomerId(order) ||
-      getCustomerName(order);
+    function(order){
+
+      const id =
+
+        getCustomerId(order) ||
+
+        getCustomerName(order);
 
 
-    if(!map[id]){
+      if(!map[id]){
 
-      map[id] = {
+        map[id] = {
 
-        name:
-          getCustomerName(order),
+          name:
+            getCustomerName(
+              order
+            ),
 
-        count:0,
+          count:0,
 
-        total:0,
+          total:0,
 
-        lastDate:""
+          lastDate:""
 
-      };
+        };
+
+      }
+
+
+      map[id].count++;
+
+
+      map[id].total +=
+        getOrderAmount(order);
+
+
+      const date =
+        getOrderDate(order);
+
+
+      if(
+
+        !map[id].lastDate ||
+
+        new Date(date) >
+
+        new Date(
+          map[id].lastDate
+        )
+
+      ){
+
+        map[id].lastDate =
+          date;
+
+      }
 
     }
 
-
-    map[id].count++;
-
-    map[id].total +=
-      getOrderAmount(order);
-
-
-    const date =
-      getOrderDate(order);
-
-
-    if(
-      !map[id].lastDate ||
-      new Date(date) >
-      new Date(map[id].lastDate)
-    ){
-
-      map[id].lastDate =
-        date;
-
-    }
-
-  });
+  );
 
 
   const body =
@@ -2219,12 +3195,18 @@ function renderCustomers(){
 
 
   const customers =
+
     Object.values(map)
-      .sort(function(a,b){
 
-        return b.total-a.total;
+      .sort(
 
-      });
+        function(a,b){
+
+          return b.total-a.total;
+
+        }
+
+      );
 
 
   if(!customers.length){
@@ -2237,7 +3219,9 @@ function renderCustomers(){
           colspan="5"
           class="empty"
         >
+
           Müşteri verisi yok.
+
         </td>
 
       </tr>
@@ -2249,55 +3233,63 @@ function renderCustomers(){
   }
 
 
-  customers.forEach(function(customer){
+  customers.forEach(
 
-    const tr =
-      document.createElement("tr");
+    function(customer){
 
-
-    const average =
-      customer.total /
-      customer.count;
-
-
-    tr.innerHTML = `
-
-      <td>
-        ${escapeHtml(
-          customer.name
-        )}
-      </td>
-
-      <td>
-        ${customer.count}
-      </td>
-
-      <td>
-        ${money(
-          customer.total
-        )}
-      </td>
-
-      <td>
-        ${money(
-          average
-        )}
-      </td>
-
-      <td>
-        ${escapeHtml(
-          formatDate(
-            customer.lastDate
-          )
-        )}
-      </td>
-
-    `;
+      const tr =
+        document.createElement(
+          "tr"
+        );
 
 
-    body.appendChild(tr);
+      const average =
+        customer.total /
+        customer.count;
 
-  });
+
+      tr.innerHTML = `
+
+        <td>
+          ${escapeHtml(
+            customer.name
+          )}
+        </td>
+
+        <td>
+          ${customer.count}
+        </td>
+
+        <td>
+          ${money(
+            customer.total
+          )}
+        </td>
+
+        <td>
+          ${money(
+            average
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            formatDate(
+              customer.lastDate
+            )
+          )}
+        </td>
+
+      `;
+
+
+      body.appendChild(
+        tr
+      );
+
+    }
+
+  );
 
 }
 
@@ -2308,76 +3300,104 @@ function renderCustomers(){
 
 function calculateSummary(){
 
-  let productCount = 0;
-
-  let gross = 0;
-
-
-  orders.forEach(function(order){
-
-    const products =
-      getProductSalesFromOrder(order);
+  let productCount =
+    0;
 
 
-    products.forEach(function(item){
-
-      productCount +=
-        item.quantity;
-
-    });
+  let gross =
+    0;
 
 
-    gross +=
-      getOrderAmount(order);
+  orders.forEach(
 
-  });
+    function(order){
+
+      const products =
+        getProductSalesFromOrder(
+          order
+        );
+
+
+      products.forEach(
+
+        function(item){
+
+          productCount +=
+            item.quantity;
+
+        }
+
+      );
+
+
+      gross +=
+        getOrderAmount(order);
+
+    }
+
+  );
 
 
   const commission =
     gross * 0.38;
+
 
   const net =
     gross - commission;
 
 
   document
-    .getElementById("orderCount")
+    .getElementById(
+      "orderCount"
+    )
     .textContent =
     orders.length;
 
 
   document
-    .getElementById("productCount")
+    .getElementById(
+      "productCount"
+    )
     .textContent =
     productCount;
 
 
   document
-    .getElementById("grossSales")
+    .getElementById(
+      "grossSales"
+    )
     .textContent =
     money(gross);
 
 
   document
-    .getElementById("netEarning")
+    .getElementById(
+      "netEarning"
+    )
     .textContent =
     money(net);
 
 
   document
-    .getElementById("reportGross")
+    .getElementById(
+      "reportGross"
+    )
     .textContent =
     money(gross);
 
 
   document
-    .getElementById("reportCommission")
+    .getElementById(
+      "reportCommission"
+    )
     .textContent =
     money(commission);
 
 
   document
-    .getElementById("reportNet")
+    .getElementById(
+      "reportNet"
+    )
     .textContent =
     money(net);
 
@@ -2395,25 +3415,33 @@ async function loadReviews(){
       "reviewsLoading"
     );
 
+
   const container =
     document.getElementById(
       "reviewsContainer"
     );
 
 
-  loading.classList.remove("hidden");
+  loading.classList.remove(
+    "hidden"
+  );
 
 
   try{
 
     const start =
       document
-        .getElementById("startDate")
+        .getElementById(
+          "startDate"
+        )
         .value;
+
 
     const end =
       document
-        .getElementById("endDate")
+        .getElementById(
+          "endDate"
+        )
         .value;
 
 
@@ -2426,6 +3454,7 @@ async function loadReviews(){
       STORE_ID
     );
 
+
     params.set(
       "hasComment",
       "true"
@@ -2435,10 +3464,16 @@ async function loadReviews(){
     if(start){
 
       params.set(
+
         "startDate",
+
         new Date(
-          start + "T00:00:00"
+
+          start +
+          "T00:00:00"
+
         ).getTime()
+
       );
 
     }
@@ -2447,43 +3482,52 @@ async function loadReviews(){
     if(end){
 
       params.set(
+
         "endDate",
+
         new Date(
-          end + "T23:59:59"
+
+          end +
+          "T23:59:59"
+
         ).getTime()
+
       );
 
     }
 
 
-    /*
-      Yorumların da bütün sayfalarını çek.
-    */
-
     reviews =
       await fetchAllPages(
+
         "/api/reviews",
+
         params,
+
         extractReviews
+
       );
 
 
-    /*
-      Yeniden eskiye.
-    */
+    reviews.sort(
 
-    reviews.sort(function(a,b){
+      function(a,b){
 
-      return (
-        new Date(
-          a.createdDate || 0
-        ) -
-        new Date(
-          b.createdDate || 0
-        )
-      );
+        return (
 
-    });
+          new Date(
+            b.createdDate || 0
+          ) -
+
+          new Date(
+            a.createdDate || 0
+          )
+
+        );
+
+      }
+
+    );
 
 
     renderReviews();
@@ -2491,7 +3535,10 @@ async function loadReviews(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "Yorumlar:",
+      error
+    );
 
 
     container.innerHTML = `
@@ -2510,7 +3557,9 @@ async function loadReviews(){
 
   }finally{
 
-    loading.classList.add("hidden");
+    loading.classList.add(
+      "hidden"
+    );
 
   }
 
@@ -2531,8 +3580,13 @@ function extractReviews(data){
 
 
   if(
+
     data &&
-    Array.isArray(data.content)
+
+    Array.isArray(
+      data.content
+    )
+
   ){
 
     return data.content;
@@ -2541,8 +3595,13 @@ function extractReviews(data){
 
 
   if(
+
     data &&
-    Array.isArray(data.reviews)
+
+    Array.isArray(
+      data.reviews
+    )
+
   ){
 
     return data.reviews;
@@ -2551,9 +3610,15 @@ function extractReviews(data){
 
 
   if(
+
     data &&
+
     data.data &&
-    Array.isArray(data.data)
+
+    Array.isArray(
+      data.data
+    )
+
   ){
 
     return data.data;
@@ -2562,9 +3627,15 @@ function extractReviews(data){
 
 
   if(
+
     data &&
+
     data.data &&
-    Array.isArray(data.data.content)
+
+    Array.isArray(
+      data.data.content
+    )
+
   ){
 
     return data.data.content;
@@ -2584,10 +3655,15 @@ function extractReviews(data){
 function findOrderForReview(review){
 
   const reviewOrder =
+
     String(
+
       review.orderParentId ||
+
       review.orderNumber ||
+
       ""
+
     );
 
 
@@ -2599,20 +3675,33 @@ function findOrderForReview(review){
 
 
   return (
-    orders.find(function(order){
 
-      const orderNumber =
-        String(
-          getOrderNumber(order)
+    orders.find(
+
+      function(order){
+
+        const orderNumber =
+
+          String(
+            getOrderNumber(
+              order
+            )
+          );
+
+
+        return (
+
+          orderNumber ===
+          reviewOrder
+
         );
 
-      return (
-        orderNumber ===
-        reviewOrder
-      );
+      }
 
-    }) ||
+    ) ||
+
     null
+
   );
 
 }
@@ -2650,208 +3739,276 @@ function renderReviews(){
   }
 
 
-  reviews.forEach(function(review){
+  reviews.forEach(
 
-    const box =
-      document.createElement("div");
+    function(review){
 
-
-    box.className =
-      "review";
-
-
-    /*
-      GERÇEK TRENDYOL YAPISI:
-
-      review.rating.average
-    */
-
-    const rating =
-      Number(
-        review.rating &&
-        review.rating.average
-          ? review.rating.average
-          : 0
-      );
-
-
-    const roundedRating =
-      Math.max(
-        0,
-        Math.min(
-          5,
-          Math.round(rating)
-        )
-      );
-
-
-    const stars =
-      "★".repeat(
-        roundedRating
-      ) +
-      "☆".repeat(
-        5 - roundedRating
-      );
-
-
-    /*
-      GERÇEK TRENDYOL YAPISI:
-
-      review.comment.text
-    */
-
-    let comment = "";
-
-
-    if(
-      review.comment &&
-      typeof review.comment === "object"
-    ){
-
-      comment =
-        review.comment.text ||
-        "";
-
-    }else{
-
-      comment =
-        review.comment ||
-        review.commentText ||
-        review.reviewText ||
-        "";
-
-    }
-
-
-    /*
-      Aynı siparişten müşteri adını bul.
-    */
-
-    const relatedOrder =
-      findOrderForReview(review);
-
-
-    let customerName =
-      "Müşteri";
-
-
-    if(relatedOrder){
-
-      customerName =
-        getCustomerName(
-          relatedOrder
+      const box =
+        document.createElement(
+          "div"
         );
 
-    }else if(
-      review.customerName
-    ){
 
-      customerName =
-        review.customerName;
+      box.className =
+        "review";
+
+
+      const rating =
+
+        Number(
+
+          review.rating &&
+
+          review.rating.average
+
+            ? review.rating.average
+
+            : 0
+
+        );
+
+
+      const roundedRating =
+
+        Math.max(
+
+          0,
+
+          Math.min(
+
+            5,
+
+            Math.round(
+              rating
+            )
+
+          )
+
+        );
+
+
+      const stars =
+
+        "★".repeat(
+          roundedRating
+        ) +
+
+        "☆".repeat(
+          5 -
+          roundedRating
+        );
+
+
+      let comment = "";
+
+
+      if(
+
+        review.comment &&
+
+        typeof
+        review.comment ===
+        "object"
+
+      ){
+
+        comment =
+          review.comment.text ||
+          "";
+
+      }else{
+
+        comment =
+
+          review.comment ||
+
+          review.commentText ||
+
+          review.reviewText ||
+
+          "";
+
+      }
+
+
+      const relatedOrder =
+        findOrderForReview(
+          review
+        );
+
+
+      let customerName =
+        "Müşteri";
+
+
+      if(relatedOrder){
+
+        customerName =
+          getCustomerName(
+            relatedOrder
+          );
+
+      }else if(
+        review.customerName
+      ){
+
+        customerName =
+          review.customerName;
+
+      }
+
+
+      const products =
+
+        Array.isArray(
+          review.products
+        )
+
+          ?
+
+        review.products
+
+          .map(
+
+            function(p){
+
+              return (
+
+                p.name ||
+
+                p.productName ||
+
+                ""
+
+              );
+
+            }
+
+          )
+
+          .filter(Boolean)
+
+          .join(", ")
+
+          :
+
+        "-";
+
+
+      const orderNumber =
+
+        review.orderParentId ||
+
+        review.orderNumber ||
+
+        "-";
+
+
+      const reviewDate =
+
+        review.createdDate ||
+
+        review.orderCreatedDate ||
+
+        "";
+
+
+      box.innerHTML = `
+
+        <div class="review-top">
+
+          <strong>
+
+            ${escapeHtml(
+              customerName
+            )}
+
+          </strong>
+
+
+          <span class="stars">
+
+            ${stars}
+
+            <small
+              style="
+                color:#6b7280;
+                font-size:12px;
+              "
+            >
+
+              ${rating
+                ? rating + "/5"
+                : ""}
+
+            </small>
+
+          </span>
+
+        </div>
+
+
+        <div class="review-comment">
+
+          ${escapeHtml(
+
+            comment ||
+
+            "Yorum metni bulunmuyor."
+
+          )}
+
+        </div>
+
+
+        <div class="review-info">
+
+          Sipariş:
+
+          <strong>
+
+            ${escapeHtml(
+              orderNumber
+            )}
+
+          </strong>
+
+
+          &nbsp; | &nbsp;
+
+
+          Ürün:
+
+          ${escapeHtml(
+            products
+          )}
+
+
+          &nbsp; | &nbsp;
+
+
+          Tarih:
+
+          ${escapeHtml(
+
+            formatDate(
+              reviewDate
+            )
+
+          )}
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        box
+      );
 
     }
 
-
-    /*
-      Ürünler
-    */
-
-    const products =
-      Array.isArray(
-        review.products
-      )
-
-        ? review.products
-            .map(function(p){
-
-              return (
-                p.name ||
-                p.productName ||
-                ""
-              );
-
-            })
-            .filter(Boolean)
-            .join(", ")
-
-        : "-";
-
-
-    const orderNumber =
-      review.orderParentId ||
-      review.orderNumber ||
-      "-";
-
-
-    const reviewDate =
-      review.createdDate ||
-      review.orderCreatedDate ||
-      "";
-
-
-    box.innerHTML = `
-
-      <div class="review-top">
-
-        <strong>
-          ${escapeHtml(
-            customerName
-          )}
-        </strong>
-
-        <span class="stars">
-          ${stars}
-          <small style="color:#6b7280;font-size:12px;">
-            ${rating ? rating + "/5" : ""}
-          </small>
-        </span>
-
-      </div>
-
-
-      <div class="review-comment">
-
-        ${escapeHtml(
-          comment ||
-          "Yorum metni bulunmuyor."
-        )}
-
-      </div>
-
-
-      <div class="review-info">
-
-        Sipariş:
-        <strong>
-          ${escapeHtml(
-            orderNumber
-          )}
-        </strong>
-
-        &nbsp; | &nbsp;
-
-        Ürün:
-        ${escapeHtml(
-          products
-        )}
-
-        &nbsp; | &nbsp;
-
-        Tarih:
-        ${escapeHtml(
-          formatDate(
-            reviewDate
-          )
-        )}
-
-      </div>
-
-    `;
-
-
-    container.appendChild(box);
-
-  });
+  );
 
 }
 
@@ -2871,9 +4028,11 @@ function formatDate(value){
 
 
   if(
+
     isNaN(
       date.getTime()
     )
+
   ){
 
     return String(value);
@@ -2897,22 +4056,27 @@ function escapeHtml(value){
   return String(
     value ?? ""
   )
+
     .replace(
       /&/g,
       "&amp;"
     )
+
     .replace(
       /</g,
       "&lt;"
     )
+
     .replace(
       />/g,
       "&gt;"
     )
+
     .replace(
       /"/g,
       "&quot;"
     )
+
     .replace(
       /'/g,
       "&#039;"
@@ -2925,9 +4089,23 @@ function escapeHtml(value){
 /* BAŞLANGIÇ */
 /* ================================================= */
 
-testAPI();
+document.addEventListener(
+
+  "DOMContentLoaded",
+
+  function(){
+
+    setDefaultDates();
+
+    testAPI();
+
+  }
+
+);
 
 </script>
 
+
 </body>
+
 </html>
