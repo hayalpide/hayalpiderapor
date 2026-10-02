@@ -25,6 +25,7 @@
     --yellow:#ffc857;
     --blue:#4d8dff;
     --purple:#9b72ff;
+    --orange:#ff914d;
     --shadow:0 15px 40px rgba(0,0,0,.25);
 }
 
@@ -35,10 +36,7 @@ body{
     min-height:100vh;
 }
 
-button,
-input,
-select,
-textarea{
+button,input,select,textarea{
     font:inherit;
 }
 
@@ -166,6 +164,23 @@ button{
 .danger{
     border:0;
     background:var(--red);
+    color:#fff;
+    padding:11px 15px;
+    border-radius:11px;
+}
+
+.success{
+    border:0;
+    background:var(--green);
+    color:#06130c;
+    padding:11px 15px;
+    border-radius:11px;
+    font-weight:800;
+}
+
+.orange{
+    border:0;
+    background:var(--orange);
     color:#fff;
     padding:11px 15px;
     border-radius:11px;
@@ -304,25 +319,12 @@ button{
     font-weight:900;
 }
 
-.green{
-    color:var(--green);
-}
-
-.red{
-    color:var(--red);
-}
-
-.yellow{
-    color:var(--yellow);
-}
-
-.blue{
-    color:var(--blue);
-}
-
-.purple{
-    color:var(--purple);
-}
+.green{color:var(--green);}
+.red{color:var(--red);}
+.yellow{color:var(--yellow);}
+.blue{color:var(--blue);}
+.purple{color:var(--purple);}
+.orange-text{color:var(--orange);}
 
 /* GRID */
 
@@ -363,8 +365,7 @@ table{
     border-collapse:collapse;
 }
 
-th,
-td{
+th,td{
     padding:12px 10px;
     border-bottom:1px solid var(--border);
     text-align:left;
@@ -390,21 +391,11 @@ td{
     font-weight:700;
 }
 
-.badge.green{
-    background:rgba(40,209,124,.12);
-}
-
-.badge.red{
-    background:rgba(255,83,100,.12);
-}
-
-.badge.blue{
-    background:rgba(77,141,255,.12);
-}
-
-.badge.yellow{
-    background:rgba(255,200,87,.12);
-}
+.badge.green{background:rgba(40,209,124,.12);}
+.badge.red{background:rgba(255,83,100,.12);}
+.badge.blue{background:rgba(77,141,255,.12);}
+.badge.yellow{background:rgba(255,200,87,.12);}
+.badge.orange{background:rgba(255,145,77,.12);}
 
 /* FORMS */
 
@@ -466,6 +457,47 @@ td{
     margin-top:8px;
 }
 
+/* SUMMARY BOX */
+
+.summary-box{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px;
+}
+
+.summary-item{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:10px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.summary-item:last-child{
+    border-bottom:0;
+}
+
+/* QUICK */
+
+.quick-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.quick-btn{
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:#fff;
+    border-radius:13px;
+    padding:13px 10px;
+}
+
+.quick-btn:hover{
+    border-color:var(--blue);
+}
+
 /* EMPTY */
 
 .empty{
@@ -516,6 +548,10 @@ td{
 
     .grid-3{
         grid-template-columns:1fr 1fr;
+    }
+
+    .quick-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 }
 
@@ -579,73 +615,100 @@ td{
     .form-grid .full{
         grid-column:auto;
     }
+
+    .quick-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .form-actions{
+        flex-direction:column;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-
 <section id="loginScreen">
 
     <div class="login-box">
 
         <div class="logo">Fero <span>Finans</span></div>
+
         <div class="login-sub">
             Gelir, gider, banka, yemek kartı ve borç yönetimi
         </div>
 
         <div class="login-tabs">
-            <button id="loginTab" class="active" onclick="showLoginTab('login')">
+
+            <button id="loginTab"
+                    class="active"
+                    onclick="showLoginTab('login')">
                 Giriş
             </button>
 
-            <button id="registerTab" onclick="showLoginTab('register')">
+            <button id="registerTab"
+                    onclick="showLoginTab('register')">
                 Yeni Hesap
             </button>
+
         </div>
 
         <div id="loginForm">
 
-            <div id="loginError" class="login-error hidden"></div>
+            <div id="loginError"
+                 class="login-error hidden"></div>
 
             <div class="field">
                 <label>E-posta</label>
-                <input id="loginEmail" type="email" placeholder="ornek@mail.com">
+                <input id="loginEmail"
+                       type="email"
+                       placeholder="ornek@mail.com">
             </div>
 
             <div class="field">
                 <label>Şifre</label>
-                <input id="loginPassword" type="password" placeholder="••••••••">
+                <input id="loginPassword"
+                       type="password"
+                       placeholder="••••••••">
             </div>
 
-            <button class="primary" onclick="loginUser()">
+            <button class="primary"
+                    onclick="loginUser()">
                 Giriş Yap
             </button>
 
         </div>
 
-        <div id="registerForm" class="hidden">
+        <div id="registerForm"
+             class="hidden">
 
-            <div id="registerError" class="login-error hidden"></div>
+            <div id="registerError"
+                 class="login-error hidden"></div>
 
             <div class="field">
                 <label>Kullanıcı adı</label>
-                <input id="registerName" type="text" placeholder="Örn: Fero">
+                <input id="registerName"
+                       type="text"
+                       placeholder="Örn: Fero">
             </div>
 
             <div class="field">
                 <label>E-posta</label>
-                <input id="registerEmail" type="email" placeholder="ornek@mail.com">
+                <input id="registerEmail"
+                       type="email"
+                       placeholder="ornek@mail.com">
             </div>
 
             <div class="field">
                 <label>Şifre</label>
-                <input id="registerPassword" type="password" placeholder="En az 6 karakter">
+                <input id="registerPassword"
+                       type="password"
+                       placeholder="En az 6 karakter">
             </div>
 
-            <button class="primary" onclick="registerUser()">
+            <button class="primary"
+                    onclick="registerUser()">
                 Hesap Oluştur
             </button>
 
@@ -656,15 +719,14 @@ td{
 </section>
 
 
-<!-- APP -->
-
 <div id="app">
 
     <header class="topbar">
 
         <div style="display:flex;align-items:center;gap:12px;">
 
-            <button class="mobile-menu" onclick="toggleSidebar()">
+            <button class="mobile-menu"
+                    onclick="toggleSidebar()">
                 ☰
             </button>
 
@@ -676,9 +738,11 @@ td{
 
         <div class="user-area">
 
-            <span class="user-name" id="topUserName"></span>
+            <span class="user-name"
+                  id="topUserName"></span>
 
-            <button class="secondary" onclick="logoutUser()">
+            <button class="secondary"
+                    onclick="logoutUser()">
                 Çıkış
             </button>
 
@@ -689,41 +753,51 @@ td{
 
     <div class="layout">
 
-        <aside class="sidebar" id="sidebar">
+        <aside class="sidebar"
+               id="sidebar">
 
-            <button class="nav-btn active" onclick="openPage('dashboard',this)">
+            <button class="nav-btn active"
+                    onclick="openPage('dashboard',this)">
                 🏠 Genel Bakış
             </button>
 
-            <button class="nav-btn" onclick="openPage('income',this)">
+            <button class="nav-btn"
+                    onclick="openPage('income',this)">
                 💰 Gelir Ekle
             </button>
 
-            <button class="nav-btn" onclick="openPage('expense',this)">
+            <button class="nav-btn"
+                    onclick="openPage('expense',this)">
                 💸 Gider Ekle
             </button>
 
-            <button class="nav-btn" onclick="openPage('suppliers',this)">
+            <button class="nav-btn"
+                    onclick="openPage('suppliers',this)">
                 🤝 Borçlar / Tedarikçiler
             </button>
 
-            <button class="nav-btn" onclick="openPage('foodcards',this)">
+            <button class="nav-btn"
+                    onclick="openPage('foodcards',this)">
                 💳 Yemek Kartları
             </button>
 
-            <button class="nav-btn" onclick="openPage('bills',this)">
+            <button class="nav-btn"
+                    onclick="openPage('bills',this)">
                 🧾 Faturalar
             </button>
 
-            <button class="nav-btn" onclick="openPage('transactions',this)">
+            <button class="nav-btn"
+                    onclick="openPage('transactions',this)">
                 🔄 Hareketler
             </button>
 
-            <button class="nav-btn" onclick="openPage('reports',this)">
+            <button class="nav-btn"
+                    onclick="openPage('reports',this)">
                 📊 Raporlar
             </button>
 
-            <button class="nav-btn" onclick="openPage('settings',this)">
+            <button class="nav-btn"
+                    onclick="openPage('settings',this)">
                 ⚙️ Ayarlar
             </button>
 
@@ -735,7 +809,8 @@ td{
 
             <!-- DASHBOARD -->
 
-            <section id="page-dashboard" class="page active">
+            <section id="page-dashboard"
+                     class="page active">
 
                 <div class="page-title">
                     Genel Bakış
@@ -749,31 +824,80 @@ td{
                 <div class="cards">
 
                     <div class="card">
-                        <div class="card-label">Banka Bakiyesi</div>
-                        <div class="card-value blue" id="dashBank">
+                        <div class="card-label">
+                            Banka Bakiyesi
+                        </div>
+
+                        <div class="card-value blue"
+                             id="dashBank">
                             ₺0,00
                         </div>
                     </div>
 
                     <div class="card">
-                        <div class="card-label">Yemek Kartları</div>
-                        <div class="card-value yellow" id="dashFood">
+                        <div class="card-label">
+                            Yemek Kartları
+                        </div>
+
+                        <div class="card-value yellow"
+                             id="dashFood">
                             ₺0,00
                         </div>
                     </div>
 
                     <div class="card">
-                        <div class="card-label">Toplam Tedarikçi Borcu</div>
-                        <div class="card-value red" id="dashDebt">
+                        <div class="card-label">
+                            Toplam Tedarikçi Borcu
+                        </div>
+
+                        <div class="card-value red"
+                             id="dashDebt">
                             ₺0,00
                         </div>
                     </div>
 
                     <div class="card">
-                        <div class="card-label">Bu Ay Kâr / Zarar</div>
-                        <div class="card-value" id="dashProfit">
+                        <div class="card-label">
+                            Bu Ay Kâr / Zarar
+                        </div>
+
+                        <div class="card-value"
+                             id="dashProfit">
                             ₺0,00
                         </div>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-title">
+                        Hızlı İşlemler
+                    </div>
+
+                    <div class="quick-grid">
+
+                        <button class="quick-btn"
+                                onclick="quickOpen('income')">
+                            💰 Gelir Ekle
+                        </button>
+
+                        <button class="quick-btn"
+                                onclick="quickOpen('expense')">
+                            💸 Gider Ekle
+                        </button>
+
+                        <button class="quick-btn"
+                                onclick="quickOpen('suppliers')">
+                            🤝 Tedarikçi
+                        </button>
+
+                        <button class="quick-btn"
+                                onclick="quickOpen('foodcards')">
+                            💳 Yemek Kartları
+                        </button>
+
                     </div>
 
                 </div>
@@ -788,28 +912,34 @@ td{
                         </div>
 
                         <div class="field">
-                            <label>Güncel banka bakiyesi</label>
+
+                            <label>
+                                Güncel banka bakiyesi
+                            </label>
 
                             <div class="amount-input">
 
-                                <input
-                                    id="manualBankBalance"
-                                    type="number"
-                                    step="0.01"
-                                    placeholder="0"
-                                >
+                                <input id="manualBankBalance"
+                                       type="number"
+                                       step="0.01"
+                                       placeholder="0">
 
                                 <span>₺</span>
 
                             </div>
+
                         </div>
 
-                        <button class="primary" onclick="saveBankBalance()">
+                        <button class="primary"
+                                onclick="saveBankBalance()">
                             Banka Bakiyesini Güncelle
                         </button>
 
-                        <p style="color:var(--muted);font-size:12px;margin-top:12px;">
-                            Bu alan gerçek banka bakiyesini manuel olarak güncellemek içindir.
+                        <p style="color:var(--muted);
+                                  font-size:12px;
+                                  margin-top:12px;">
+                            Bu alan gerçek banka bakiyesini manuel
+                            olarak güncellemek içindir.
                             Geçmiş hareketler değişmez.
                         </p>
 
@@ -824,17 +954,28 @@ td{
 
                         <div class="report-row">
                             <span>Gelir</span>
-                            <strong class="green" id="monthIncome">₺0,00</strong>
+
+                            <strong class="green"
+                                    id="monthIncome">
+                                ₺0,00
+                            </strong>
                         </div>
 
                         <div class="report-row">
                             <span>Gider</span>
-                            <strong class="red" id="monthExpense">₺0,00</strong>
+
+                            <strong class="red"
+                                    id="monthExpense">
+                                ₺0,00
+                            </strong>
                         </div>
 
                         <div class="report-row">
                             <span>Net</span>
-                            <strong id="monthNet">₺0,00</strong>
+
+                            <strong id="monthNet">
+                                ₺0,00
+                            </strong>
                         </div>
 
                     </div>
@@ -857,12 +998,15 @@ td{
 
             <!-- INCOME -->
 
-            <section id="page-income" class="page">
+            <section id="page-income"
+                     class="page">
 
-                <div class="page-title">Gelir Ekle</div>
+                <div class="page-title">
+                    Gelir Ekle
+                </div>
 
                 <div class="page-subtitle">
-                    Banka hesabına giren paraları kaydet
+                    Banka hesabına giren paraları kaydet.
                 </div>
 
                 <div class="panel">
@@ -872,38 +1016,80 @@ td{
                         <div class="form-grid">
 
                             <div class="field">
+
                                 <label>Tarih</label>
-                                <input id="incomeDate" type="date" required>
+
+                                <input id="incomeDate"
+                                       type="date"
+                                       required>
+
                             </div>
 
                             <div class="field">
+
                                 <label>Tutar</label>
-                                <input id="incomeAmount" type="number" step="0.01" min="0" required>
+
+                                <input id="incomeAmount"
+                                       type="number"
+                                       step="0.01"
+                                       min="0"
+                                       required>
+
                             </div>
 
                             <div class="field">
+
                                 <label>Gelir Türü</label>
 
                                 <select id="incomeCategory">
-                                    <option>Restoran Satışı</option>
-                                    <option>Trendyol</option>
-                                    <option>Yemeksepeti</option>
-                                    <option>Migros Yemek</option>
-                                    <option>Nakit</option>
-                                    <option>Diğer</option>
+
+                                    <option>
+                                        Restoran Satışı
+                                    </option>
+
+                                    <option>
+                                        Trendyol
+                                    </option>
+
+                                    <option>
+                                        Yemeksepeti
+                                    </option>
+
+                                    <option>
+                                        Migros Yemek
+                                    </option>
+
+                                    <option>
+                                        Nakit
+                                    </option>
+
+                                    <option>
+                                        Banka
+                                    </option>
+
+                                    <option>
+                                        Diğer
+                                    </option>
+
                                 </select>
+
                             </div>
 
                             <div class="field">
+
                                 <label>Açıklama</label>
-                                <input id="incomeDescription" placeholder="Örn: Günlük satış">
+
+                                <input id="incomeDescription"
+                                       placeholder="Örn: Günlük satış">
+
                             </div>
 
                         </div>
 
                         <div class="form-actions">
 
-                            <button class="primary" type="submit">
+                            <button class="primary"
+                                    type="submit">
                                 Gelir Kaydet
                             </button>
 
@@ -918,12 +1104,16 @@ td{
 
             <!-- EXPENSE -->
 
-            <section id="page-expense" class="page">
+            <section id="page-expense"
+                     class="page">
 
-                <div class="page-title">Gider Ekle</div>
+                <div class="page-title">
+                    Gider Ekle
+                </div>
 
                 <div class="page-subtitle">
-                    Bütün giderler banka hesabından düşer.
+                    Bütün giderler yalnızca banka hesabından düşer.
+                    Yemek kartlarından düşmez.
                 </div>
 
                 <div class="panel">
@@ -933,13 +1123,25 @@ td{
                         <div class="form-grid">
 
                             <div class="field">
+
                                 <label>Tarih</label>
-                                <input id="expenseDate" type="date" required>
+
+                                <input id="expenseDate"
+                                       type="date"
+                                       required>
+
                             </div>
 
                             <div class="field">
+
                                 <label>Tutar</label>
-                                <input id="expenseAmount" type="number" step="0.01" min="0" required>
+
+                                <input id="expenseAmount"
+                                       type="number"
+                                       step="0.01"
+                                       min="0"
+                                       required>
+
                             </div>
 
                             <div class="field">
@@ -968,15 +1170,20 @@ td{
                             </div>
 
                             <div class="field">
+
                                 <label>Açıklama</label>
-                                <input id="expenseDescription" placeholder="Örn: Haftalık market alışverişi">
+
+                                <input id="expenseDescription"
+                                       placeholder="Örn: Haftalık market alışverişi">
+
                             </div>
 
                         </div>
 
                         <div class="form-actions">
 
-                            <button class="primary" type="submit">
+                            <button class="primary"
+                                    type="submit">
                                 Gider Kaydet
                             </button>
 
@@ -998,10 +1205,12 @@ td{
                         <table>
 
                             <thead>
+
                                 <tr>
                                     <th>Kalem</th>
                                     <th>Toplam</th>
                                 </tr>
+
                             </thead>
 
                             <tbody id="expenseSummary"></tbody>
@@ -1017,9 +1226,12 @@ td{
 
             <!-- SUPPLIERS -->
 
-            <section id="page-suppliers" class="page">
+            <section id="page-suppliers"
+                     class="page">
 
-                <div class="page-title">Borçlar / Tedarikçiler</div>
+                <div class="page-title">
+                    Borçlar / Tedarikçiler
+                </div>
 
                 <div class="page-subtitle">
                     Tedarikçi borçlarını ve ödemelerini takip et.
@@ -1037,16 +1249,33 @@ td{
                         <form onsubmit="addSupplier(event)">
 
                             <div class="field">
-                                <label>Tedarikçi adı</label>
-                                <input id="supplierName" placeholder="Örn: Kaşarcı" required>
+
+                                <label>
+                                    Tedarikçi adı
+                                </label>
+
+                                <input id="supplierName"
+                                       placeholder="Örn: Kaşarcı"
+                                       required>
+
                             </div>
 
                             <div class="field">
-                                <label>Başlangıç borcu</label>
-                                <input id="supplierInitialDebt" type="number" step="0.01" min="0" value="0">
+
+                                <label>
+                                    Başlangıç borcu
+                                </label>
+
+                                <input id="supplierInitialDebt"
+                                       type="number"
+                                       step="0.01"
+                                       min="0"
+                                       value="0">
+
                             </div>
 
-                            <button class="primary" type="submit">
+                            <button class="primary"
+                                    type="submit">
                                 Tedarikçi Ekle
                             </button>
 
@@ -1061,11 +1290,14 @@ td{
                             Borç Özeti
                         </div>
 
-                        <div class="big-result red" id="supplierTotalDebt">
+                        <div class="big-result red"
+                             id="supplierTotalDebt">
                             ₺0,00
                         </div>
 
-                        <div style="color:var(--muted);font-size:13px;margin-top:6px;">
+                        <div style="color:var(--muted);
+                                    font-size:13px;
+                                    margin-top:6px;">
                             Toplam güncel tedarikçi borcu
                         </div>
 
@@ -1085,11 +1317,13 @@ td{
                         <table>
 
                             <thead>
+
                                 <tr>
                                     <th>Tedarikçi</th>
                                     <th>Güncel Borç</th>
                                     <th>İşlem</th>
                                 </tr>
+
                             </thead>
 
                             <tbody id="supplierTable"></tbody>
@@ -1105,20 +1339,28 @@ td{
 
             <!-- FOOD CARDS -->
 
-            <section id="page-foodcards" class="page">
+            <section id="page-foodcards"
+                     class="page">
 
-                <div class="page-title">Yemek Kartları</div>
+                <div class="page-title">
+                    Yemek Kartları
+                </div>
 
                 <div class="page-subtitle">
                     Yemek kartları banka hesabından bağımsız tutulur.
+                    Günlük olarak istediğin zaman güncelleyebilirsin.
                 </div>
 
 
                 <div class="cards">
 
                     <div class="card">
-                        <div class="card-label">Toplam Yemek Kartı</div>
-                        <div class="card-value yellow" id="foodTotal">
+                        <div class="card-label">
+                            Toplam Yemek Kartı
+                        </div>
+
+                        <div class="card-value yellow"
+                             id="foodTotal">
                             ₺0,00
                         </div>
                     </div>
@@ -1136,34 +1378,50 @@ td{
 
                         <div class="field">
                             <label>Edenred</label>
-                            <input id="foodEdenred" type="number" step="0.01" min="0">
+                            <input id="foodEdenred"
+                                   type="number"
+                                   step="0.01"
+                                   min="0">
                         </div>
 
                         <div class="field">
                             <label>Multinet</label>
-                            <input id="foodMultinet" type="number" step="0.01" min="0">
+                            <input id="foodMultinet"
+                                   type="number"
+                                   step="0.01"
+                                   min="0">
                         </div>
 
                         <div class="field">
                             <label>Sodexo / Pluxee</label>
-                            <input id="foodSodexo" type="number" step="0.01" min="0">
+                            <input id="foodSodexo"
+                                   type="number"
+                                   step="0.01"
+                                   min="0">
                         </div>
 
                         <div class="field">
                             <label>Setcard</label>
-                            <input id="foodSetcard" type="number" step="0.01" min="0">
+                            <input id="foodSetcard"
+                                   type="number"
+                                   step="0.01"
+                                   min="0">
                         </div>
 
                         <div class="field">
                             <label>Diğer</label>
-                            <input id="foodOther" type="number" step="0.01" min="0">
+                            <input id="foodOther"
+                                   type="number"
+                                   step="0.01"
+                                   min="0">
                         </div>
 
                     </div>
 
                     <div class="form-actions">
 
-                        <button class="primary" onclick="saveFoodCards()">
+                        <button class="primary"
+                                onclick="saveFoodCards()">
                             Yemek Kartlarını Güncelle
                         </button>
 
@@ -1187,12 +1445,16 @@ td{
 
             <!-- BILLS -->
 
-            <section id="page-bills" class="page">
+            <section id="page-bills"
+                     class="page">
 
-                <div class="page-title">Faturalar</div>
+                <div class="page-title">
+                    Faturalar
+                </div>
 
                 <div class="page-subtitle">
-                    Elektrik, su, doğalgaz, telefon ve internet faturalarını takip et.
+                    Elektrik, su, doğalgaz, telefon ve internet
+                    faturalarını takip et.
                 </div>
 
 
@@ -1203,51 +1465,94 @@ td{
                         <div class="form-grid">
 
                             <div class="field">
-                                <label>Fatura türü</label>
+
+                                <label>
+                                    Fatura türü
+                                </label>
 
                                 <select id="billType">
+
                                     <option>Elektrik</option>
                                     <option>Su</option>
                                     <option>Doğalgaz</option>
                                     <option>Telefon</option>
                                     <option>İnternet</option>
+
                                 </select>
 
                             </div>
 
                             <div class="field">
-                                <label>Fatura tarihi</label>
-                                <input id="billDate" type="date" required>
+
+                                <label>
+                                    Fatura tarihi
+                                </label>
+
+                                <input id="billDate"
+                                       type="date"
+                                       required>
+
                             </div>
 
                             <div class="field">
-                                <label>Son ödeme tarihi</label>
-                                <input id="billDueDate" type="date">
+
+                                <label>
+                                    Son ödeme tarihi
+                                </label>
+
+                                <input id="billDueDate"
+                                       type="date">
+
                             </div>
 
                             <div class="field">
-                                <label>Tutar</label>
-                                <input id="billAmount" type="number" step="0.01" min="0" required>
+
+                                <label>
+                                    Tutar
+                                </label>
+
+                                <input id="billAmount"
+                                       type="number"
+                                       step="0.01"
+                                       min="0"
+                                       required>
+
                             </div>
 
                             <div class="field">
-                                <label>Ödeme durumu</label>
+
+                                <label>
+                                    Ödeme durumu
+                                </label>
 
                                 <select id="billStatus">
-                                    <option value="paid">Ödendi</option>
-                                    <option value="unpaid">Ödenmedi</option>
+
+                                    <option value="paid">
+                                        Ödendi
+                                    </option>
+
+                                    <option value="unpaid">
+                                        Ödenmedi
+                                    </option>
+
                                 </select>
 
                             </div>
 
                             <div class="field">
-                                <label>Açıklama</label>
+
+                                <label>
+                                    Açıklama
+                                </label>
+
                                 <input id="billDescription">
+
                             </div>
 
                         </div>
 
-                        <button class="primary" type="submit">
+                        <button class="primary"
+                                type="submit">
                             Fatura Kaydet
                         </button>
 
@@ -1267,13 +1572,16 @@ td{
                         <table>
 
                             <thead>
+
                                 <tr>
                                     <th>Tür</th>
                                     <th>Tarih</th>
                                     <th>Son Ödeme</th>
                                     <th>Tutar</th>
                                     <th>Durum</th>
+                                    <th>İşlem</th>
                                 </tr>
+
                             </thead>
 
                             <tbody id="billTable"></tbody>
@@ -1289,9 +1597,12 @@ td{
 
             <!-- TRANSACTIONS -->
 
-            <section id="page-transactions" class="page">
+            <section id="page-transactions"
+                     class="page">
 
-                <div class="page-title">Hareketler</div>
+                <div class="page-title">
+                    Hareketler
+                </div>
 
                 <div class="page-subtitle">
                     Tüm gelir, gider ve tedarikçi hareketleri.
@@ -1303,13 +1614,23 @@ td{
                     <div class="form-grid">
 
                         <div class="field">
+
                             <label>Başlangıç</label>
-                            <input id="transactionStart" type="date" onchange="renderTransactions()">
+
+                            <input id="transactionStart"
+                                   type="date"
+                                   onchange="renderTransactions()">
+
                         </div>
 
                         <div class="field">
+
                             <label>Bitiş</label>
-                            <input id="transactionEnd" type="date" onchange="renderTransactions()">
+
+                            <input id="transactionEnd"
+                                   type="date"
+                                   onchange="renderTransactions()">
+
                         </div>
 
                     </div>
@@ -1348,9 +1669,12 @@ td{
 
             <!-- REPORTS -->
 
-            <section id="page-reports" class="page">
+            <section id="page-reports"
+                     class="page">
 
-                <div class="page-title">Gelir / Gider Raporları</div>
+                <div class="page-title">
+                    Gelir / Gider Raporları
+                </div>
 
                 <div class="page-subtitle">
                     Kâr mı zarar mı olduğunu dönem bazında gör.
@@ -1362,13 +1686,27 @@ td{
                     <div class="form-grid">
 
                         <div class="field">
-                            <label>Başlangıç tarihi</label>
-                            <input id="reportStart" type="date" onchange="renderReports()">
+
+                            <label>
+                                Başlangıç tarihi
+                            </label>
+
+                            <input id="reportStart"
+                                   type="date"
+                                   onchange="renderReports()">
+
                         </div>
 
                         <div class="field">
-                            <label>Bitiş tarihi</label>
-                            <input id="reportEnd" type="date" onchange="renderReports()">
+
+                            <label>
+                                Bitiş tarihi
+                            </label>
+
+                            <input id="reportEnd"
+                                   type="date"
+                                   onchange="renderReports()">
+
                         </div>
 
                     </div>
@@ -1379,31 +1717,55 @@ td{
                 <div class="cards">
 
                     <div class="card">
-                        <div class="card-label">Toplam Gelir</div>
-                        <div class="card-value green" id="reportIncome">
+
+                        <div class="card-label">
+                            Toplam Gelir
+                        </div>
+
+                        <div class="card-value green"
+                             id="reportIncome">
                             ₺0,00
                         </div>
+
                     </div>
 
                     <div class="card">
-                        <div class="card-label">Toplam Gider</div>
-                        <div class="card-value red" id="reportExpense">
+
+                        <div class="card-label">
+                            Toplam Gider
+                        </div>
+
+                        <div class="card-value red"
+                             id="reportExpense">
                             ₺0,00
                         </div>
+
                     </div>
 
                     <div class="card">
-                        <div class="card-label">Net Sonuç</div>
-                        <div class="card-value" id="reportNet">
+
+                        <div class="card-label">
+                            Net Sonuç
+                        </div>
+
+                        <div class="card-value"
+                             id="reportNet">
                             ₺0,00
                         </div>
+
                     </div>
 
                     <div class="card">
-                        <div class="card-label">Toplam Borç</div>
-                        <div class="card-value red" id="reportDebt">
+
+                        <div class="card-label">
+                            Toplam Borç
+                        </div>
+
+                        <div class="card-value red"
+                             id="reportDebt">
                             ₺0,00
                         </div>
+
                     </div>
 
                 </div>
@@ -1439,9 +1801,12 @@ td{
 
             <!-- SETTINGS -->
 
-            <section id="page-settings" class="page">
+            <section id="page-settings"
+                     class="page">
 
-                <div class="page-title">Ayarlar</div>
+                <div class="page-title">
+                    Ayarlar
+                </div>
 
                 <div class="page-subtitle">
                     Hesap ve sistem bilgileri
@@ -1455,18 +1820,33 @@ td{
                     </div>
 
                     <div class="report-row">
+
                         <span>Kullanıcı</span>
-                        <strong id="settingsName">-</strong>
+
+                        <strong id="settingsName">
+                            -
+                        </strong>
+
                     </div>
 
                     <div class="report-row">
+
                         <span>E-posta</span>
-                        <strong id="settingsEmail">-</strong>
+
+                        <strong id="settingsEmail">
+                            -
+                        </strong>
+
                     </div>
 
                     <div class="report-row">
+
                         <span>Kullanıcı ID</span>
-                        <strong id="settingsUid">-</strong>
+
+                        <strong id="settingsUid">
+                            -
+                        </strong>
+
                     </div>
 
                 </div>
@@ -1478,12 +1858,19 @@ td{
                         Finans Mantığı
                     </div>
 
-                    <p style="color:var(--muted);line-height:1.7;font-size:14px;">
+                    <p style="color:var(--muted);
+                              line-height:1.7;
+                              font-size:14px;">
+
                         Gelirler banka bakiyesine eklenir.
                         Giderler banka bakiyesinden düşer.
-                        Yemek kartları ayrı tutulur ve banka hesabından düşülmez.
+                        Yemek kartları ayrı tutulur ve banka
+                        hesabından düşülmez.
                         Tedarikçi borcu ödeme yapılmadıkça kapanmaz.
                         Tedarikçiye yapılan ödeme banka hesabından düşer.
+                        Ödenmiş faturalar banka hesabından düşer.
+                        Ödenmemiş faturalar borç olarak takip edilir.
+
                     </p>
 
                 </div>
@@ -1520,8 +1907,7 @@ import {
     set,
     get,
     push,
-    update,
-    remove
+    update
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 
@@ -1531,14 +1917,17 @@ import {
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyC_hO0JmWpHQnaGl-Zio1y5_HkBw6cWMuY",
+    apiKey:
+        "AIzaSyC_hO0JmWpHQnaGl-Zio1y5_HkBw6cWMuY",
 
-    authDomain: "finanshayal.firebaseapp.com",
+    authDomain:
+        "finanshayal.firebaseapp.com",
 
     databaseURL:
         "https://finanshayal-default-rtdb.europe-west1.firebasedatabase.app",
 
-    projectId: "finanshayal",
+    projectId:
+        "finanshayal",
 
     storageBucket:
         "finanshayal.firebasestorage.app",
@@ -1554,11 +1943,14 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
+const app =
+    initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+    getAuth(app);
 
-const db = getDatabase(app);
+const db =
+    getDatabase(app);
 
 
 /* =========================================================
@@ -1569,21 +1961,21 @@ let currentUser = null;
 
 let finance = {
 
-    bankBalance: 0,
+    bankBalance:0,
 
-    foodCards: {
-        edenred: 0,
-        multinet: 0,
-        sodexo: 0,
-        setcard: 0,
-        other: 0
+    foodCards:{
+        edenred:0,
+        multinet:0,
+        sodexo:0,
+        setcard:0,
+        other:0
     },
 
-    suppliers: {},
+    suppliers:{},
 
-    transactions: {},
+    transactions:{},
 
-    bills: {}
+    bills:{}
 
 };
 
@@ -1592,20 +1984,31 @@ let finance = {
    HELPERS
 ========================================================= */
 
-const $ = id => document.getElementById(id);
+const $ = id =>
+    document.getElementById(id);
 
 
 function money(value){
 
-    return new Intl.NumberFormat("tr-TR",{
-        style:"currency",
-        currency:"TRY"
-    }).format(Number(value || 0));
+    return new Intl.NumberFormat(
+        "tr-TR",
+        {
+            style:"currency",
+            currency:"TRY"
+        }
+    ).format(Number(value || 0));
 
 }
 
 
 function number(value){
+
+    if(typeof value === "string"){
+        value =
+            value
+            .replace(/\s/g,"")
+            .replace(",",".");
+    }
 
     return Number(value || 0);
 
@@ -1614,35 +2017,45 @@ function number(value){
 
 function today(){
 
-    return new Date().toISOString().slice(0,10);
+    return new Date()
+        .toISOString()
+        .slice(0,10);
 
 }
 
 
 function monthStart(){
 
-    const d = new Date();
+    const d =
+        new Date();
 
     return new Date(
         d.getFullYear(),
         d.getMonth(),
         1
-    ).toISOString().slice(0,10);
+    )
+    .toISOString()
+    .slice(0,10);
 
 }
 
 
 function toast(message){
 
-    const el = $("toast");
+    const el =
+        $("toast");
 
-    el.textContent = message;
+    el.textContent =
+        message;
 
     el.classList.add("show");
 
-    setTimeout(()=>{
-        el.classList.remove("show");
-    },2500);
+    setTimeout(
+        ()=>{
+            el.classList.remove("show");
+        },
+        2500
+    );
 
 }
 
@@ -1660,50 +2073,68 @@ function escapeHtml(text){
 
 
 /* =========================================================
-   AUTH
+   LOGIN
 ========================================================= */
 
-window.showLoginTab = function(tab){
+window.showLoginTab =
+function(tab){
 
-    $("loginForm").classList.toggle(
-        "hidden",
-        tab !== "login"
-    );
+    $("loginForm")
+        .classList
+        .toggle(
+            "hidden",
+            tab !== "login"
+        );
 
-    $("registerForm").classList.toggle(
-        "hidden",
-        tab !== "register"
-    );
+    $("registerForm")
+        .classList
+        .toggle(
+            "hidden",
+            tab !== "register"
+        );
 
-    $("loginTab").classList.toggle(
-        "active",
-        tab === "login"
-    );
+    $("loginTab")
+        .classList
+        .toggle(
+            "active",
+            tab === "login"
+        );
 
-    $("registerTab").classList.toggle(
-        "active",
-        tab === "register"
-    );
+    $("registerTab")
+        .classList
+        .toggle(
+            "active",
+            tab === "register"
+        );
 
 };
 
 
-window.loginUser = async function(){
+window.loginUser =
+async function(){
 
     const email =
-        $("loginEmail").value.trim();
+        $("loginEmail")
+        .value
+        .trim();
 
     const password =
-        $("loginPassword").value;
+        $("loginPassword")
+        .value;
 
-    $("loginError").classList.add("hidden");
+    $("loginError")
+        .classList
+        .add("hidden");
 
     if(!email || !password){
 
-        $("loginError").textContent =
+        $("loginError")
+            .textContent =
             "E-posta ve şifre gir.";
 
-        $("loginError").classList.remove("hidden");
+        $("loginError")
+            .classList
+            .remove("hidden");
 
         return;
     }
@@ -1720,45 +2151,62 @@ window.loginUser = async function(){
 
         console.error(error);
 
-        $("loginError").textContent =
+        $("loginError")
+            .textContent =
             firebaseError(error);
 
-        $("loginError").classList.remove("hidden");
+        $("loginError")
+            .classList
+            .remove("hidden");
 
     }
 
 };
 
 
-window.registerUser = async function(){
+window.registerUser =
+async function(){
 
     const name =
-        $("registerName").value.trim();
+        $("registerName")
+        .value
+        .trim();
 
     const email =
-        $("registerEmail").value.trim();
+        $("registerEmail")
+        .value
+        .trim();
 
     const password =
-        $("registerPassword").value;
+        $("registerPassword")
+        .value;
 
-    $("registerError").classList.add("hidden");
+    $("registerError")
+        .classList
+        .add("hidden");
 
     if(!name || !email || !password){
 
-        $("registerError").textContent =
+        $("registerError")
+            .textContent =
             "Tüm alanları doldur.";
 
-        $("registerError").classList.remove("hidden");
+        $("registerError")
+            .classList
+            .remove("hidden");
 
         return;
     }
 
     if(password.length < 6){
 
-        $("registerError").textContent =
+        $("registerError")
+            .textContent =
             "Şifre en az 6 karakter olmalı.";
 
-        $("registerError").classList.remove("hidden");
+        $("registerError")
+            .classList
+            .remove("hidden");
 
         return;
     }
@@ -1775,9 +2223,11 @@ window.registerUser = async function(){
         const uid =
             credential.user.uid;
 
-
         await set(
-            ref(db,`users/${uid}`),
+            ref(
+                db,
+                `users/${uid}`
+            ),
             {
 
                 profile:{
@@ -1805,23 +2255,29 @@ window.registerUser = async function(){
             }
         );
 
-        toast("Hesap oluşturuldu.");
+        toast(
+            "Hesap oluşturuldu."
+        );
 
     }catch(error){
 
         console.error(error);
 
-        $("registerError").textContent =
+        $("registerError")
+            .textContent =
             firebaseError(error);
 
-        $("registerError").classList.remove("hidden");
+        $("registerError")
+            .classList
+            .remove("hidden");
 
     }
 
 };
 
 
-window.logoutUser = async function(){
+window.logoutUser =
+async function(){
 
     await signOut(auth);
 
@@ -1830,7 +2286,8 @@ window.logoutUser = async function(){
 
 function firebaseError(error){
 
-    const code = error?.code || "";
+    const code =
+        error?.code || "";
 
     const messages = {
 
@@ -1867,27 +2324,43 @@ function firebaseError(error){
    AUTH STATE
 ========================================================= */
 
-onAuthStateChanged(auth, async user => {
+onAuthStateChanged(
+    auth,
+    async user => {
 
-    currentUser = user;
+        currentUser =
+            user;
 
-    if(user){
+        if(user){
 
-        $("loginScreen").style.display = "none";
+            $("loginScreen")
+                .style
+                .display =
+                "none";
 
-        $("app").style.display = "block";
+            $("app")
+                .style
+                .display =
+                "block";
 
-        await loadFinance();
+            await loadFinance();
 
-    }else{
+        }else{
 
-        $("loginScreen").style.display = "flex";
+            $("loginScreen")
+                .style
+                .display =
+                "flex";
 
-        $("app").style.display = "none";
+            $("app")
+                .style
+                .display =
+                "none";
+
+        }
 
     }
-
-});
+);
 
 
 /* =========================================================
@@ -1896,70 +2369,123 @@ onAuthStateChanged(auth, async user => {
 
 async function loadFinance(){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
 
-    const snapshot =
-        await get(
-            ref(db,`users/${currentUser.uid}`)
+    try{
+
+        const snapshot =
+            await get(
+                ref(
+                    db,
+                    `users/${currentUser.uid}`
+                )
+            );
+
+        if(snapshot.exists()){
+
+            const data =
+                snapshot.val();
+
+            finance = {
+
+                bankBalance:
+                    number(
+                        data.bankBalance
+                    ),
+
+                foodCards:{
+
+                    edenred:
+                        number(
+                            data.foodCards?.edenred
+                        ),
+
+                    multinet:
+                        number(
+                            data.foodCards?.multinet
+                        ),
+
+                    sodexo:
+                        number(
+                            data.foodCards?.sodexo
+                        ),
+
+                    setcard:
+                        number(
+                            data.foodCards?.setcard
+                        ),
+
+                    other:
+                        number(
+                            data.foodCards?.other
+                        )
+
+                },
+
+                suppliers:
+                    data.suppliers || {},
+
+                transactions:
+                    data.transactions || {},
+
+                bills:
+                    data.bills || {}
+
+            };
+
+            $("topUserName")
+                .textContent =
+                data.profile?.name ||
+                currentUser.email;
+
+            $("settingsName")
+                .textContent =
+                data.profile?.name ||
+                "-";
+
+            $("settingsEmail")
+                .textContent =
+                currentUser.email ||
+                "-";
+
+            $("settingsUid")
+                .textContent =
+                currentUser.uid;
+
+        }
+
+        fillDefaults();
+
+        renderAll();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Finans bilgileri yüklenemedi."
         );
 
-    if(snapshot.exists()){
-
-        const data = snapshot.val();
-
-        finance = {
-
-            bankBalance:
-                number(data.bankBalance),
-
-            foodCards:{
-                edenred:number(data.foodCards?.edenred),
-                multinet:number(data.foodCards?.multinet),
-                sodexo:number(data.foodCards?.sodexo),
-                setcard:number(data.foodCards?.setcard),
-                other:number(data.foodCards?.other)
-            },
-
-            suppliers:data.suppliers || {},
-
-            transactions:data.transactions || {},
-
-            bills:data.bills || {}
-
-        };
-
-        $("topUserName").textContent =
-            data.profile?.name ||
-            currentUser.email;
-
-        $("settingsName").textContent =
-            data.profile?.name || "-";
-
-        $("settingsEmail").textContent =
-            currentUser.email || "-";
-
-        $("settingsUid").textContent =
-            currentUser.uid;
-
     }
-
-    fillDefaults();
-
-    renderAll();
 
 }
 
 
 /* =========================================================
-   SAVE USER DATA
+   SAVE
 ========================================================= */
 
 async function saveUserPatch(patch){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
 
     await update(
-        ref(db,`users/${currentUser.uid}`),
+        ref(
+            db,
+            `users/${currentUser.uid}`
+        ),
         patch
     );
 
@@ -1970,35 +2496,76 @@ async function saveUserPatch(patch){
    NAVIGATION
 ========================================================= */
 
-window.openPage = function(page,button){
+window.openPage =
+function(page,button){
 
     document
         .querySelectorAll(".page")
-        .forEach(x =>
-            x.classList.remove("active")
+        .forEach(
+            x =>
+                x.classList
+                 .remove("active")
         );
 
     document
         .querySelectorAll(".nav-btn")
-        .forEach(x =>
-            x.classList.remove("active")
+        .forEach(
+            x =>
+                x.classList
+                 .remove("active")
         );
 
     $("page-"+page)
-        .classList.add("active");
+        .classList
+        .add("active");
 
-    button.classList.add("active");
+    if(button)
+        button.classList
+              .add("active");
 
-    $("sidebar").classList.remove("open");
+    $("sidebar")
+        .classList
+        .remove("open");
 
     renderAll();
 
 };
 
 
-window.toggleSidebar = function(){
+window.quickOpen =
+function(page){
 
-    $("sidebar").classList.toggle("open");
+    const buttons =
+        document.querySelectorAll(
+            ".nav-btn"
+        );
+
+    const map = {
+        dashboard:0,
+        income:1,
+        expense:2,
+        suppliers:3,
+        foodcards:4,
+        bills:5,
+        transactions:6,
+        reports:7,
+        settings:8
+    };
+
+    openPage(
+        page,
+        buttons[map[page]]
+    );
+
+};
+
+
+window.toggleSidebar =
+function(){
+
+    $("sidebar")
+        .classList
+        .toggle("open");
 
 };
 
@@ -2007,18 +2574,25 @@ window.toggleSidebar = function(){
    BANK
 ========================================================= */
 
-window.saveBankBalance = async function(){
+window.saveBankBalance =
+async function(){
 
     const value =
-        number($("manualBankBalance").value);
+        number(
+            $("manualBankBalance")
+            .value
+        );
 
-    finance.bankBalance = value;
+    finance.bankBalance =
+        value;
 
     await saveUserPatch({
         bankBalance:value
     });
 
-    toast("Banka bakiyesi güncellendi.");
+    toast(
+        "Banka bakiyesi güncellendi."
+    );
 
     renderAll();
 
@@ -2041,21 +2615,32 @@ async function createTransaction(data){
 
     const transaction = {
 
-        id:transactionRef.key,
+        id:
+            transactionRef.key,
 
-        date:data.date || today(),
+        date:
+            data.date || today(),
 
-        type:data.type,
+        type:
+            data.type,
 
-        category:data.category || "",
+        category:
+            data.category || "",
 
-        description:data.description || "",
+        description:
+            data.description || "",
 
-        amount:number(data.amount),
+        amount:
+            number(data.amount),
 
-        createdAt:Date.now(),
+        createdAt:
+            Date.now(),
 
-        supplierId:data.supplierId || null
+        supplierId:
+            data.supplierId || null,
+
+        billId:
+            data.billId || null
 
     };
 
@@ -2064,7 +2649,9 @@ async function createTransaction(data){
         transaction
     );
 
-    finance.transactions[transactionRef.key] =
+    finance.transactions[
+        transactionRef.key
+    ] =
         transaction;
 
     return transaction;
@@ -2076,16 +2663,21 @@ async function createTransaction(data){
    INCOME
 ========================================================= */
 
-window.addIncome = async function(event){
+window.addIncome =
+async function(event){
 
     event.preventDefault();
 
     const amount =
-        number($("incomeAmount").value);
+        number(
+            $("incomeAmount").value
+        );
 
     if(amount <= 0){
 
-        toast("Geçerli bir tutar gir.");
+        toast(
+            "Geçerli bir tutar gir."
+        );
 
         return;
 
@@ -2093,31 +2685,39 @@ window.addIncome = async function(event){
 
     await createTransaction({
 
-        date:$("incomeDate").value,
+        date:
+            $("incomeDate").value,
 
-        type:"income",
+        type:
+            "income",
 
-        category:$("incomeCategory").value,
+        category:
+            $("incomeCategory").value,
 
-        description:$("incomeDescription").value,
+        description:
+            $("incomeDescription").value,
 
-        amount:amount
+        amount:
+            amount
 
     });
 
-
-    finance.bankBalance += amount;
+    finance.bankBalance +=
+        amount;
 
     await saveUserPatch({
-        bankBalance:finance.bankBalance
+        bankBalance:
+            finance.bankBalance
     });
-
 
     event.target.reset();
 
-    $("incomeDate").value = today();
+    $("incomeDate").value =
+        today();
 
-    toast("Gelir kaydedildi.");
+    toast(
+        "Gelir kaydedildi."
+    );
 
     renderAll();
 
@@ -2128,49 +2728,61 @@ window.addIncome = async function(event){
    EXPENSE
 ========================================================= */
 
-window.addExpense = async function(event){
+window.addExpense =
+async function(event){
 
     event.preventDefault();
 
     const amount =
-        number($("expenseAmount").value);
+        number(
+            $("expenseAmount").value
+        );
 
     if(amount <= 0){
 
-        toast("Geçerli bir tutar gir.");
+        toast(
+            "Geçerli bir tutar gir."
+        );
 
         return;
 
     }
 
-
     await createTransaction({
 
-        date:$("expenseDate").value,
+        date:
+            $("expenseDate").value,
 
-        type:"expense",
+        type:
+            "expense",
 
-        category:$("expenseCategory").value,
+        category:
+            $("expenseCategory").value,
 
-        description:$("expenseDescription").value,
+        description:
+            $("expenseDescription").value,
 
-        amount:amount
+        amount:
+            amount
 
     });
 
-
-    finance.bankBalance -= amount;
+    finance.bankBalance -=
+        amount;
 
     await saveUserPatch({
-        bankBalance:finance.bankBalance
+        bankBalance:
+            finance.bankBalance
     });
-
 
     event.target.reset();
 
-    $("expenseDate").value = today();
+    $("expenseDate").value =
+        today();
 
-    toast("Gider kaydedildi. Bankadan düşüldü.");
+    toast(
+        "Gider kaydedildi. Bankadan düşüldü."
+    );
 
     renderAll();
 
@@ -2181,19 +2793,27 @@ window.addExpense = async function(event){
    SUPPLIERS
 ========================================================= */
 
-window.addSupplier = async function(event){
+window.addSupplier =
+async function(event){
 
     event.preventDefault();
 
     const name =
-        $("supplierName").value.trim();
+        $("supplierName")
+        .value
+        .trim();
 
     const debt =
-        number($("supplierInitialDebt").value);
+        number(
+            $("supplierInitialDebt")
+            .value
+        );
 
     if(!name){
 
-        toast("Tedarikçi adı gir.");
+        toast(
+            "Tedarikçi adı gir."
+        );
 
         return;
 
@@ -2209,13 +2829,17 @@ window.addSupplier = async function(event){
 
     const supplier = {
 
-        id:supplierRef.key,
+        id:
+            supplierRef.key,
 
-        name:name,
+        name:
+            name,
 
-        debt:debt,
+        debt:
+            debt,
 
-        createdAt:Date.now()
+        createdAt:
+            Date.now()
 
     };
 
@@ -2224,60 +2848,69 @@ window.addSupplier = async function(event){
         supplier
     );
 
-    finance.suppliers[supplierRef.key] =
+    finance.suppliers[
+        supplierRef.key
+    ] =
         supplier;
-
 
     event.target.reset();
 
-    $("supplierInitialDebt").value = 0;
+    $("supplierInitialDebt").value =
+        0;
 
-    toast("Tedarikçi eklendi.");
+    toast(
+        "Tedarikçi eklendi."
+    );
 
     renderAll();
 
 };
 
 
-window.supplierPayment = async function(id){
+window.supplierPayment =
+async function(id){
 
     const supplier =
         finance.suppliers[id];
 
-    if(!supplier) return;
+    if(!supplier)
+        return;
 
     const amountText =
         prompt(
             `${supplier.name} için ödeme tutarı:`
         );
 
-    if(amountText === null) return;
+    if(amountText === null)
+        return;
 
     const amount =
-        number(
-            amountText.replace(",",".")
-        );
+        number(amountText);
 
     if(amount <= 0){
 
-        toast("Geçerli bir tutar gir.");
+        toast(
+            "Geçerli bir tutar gir."
+        );
 
         return;
 
     }
 
-    if(amount > number(supplier.debt)){
+    if(amount >
+       number(supplier.debt)){
 
-        toast("Ödeme mevcut borçtan fazla olamaz.");
+        toast(
+            "Ödeme mevcut borçtan fazla olamaz."
+        );
 
         return;
 
     }
-
 
     supplier.debt =
-        number(supplier.debt) - amount;
-
+        number(supplier.debt) -
+        amount;
 
     await update(
         ref(
@@ -2285,35 +2918,40 @@ window.supplierPayment = async function(id){
             `users/${currentUser.uid}/suppliers/${id}`
         ),
         {
-            debt:supplier.debt
+            debt:
+                supplier.debt
         }
     );
 
-
     await createTransaction({
 
-        date:today(),
+        date:
+            today(),
 
-        type:"supplier_payment",
+        type:
+            "supplier_payment",
 
-        category:supplier.name,
+        category:
+            supplier.name,
 
         description:
             `${supplier.name} tedarikçi ödemesi`,
 
-        amount:amount,
+        amount:
+            amount,
 
-        supplierId:id
+        supplierId:
+            id
 
     });
 
-
-    finance.bankBalance -= amount;
+    finance.bankBalance -=
+        amount;
 
     await saveUserPatch({
-        bankBalance:finance.bankBalance
+        bankBalance:
+            finance.bankBalance
     });
-
 
     toast(
         `${supplier.name}: ${money(amount)} ödendi. Güncel borç ${money(supplier.debt)}`
@@ -2324,37 +2962,39 @@ window.supplierPayment = async function(id){
 };
 
 
-window.supplierDebtAdd = async function(id){
+window.supplierDebtAdd =
+async function(id){
 
     const supplier =
         finance.suppliers[id];
 
-    if(!supplier) return;
+    if(!supplier)
+        return;
 
     const amountText =
         prompt(
             `${supplier.name} için yeni borç tutarı:`
         );
 
-    if(amountText === null) return;
+    if(amountText === null)
+        return;
 
     const amount =
-        number(
-            amountText.replace(",",".")
-        );
+        number(amountText);
 
     if(amount <= 0){
 
-        toast("Geçerli bir tutar gir.");
+        toast(
+            "Geçerli bir tutar gir."
+        );
 
         return;
 
     }
 
-
     supplier.debt =
-        number(supplier.debt) + amount;
-
+        number(supplier.debt) +
+        amount;
 
     await update(
         ref(
@@ -2362,10 +3002,10 @@ window.supplierDebtAdd = async function(id){
             `users/${currentUser.uid}/suppliers/${id}`
         ),
         {
-            debt:supplier.debt
+            debt:
+                supplier.debt
         }
     );
-
 
     toast(
         `${supplier.name} borcu ${money(amount)} arttı. Güncel borç: ${money(supplier.debt)}`
@@ -2380,36 +3020,48 @@ window.supplierDebtAdd = async function(id){
    FOOD CARDS
 ========================================================= */
 
-window.saveFoodCards = async function(){
+window.saveFoodCards =
+async function(){
 
     finance.foodCards = {
 
         edenred:
-            number($("foodEdenred").value),
+            number(
+                $("foodEdenred").value
+            ),
 
         multinet:
-            number($("foodMultinet").value),
+            number(
+                $("foodMultinet").value
+            ),
 
         sodexo:
-            number($("foodSodexo").value),
+            number(
+                $("foodSodexo").value
+            ),
 
         setcard:
-            number($("foodSetcard").value),
+            number(
+                $("foodSetcard").value
+            ),
 
         other:
-            number($("foodOther").value)
+            number(
+                $("foodOther").value
+            )
 
     };
 
-
     await saveUserPatch({
 
-        foodCards:finance.foodCards
+        foodCards:
+            finance.foodCards
 
     });
 
-
-    toast("Yemek kartları güncellendi.");
+    toast(
+        "Yemek kartları güncellendi."
+    );
 
     renderAll();
 
@@ -2420,16 +3072,21 @@ window.saveFoodCards = async function(){
    BILLS
 ========================================================= */
 
-window.addBill = async function(event){
+window.addBill =
+async function(event){
 
     event.preventDefault();
 
     const amount =
-        number($("billAmount").value);
+        number(
+            $("billAmount").value
+        );
 
     if(amount <= 0){
 
-        toast("Geçerli bir tutar gir.");
+        toast(
+            "Geçerli bir tutar gir."
+        );
 
         return;
 
@@ -2443,83 +3100,202 @@ window.addBill = async function(event){
             )
         );
 
-
     const status =
         $("billStatus").value;
 
-
     const bill = {
 
-        id:billRef.key,
+        id:
+            billRef.key,
 
-        type:$("billType").value,
+        type:
+            $("billType").value,
 
-        date:$("billDate").value,
+        date:
+            $("billDate").value,
 
-        dueDate:$("billDueDate").value,
+        dueDate:
+            $("billDueDate").value,
 
-        amount:amount,
+        amount:
+            amount,
 
-        status:status,
+        status:
+            status,
 
-        description:$("billDescription").value,
+        description:
+            $("billDescription").value,
 
-        createdAt:Date.now()
+        createdAt:
+            Date.now(),
+
+        transactionId:
+            null
 
     };
-
 
     await set(
         billRef,
         bill
     );
 
-
-    finance.bills[billRef.key] =
+    finance.bills[
+        billRef.key
+    ] =
         bill;
-
-
-    /*
-       Fatura "Ödendi" olarak kaydediliyorsa
-       banka hesabından düşür.
-    */
 
     if(status === "paid"){
 
-        await createTransaction({
+        const transaction =
+            await createTransaction({
 
-            date:bill.date,
+                date:
+                    bill.date,
 
-            type:"expense",
+                type:
+                    "expense",
 
-            category:bill.type,
+                category:
+                    bill.type,
 
-            description:
-                bill.description ||
-                `${bill.type} faturası`,
+                description:
+                    bill.description ||
+                    `${bill.type} faturası`,
 
-            amount:amount
+                amount:
+                    amount,
 
-        });
+                billId:
+                    billRef.key
 
+            });
 
-        finance.bankBalance -= amount;
+        bill.transactionId =
+            transaction.id;
+
+        await update(
+            ref(
+                db,
+                `users/${currentUser.uid}/bills/${billRef.key}`
+            ),
+            {
+                transactionId:
+                    transaction.id
+            }
+        );
+
+        finance.bankBalance -=
+            amount;
 
         await saveUserPatch({
-            bankBalance:finance.bankBalance
+            bankBalance:
+                finance.bankBalance
         });
 
     }
 
-
     event.target.reset();
 
-    $("billDate").value = today();
+    $("billDate").value =
+        today();
 
     toast(
         status === "paid"
         ? "Fatura kaydedildi ve bankadan düşüldü."
         : "Ödenmemiş fatura kaydedildi."
+    );
+
+    renderAll();
+
+};
+
+
+/* =========================================================
+   PAY UNPAID BILL
+========================================================= */
+
+window.payBill =
+async function(id){
+
+    const bill =
+        finance.bills[id];
+
+    if(!bill)
+        return;
+
+    if(bill.status === "paid"){
+
+        toast(
+            "Bu fatura zaten ödenmiş."
+        );
+
+        return;
+
+    }
+
+    const ok =
+        confirm(
+            `${bill.type} faturası ${money(bill.amount)} tutarında. Ödendi olarak işaretlensin ve banka bakiyesinden düşülsün mü?`
+        );
+
+    if(!ok)
+        return;
+
+    const transaction =
+        await createTransaction({
+
+            date:
+                today(),
+
+            type:
+                "expense",
+
+            category:
+                bill.type,
+
+            description:
+                bill.description ||
+                `${bill.type} faturası`,
+
+            amount:
+                number(bill.amount),
+
+            billId:
+                id
+
+        });
+
+    bill.status =
+        "paid";
+
+    bill.transactionId =
+        transaction.id;
+
+    await update(
+        ref(
+            db,
+            `users/${currentUser.uid}/bills/${id}`
+        ),
+        {
+            status:
+                "paid",
+            transactionId:
+                transaction.id,
+            paidAt:
+                Date.now()
+        }
+    );
+
+    finance.bankBalance -=
+        number(bill.amount);
+
+    await saveUserPatch({
+        bankBalance:
+            finance.bankBalance
+    });
+
+    toast(
+        "Fatura ödendi ve banka bakiyesinden düşüldü."
     );
 
     renderAll();
@@ -2557,44 +3333,47 @@ function renderAll(){
 function renderDashboard(){
 
     $("dashBank").textContent =
-        money(finance.bankBalance);
-
+        money(
+            finance.bankBalance
+        );
 
     const food =
-        Object.values(finance.foodCards)
-            .reduce(
-                (sum,value) =>
-                    sum + number(value),
-                0
-            );
-
+        Object.values(
+            finance.foodCards
+        )
+        .reduce(
+            (sum,value)=>
+                sum + number(value),
+            0
+        );
 
     $("dashFood").textContent =
         money(food);
 
-
     $("foodTotal").textContent =
         money(food);
 
-
     const debt =
-        Object.values(finance.suppliers)
-            .reduce(
-                (sum,supplier) =>
-                    sum + number(supplier.debt),
-                0
-            );
-
+        Object.values(
+            finance.suppliers
+        )
+        .reduce(
+            (sum,supplier)=>
+                sum +
+                number(supplier.debt),
+            0
+        );
 
     $("dashDebt").textContent =
         money(debt);
 
-    $("supplierTotalDebt").textContent =
+    $("supplierTotalDebt")
+        .textContent =
         money(debt);
 
-    $("reportDebt").textContent =
+    $("reportDebt")
+        .textContent =
         money(debt);
-
 
     const start =
         monthStart();
@@ -2602,29 +3381,39 @@ function renderDashboard(){
     const end =
         today();
 
-
     const result =
-        calculatePeriod(start,end);
+        calculatePeriod(
+            start,
+            end
+        );
 
-
-    $("monthIncome").textContent =
+    $("monthIncome")
+        .textContent =
         money(result.income);
 
-    $("monthExpense").textContent =
+    $("monthExpense")
+        .textContent =
         money(result.expense);
 
-    $("monthNet").textContent =
+    $("monthNet")
+        .textContent =
         money(result.net);
 
-    $("dashProfit").textContent =
+    $("dashProfit")
+        .textContent =
         money(result.net);
 
-    $("dashProfit").className =
+    $("dashProfit")
+        .className =
         "card-value " +
-        (result.net >= 0 ? "green" : "red");
+        (
+            result.net >= 0
+            ? "green"
+            : "red"
+        );
 
-
-    $("manualBankBalance").value =
+    $("manualBankBalance")
+        .value =
         finance.bankBalance;
 
 }
@@ -2638,41 +3427,65 @@ function renderExpenseSummary(){
 
     const totals = {};
 
-    Object.values(finance.transactions)
-        .forEach(t => {
+    Object.values(
+        finance.transactions
+    )
+    .forEach(t => {
 
-            if(
-                t.type !== "expense" &&
-                t.type !== "supplier_payment"
-            ) return;
+        if(
+            t.type !== "expense" &&
+            t.type !== "supplier_payment"
+        )
+            return;
 
-            const category =
-                t.category || "Diğer";
+        const category =
+            t.category ||
+            "Diğer";
 
-            totals[category] =
-                number(totals[category]) +
-                number(t.amount);
+        totals[category] =
+            number(
+                totals[category]
+            ) +
+            number(t.amount);
 
-        });
-
+    });
 
     const rows =
         Object.entries(totals)
-            .sort((a,b)=>b[1]-a[1])
-            .map(([category,total]) => `
+        .sort(
+            (a,b)=>
+                b[1]-a[1]
+        )
+        .map(
+            ([category,total]) => `
 
                 <tr>
-                    <td>${escapeHtml(category)}</td>
-                    <td class="red">${money(total)}</td>
+
+                    <td>
+                        ${escapeHtml(category)}
+                    </td>
+
+                    <td class="red">
+                        ${money(total)}
+                    </td>
+
                 </tr>
 
-            `)
-            .join("");
+            `
+        )
+        .join("");
 
-
-    $("expenseSummary").innerHTML =
+    $("expenseSummary")
+        .innerHTML =
         rows ||
-        `<tr><td colspan="2" class="empty">Henüz gider yok.</td></tr>`;
+        `
+        <tr>
+            <td colspan="2"
+                class="empty">
+                Henüz gider yok.
+            </td>
+        </tr>
+        `;
 
 }
 
@@ -2684,14 +3497,17 @@ function renderExpenseSummary(){
 function renderSuppliers(){
 
     const suppliers =
-        Object.values(finance.suppliers);
-
+        Object.values(
+            finance.suppliers
+        );
 
     if(!suppliers.length){
 
-        $("supplierTable").innerHTML = `
+        $("supplierTable")
+            .innerHTML = `
             <tr>
-                <td colspan="3" class="empty">
+                <td colspan="3"
+                    class="empty">
                     Henüz tedarikçi eklenmedi.
                 </td>
             </tr>
@@ -2701,14 +3517,18 @@ function renderSuppliers(){
 
     }
 
-
-    $("supplierTable").innerHTML =
-        suppliers.map(s => `
+    $("supplierTable")
+        .innerHTML =
+        suppliers
+        .map(
+            s => `
 
             <tr>
 
                 <td>
-                    <strong>${escapeHtml(s.name)}</strong>
+                    <strong>
+                        ${escapeHtml(s.name)}
+                    </strong>
                 </td>
 
                 <td class="red">
@@ -2719,16 +3539,14 @@ function renderSuppliers(){
 
                     <button
                         class="secondary"
-                        onclick="supplierDebtAdd('${s.id}')"
-                    >
+                        onclick="supplierDebtAdd('${s.id}')">
                         + Borç
                     </button>
 
                     <button
                         class="primary"
                         style="width:auto;margin-left:5px;"
-                        onclick="supplierPayment('${s.id}')"
-                    >
+                        onclick="supplierPayment('${s.id}')">
                         Ödeme
                     </button>
 
@@ -2736,7 +3554,9 @@ function renderSuppliers(){
 
             </tr>
 
-        `).join("");
+        `
+        )
+        .join("");
 
 }
 
@@ -2762,25 +3582,32 @@ function renderFoodCards(){
     $("foodOther").value =
         finance.foodCards.other;
 
-
     const names = {
 
-        edenred:"Edenred",
+        edenred:
+            "Edenred",
 
-        multinet:"Multinet",
+        multinet:
+            "Multinet",
 
-        sodexo:"Sodexo / Pluxee",
+        sodexo:
+            "Sodexo / Pluxee",
 
-        setcard:"Setcard",
+        setcard:
+            "Setcard",
 
-        other:"Diğer"
+        other:
+            "Diğer"
 
     };
 
-
-    $("foodCardList").innerHTML =
-        Object.entries(finance.foodCards)
-            .map(([key,value]) => `
+    $("foodCardList")
+        .innerHTML =
+        Object.entries(
+            finance.foodCards
+        )
+        .map(
+            ([key,value]) => `
 
                 <div class="report-row">
 
@@ -2794,8 +3621,9 @@ function renderFoodCards(){
 
                 </div>
 
-            `)
-            .join("");
+            `
+        )
+        .join("");
 
 }
 
@@ -2807,19 +3635,24 @@ function renderFoodCards(){
 function renderBills(){
 
     const bills =
-        Object.values(finance.bills)
-            .sort(
-                (a,b)=>
-                    String(b.date)
-                        .localeCompare(String(a.date))
-            );
-
+        Object.values(
+            finance.bills
+        )
+        .sort(
+            (a,b)=>
+                String(b.date)
+                .localeCompare(
+                    String(a.date)
+                )
+        );
 
     if(!bills.length){
 
-        $("billTable").innerHTML = `
+        $("billTable")
+            .innerHTML = `
             <tr>
-                <td colspan="5" class="empty">
+                <td colspan="6"
+                    class="empty">
                     Henüz fatura kaydı yok.
                 </td>
             </tr>
@@ -2829,36 +3662,79 @@ function renderBills(){
 
     }
 
-
-    $("billTable").innerHTML =
-        bills.map(b => `
+    $("billTable")
+        .innerHTML =
+        bills
+        .map(
+            b => `
 
             <tr>
 
-                <td>${escapeHtml(b.type)}</td>
+                <td>
+                    ${escapeHtml(b.type)}
+                </td>
 
-                <td>${escapeHtml(b.date)}</td>
+                <td>
+                    ${escapeHtml(b.date)}
+                </td>
 
-                <td>${escapeHtml(b.dueDate || "-")}</td>
+                <td>
+                    ${escapeHtml(
+                        b.dueDate || "-"
+                    )}
+                </td>
 
-                <td>${money(b.amount)}</td>
+                <td>
+                    ${money(b.amount)}
+                </td>
 
                 <td>
 
                     ${
                         b.status === "paid"
 
-                        ? `<span class="badge green">Ödendi</span>`
+                        ? `
+                        <span class="badge green">
+                            Ödendi
+                        </span>
+                        `
 
-                        : `<span class="badge red">Ödenmedi</span>`
+                        : `
+                        <span class="badge red">
+                            Ödenmedi
+                        </span>
+                        `
+                    }
 
+                </td>
+
+                <td>
+
+                    ${
+                        b.status !== "paid"
+
+                        ? `
+                        <button
+                            class="success"
+                            onclick="payBill('${b.id}')">
+                            Öde
+                        </button>
+                        `
+
+                        : `
+                        <span class="badge green">
+                            Tamamlandı
+                        </span>
+                        `
                     }
 
                 </td>
 
             </tr>
 
-        `).join("");
+        `
+        )
+        .join("");
 
 }
 
@@ -2869,12 +3745,16 @@ function renderBills(){
 
 function getTransactions(){
 
-    return Object.values(finance.transactions)
-        .sort(
-            (a,b)=>
-                String(b.date)
-                    .localeCompare(String(a.date))
-        );
+    return Object.values(
+        finance.transactions
+    )
+    .sort(
+        (a,b)=>
+            String(b.date)
+            .localeCompare(
+                String(a.date)
+            )
+    );
 
 }
 
@@ -2882,21 +3762,22 @@ function getTransactions(){
 function renderTransactions(){
 
     const start =
-        $("transactionStart").value;
+        $("transactionStart")
+        .value;
 
     const end =
-        $("transactionEnd").value;
-
+        $("transactionEnd")
+        .value;
 
     let list =
         getTransactions();
-
 
     if(start){
 
         list =
             list.filter(
-                t => t.date >= start
+                t =>
+                    t.date >= start
             );
 
     }
@@ -2905,17 +3786,19 @@ function renderTransactions(){
 
         list =
             list.filter(
-                t => t.date <= end
+                t =>
+                    t.date <= end
             );
 
     }
 
-
     if(!list.length){
 
-        $("transactionTable").innerHTML = `
+        $("transactionTable")
+            .innerHTML = `
             <tr>
-                <td colspan="5" class="empty">
+                <td colspan="5"
+                    class="empty">
                     Hareket bulunamadı.
                 </td>
             </tr>
@@ -2923,138 +3806,181 @@ function renderTransactions(){
 
     }else{
 
-        $("transactionTable").innerHTML =
-            list.map(t => {
+        $("transactionTable")
+            .innerHTML =
+            list
+            .map(
+                t => {
 
-                let typeText = "Gelir";
+                    let typeText =
+                        "Gelir";
 
-                let badge = "green";
+                    let badge =
+                        "green";
 
-                let sign = "+";
+                    let sign =
+                        "+";
 
-                if(t.type === "expense"){
+                    if(
+                        t.type ===
+                        "expense"
+                    ){
 
-                    typeText = "Gider";
+                        typeText =
+                            "Gider";
 
-                    badge = "red";
+                        badge =
+                            "red";
 
-                    sign = "-";
+                        sign =
+                            "-";
+
+                    }
+
+                    if(
+                        t.type ===
+                        "supplier_payment"
+                    ){
+
+                        typeText =
+                            "Tedarikçi Ödemesi";
+
+                        badge =
+                            "red";
+
+                        sign =
+                            "-";
+
+                    }
+
+                    return `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHtml(t.date)}
+                            </td>
+
+                            <td>
+
+                                <span class="badge ${badge}">
+                                    ${typeText}
+                                </span>
+
+                            </td>
+
+                            <td>
+                                ${escapeHtml(t.category)}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(t.description)}
+                            </td>
+
+                            <td class="${sign === '+' ? 'green':'red'}">
+                                ${sign}${money(t.amount)}
+                            </td>
+
+                        </tr>
+
+                    `;
 
                 }
-
-                if(t.type === "supplier_payment"){
-
-                    typeText =
-                        "Tedarikçi Ödemesi";
-
-                    badge = "red";
-
-                    sign = "-";
-
-                }
-
-
-                return `
-
-                    <tr>
-
-                        <td>${escapeHtml(t.date)}</td>
-
-                        <td>
-                            <span class="badge ${badge}">
-                                ${typeText}
-                            </span>
-                        </td>
-
-                        <td>
-                            ${escapeHtml(t.category)}
-                        </td>
-
-                        <td>
-                            ${escapeHtml(t.description)}
-                        </td>
-
-                        <td class="${sign === '+' ? 'green':'red'}">
-                            ${sign}${money(t.amount)}
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }).join("");
+            )
+            .join("");
 
     }
 
-
     const recent =
-        getTransactions().slice(0,8);
-
+        getTransactions()
+        .slice(0,8);
 
     if(!recent.length){
 
-        $("recentTransactions").innerHTML =
-            `<div class="empty">Henüz hareket yok.</div>`;
+        $("recentTransactions")
+            .innerHTML =
+            `
+            <div class="empty">
+                Henüz hareket yok.
+            </div>
+            `;
 
     }else{
 
-        $("recentTransactions").innerHTML = `
+        $("recentTransactions")
+            .innerHTML = `
 
             <div class="table-wrap">
 
                 <table>
 
                     <thead>
+
                         <tr>
                             <th>Tarih</th>
                             <th>Tür</th>
                             <th>Açıklama</th>
                             <th>Tutar</th>
                         </tr>
+
                     </thead>
 
                     <tbody>
 
-                        ${recent.map(t => {
+                        ${
+                            recent
+                            .map(
+                                t => {
 
-                            const income =
-                                t.type === "income";
+                                    const income =
+                                        t.type ===
+                                        "income";
 
-                            const payment =
-                                t.type === "supplier_payment";
+                                    const payment =
+                                        t.type ===
+                                        "supplier_payment";
 
-                            return `
+                                    return `
 
-                                <tr>
+                                        <tr>
 
-                                    <td>${escapeHtml(t.date)}</td>
+                                            <td>
+                                                ${escapeHtml(t.date)}
+                                            </td>
 
-                                    <td>
-                                        ${
-                                            income
-                                            ? "Gelir"
-                                            : payment
-                                            ? "Tedarikçi Ödemesi"
-                                            : "Gider"
-                                        }
-                                    </td>
+                                            <td>
+                                                ${
+                                                    income
+                                                    ? "Gelir"
+                                                    : payment
+                                                    ? "Tedarikçi Ödemesi"
+                                                    : "Gider"
+                                                }
+                                            </td>
 
-                                    <td>
-                                        ${escapeHtml(
-                                            t.description ||
-                                            t.category
-                                        )}
-                                    </td>
+                                            <td>
+                                                ${escapeHtml(
+                                                    t.description ||
+                                                    t.category
+                                                )}
+                                            </td>
 
-                                    <td class="${income ? 'green':'red'}">
-                                        ${income ? "+" : "-"}${money(t.amount)}
-                                    </td>
+                                            <td class="${income ? 'green':'red'}">
+                                                ${
+                                                    income
+                                                    ? "+"
+                                                    : "-"
+                                                }${money(t.amount)}
+                                            </td>
 
-                                </tr>
+                                        </tr>
 
-                            `;
+                                    `;
 
-                        }).join("")}
+                                }
+                            )
+                            .join("")
+                        }
 
                     </tbody>
 
@@ -3073,39 +3999,56 @@ function renderTransactions(){
    PERIOD CALCULATION
 ========================================================= */
 
-function calculatePeriod(start,end){
+function calculatePeriod(
+    start,
+    end
+){
 
-    let income = 0;
+    let income =
+        0;
 
-    let expense = 0;
+    let expense =
+        0;
 
+    Object.values(
+        finance.transactions
+    )
+    .forEach(
+        t => {
 
-    Object.values(finance.transactions)
-        .forEach(t => {
+            if(
+                start &&
+                t.date < start
+            )
+                return;
 
-            if(start && t.date < start) return;
+            if(
+                end &&
+                t.date > end
+            )
+                return;
 
-            if(end && t.date > end) return;
+            if(
+                t.type === "income"
+            ){
 
-
-            if(t.type === "income"){
-
-                income += number(t.amount);
+                income +=
+                    number(t.amount);
 
             }
-
 
             if(
                 t.type === "expense" ||
                 t.type === "supplier_payment"
             ){
 
-                expense += number(t.amount);
+                expense +=
+                    number(t.amount);
 
             }
 
-        });
-
+        }
+    );
 
     return {
 
@@ -3114,7 +4057,8 @@ function calculatePeriod(start,end){
         expense,
 
         net:
-            income - expense
+            income -
+            expense
 
     };
 
@@ -3128,92 +4072,128 @@ function calculatePeriod(start,end){
 function renderReports(){
 
     const start =
-        $("reportStart").value ||
+        $("reportStart")
+        .value ||
         monthStart();
 
     const end =
-        $("reportEnd").value ||
+        $("reportEnd")
+        .value ||
         today();
 
-
     const result =
-        calculatePeriod(start,end);
+        calculatePeriod(
+            start,
+            end
+        );
 
-
-    $("reportIncome").textContent =
+    $("reportIncome")
+        .textContent =
         money(result.income);
 
-    $("reportExpense").textContent =
+    $("reportExpense")
+        .textContent =
         money(result.expense);
 
-    $("reportNet").textContent =
+    $("reportNet")
+        .textContent =
         money(result.net);
 
-
-    $("reportNet").className =
+    $("reportNet")
+        .className =
         "card-value " +
-        (result.net >= 0 ? "green" : "red");
-
+        (
+            result.net >= 0
+            ? "green"
+            : "red"
+        );
 
     const supplierDebt =
-        Object.values(finance.suppliers)
-            .reduce(
-                (sum,s) =>
-                    sum + number(s.debt),
-                0
-            );
+        Object.values(
+            finance.suppliers
+        )
+        .reduce(
+            (sum,s)=>
+                sum +
+                number(s.debt),
+            0
+        );
 
-
-    $("reportDebt").textContent =
+    $("reportDebt")
+        .textContent =
         money(supplierDebt);
 
-
-    $("reportSummary").innerHTML = `
+    $("reportSummary")
+        .innerHTML = `
 
         <div class="report-box">
 
             <div class="report-row">
-                <span>Rapor dönemi</span>
+
+                <span>
+                    Rapor dönemi
+                </span>
+
                 <strong>
                     ${escapeHtml(start)}
                     →
                     ${escapeHtml(end)}
                 </strong>
+
             </div>
 
             <div class="report-row">
-                <span>Toplam gelir</span>
+
+                <span>
+                    Toplam gelir
+                </span>
+
                 <strong class="green">
                     ${money(result.income)}
                 </strong>
+
             </div>
 
             <div class="report-row">
-                <span>Toplam gider</span>
+
+                <span>
+                    Toplam gider
+                </span>
+
                 <strong class="red">
                     ${money(result.expense)}
                 </strong>
+
             </div>
 
             <div class="report-row">
-                <span>Net sonuç</span>
+
+                <span>
+                    Net sonuç
+                </span>
+
                 <strong class="${result.net >= 0 ? 'green':'red'}">
                     ${money(result.net)}
                 </strong>
+
             </div>
 
             <div style="margin-top:15px;">
 
-                <div style="color:var(--muted);font-size:12px;">
+                <div style="color:var(--muted);
+                            font-size:12px;">
                     Dönem sonucu
                 </div>
 
-                <div class="big-result ${result.net >= 0 ? 'green':'red'}">
+                <div class="big-result
+                    ${result.net >= 0 ? 'green':'red'}">
+
                     ${
                         result.net >= 0
                         ? "KÂR"
                         : "ZARAR"
                     }
+
                 </div>
 
             </div>
@@ -3222,38 +4202,53 @@ function renderReports(){
 
     `;
 
-
     const totals = {};
 
-
-    Object.values(finance.transactions)
-        .forEach(t => {
+    Object.values(
+        finance.transactions
+    )
+    .forEach(
+        t => {
 
             if(
                 t.type !== "expense" &&
                 t.type !== "supplier_payment"
-            ) return;
+            )
+                return;
 
-            if(start && t.date < start) return;
+            if(
+                start &&
+                t.date < start
+            )
+                return;
 
-            if(end && t.date > end) return;
-
+            if(
+                end &&
+                t.date > end
+            )
+                return;
 
             const category =
-                t.category || "Diğer";
-
+                t.category ||
+                "Diğer";
 
             totals[category] =
-                number(totals[category]) +
+                number(
+                    totals[category]
+                ) +
                 number(t.amount);
 
-        });
-
+        }
+    );
 
     const expenseRows =
         Object.entries(totals)
-            .sort((a,b)=>b[1]-a[1])
-            .map(([name,total]) => `
+        .sort(
+            (a,b)=>
+                b[1]-a[1]
+        )
+        .map(
+            ([name,total]) => `
 
                 <div class="report-row">
 
@@ -3267,44 +4262,54 @@ function renderReports(){
 
                 </div>
 
-            `)
-            .join("");
+            `
+        )
+        .join("");
 
-
-    $("expenseReport").innerHTML =
+    $("expenseReport")
+        .innerHTML =
         expenseRows ||
-        `<div class="empty">Bu dönemde gider yok.</div>`;
+        `
+        <div class="empty">
+            Bu dönemde gider yok.
+        </div>
+        `;
 
 }
 
 
 /* =========================================================
-   DEFAULT VALUES
+   DEFAULTS
 ========================================================= */
 
 function fillDefaults(){
 
-    $("incomeDate").value =
+    $("incomeDate")
+        .value =
         today();
 
-    $("expenseDate").value =
+    $("expenseDate")
+        .value =
         today();
 
-    $("billDate").value =
+    $("billDate")
+        .value =
         today();
 
-
-    $("transactionStart").value =
+    $("transactionStart")
+        .value =
         monthStart();
 
-    $("transactionEnd").value =
+    $("transactionEnd")
+        .value =
         today();
 
-
-    $("reportStart").value =
+    $("reportStart")
+        .value =
         monthStart();
 
-    $("reportEnd").value =
+    $("reportEnd")
+        .value =
         today();
 
 }
