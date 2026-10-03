@@ -45,6 +45,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: "Inter", sans-serif;
             background: #0b0f19;
@@ -76,6 +80,24 @@
             border: 1px solid rgba(255, 255, 255, .05);
         }
 
+        .dashboard-card {
+            transition:
+                transform .18s ease,
+                border-color .18s ease,
+                background .18s ease,
+                box-shadow .18s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(245, 158, 11, .22);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, .18);
+        }
+
+        .dashboard-card:active {
+            transform: scale(.985);
+        }
+
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
             -webkit-appearance: none;
@@ -101,6 +123,21 @@
             pointer-events: none;
         }
 
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            display: inline-block;
+        }
+
+        .report-row {
+            border-bottom: 1px solid rgba(51, 65, 85, .55);
+        }
+
+        .report-row:last-child {
+            border-bottom: none;
+        }
+
         @media print {
             .no-print {
                 display: none !important;
@@ -117,6 +154,14 @@
                 border: 1px solid #ccc !important;
                 color: #000 !important;
             }
+
+            .text-white,
+            .text-slate-200,
+            .text-slate-300,
+            .text-slate-400,
+            .text-slate-500 {
+                color: #111 !important;
+            }
         }
     </style>
 </head>
@@ -130,6 +175,7 @@
      class="fixed top-5 right-5 z-[100] translate-y-[-100px] opacity-0 transition-all duration-200 max-w-md w-full px-4 pointer-events-none">
     <div id="toastContent"
          class="glass-panel text-white px-5 py-4 rounded-2xl shadow-2xl border border-amber-500/30 flex items-center gap-3">
+
         <div id="toastIcon"
              class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,7 +183,10 @@
                       d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
         </div>
-        <div id="toastMessage" class="text-sm font-medium">Bildirim</div>
+
+        <div id="toastMessage" class="text-sm font-medium">
+            Bildirim
+        </div>
     </div>
 </div>
 
@@ -146,8 +195,11 @@
 ========================================================= -->
 <div id="modalOverlay"
      class="fixed inset-0 bg-black/70 z-[90] flex items-center justify-center p-4 hidden">
+
     <div class="glass-panel w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-slate-700/80">
+
         <div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
+
             <h3 id="modalTitle"
                 class="text-lg font-bold text-white flex items-center gap-2">
                 Pencere Başlığı
@@ -155,16 +207,24 @@
 
             <button onclick="closeModal()"
                     class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M6 18L18 6M6 6l12 12"/>
                 </svg>
+
             </button>
+
         </div>
 
-        <div id="modalBody" class="space-y-4 text-slate-300 text-sm"></div>
+        <div id="modalBody"
+             class="space-y-4 text-slate-300 text-sm">
+        </div>
+
         <div id="modalFooter"
-             class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-slate-700/60"></div>
+             class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-slate-700/60">
+        </div>
+
     </div>
 </div>
 
@@ -188,15 +248,19 @@
                           d="M12 3c-4.97 0-9 2.239-9 5v8c0 2.761 4.03 5 9 5s9-2.239 9-5V8c0-2.761-4.03-5-9-5z"/>
                     <path stroke-linecap="round" stroke-linejoin="round"
                           stroke-width="1.8"
-                          d="M3 8c0 2.761 4.03 5 9 5s9-2.239 9-5"/>
+                          d="M3 8c0 2.761 4.03 5 9 5s9-2.761 9-5"/>
                 </svg>
 
             </div>
 
-            <h1 class="text-2xl font-black tracking-tight text-white">Hayal Pide</h1>
+            <h1 class="text-2xl font-black tracking-tight text-white">
+                Hayal Pide
+            </h1>
+
             <p class="text-xs font-semibold uppercase tracking-widest text-amber-500 mt-1">
                 Rapor & Finans Merkezi
             </p>
+
         </div>
 
         <div class="grid grid-cols-2 gap-2 bg-slate-900/80 p-1.5 rounded-2xl mb-6 border border-slate-800">
@@ -219,12 +283,14 @@
 
             <div id="loginError"
                  class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30
-                        text-rose-300 text-xs font-medium hidden"></div>
+                        text-rose-300 text-xs font-medium hidden">
+            </div>
 
             <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1.5">
                     E-posta Adresi
                 </label>
+
                 <input id="loginEmail"
                        type="email"
                        placeholder="ornek@hayalpide.com"
@@ -235,6 +301,7 @@
                 <label class="block text-xs font-medium text-slate-400 mb-1.5">
                     Şifre
                 </label>
+
                 <input id="loginPassword"
                        type="password"
                        placeholder="••••••••"
@@ -246,18 +313,21 @@
                            hover:from-amber-600 hover:to-amber-700 text-white font-bold text-sm">
                 Sisteme Giriş Yap
             </button>
+
         </div>
 
         <div id="registerForm" class="space-y-4 hidden">
 
             <div id="registerError"
                  class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30
-                        text-rose-300 text-xs font-medium hidden"></div>
+                        text-rose-300 text-xs font-medium hidden">
+            </div>
 
             <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1.5">
                     Kullanıcı Adı / Ad Soyad
                 </label>
+
                 <input id="registerName"
                        type="text"
                        placeholder="Örn: Mehmet Usta"
@@ -268,6 +338,7 @@
                 <label class="block text-xs font-medium text-slate-400 mb-1.5">
                     E-posta Adresi
                 </label>
+
                 <input id="registerEmail"
                        type="email"
                        placeholder="ornek@hayalpide.com"
@@ -278,6 +349,7 @@
                 <label class="block text-xs font-medium text-slate-400 mb-1.5">
                     Şifre
                 </label>
+
                 <input id="registerPassword"
                        type="password"
                        placeholder="En az 6 karakter"
@@ -291,7 +363,6 @@
             </button>
 
         </div>
-
     </div>
 </section>
 
@@ -330,10 +401,12 @@
                 <div class="font-extrabold text-base tracking-tight text-white leading-none">
                     Hayal Pide
                 </div>
+
                 <div class="text-[10px] font-bold text-amber-500 uppercase tracking-wider mt-0.5">
                     Rapor Merkezi
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -348,23 +421,29 @@
         <div class="flex items-center gap-2 pl-3 border-l border-slate-800">
 
             <div class="text-right hidden sm:block">
-                <div id="topUserName" class="text-xs font-bold text-white">
+
+                <div id="topUserName"
+                     class="text-xs font-bold text-white">
                     Yükleniyor...
                 </div>
+
                 <div class="text-[10px] text-slate-400">
                     Pide Salonu Yöneticisi
                 </div>
+
             </div>
 
             <button onclick="logoutUser()"
                     title="Çıkış Yap"
                     class="p-2.5 rounded-xl bg-slate-800/60 text-slate-300 hover:text-rose-400">
+
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          stroke-width="2"
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                 </svg>
+
             </button>
+
         </div>
     </div>
 </header>
@@ -375,7 +454,9 @@
      onclick="toggleSidebar()"
      class="fixed inset-0 bg-black/60 z-30 hidden md:hidden"></div>
 
-<!-- SIDEBAR -->
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
 <aside id="sidebar"
        class="fixed md:static inset-y-0 left-0 z-40 w-64 glass-panel border-r border-slate-800
               transform -translate-x-full md:translate-x-0 flex flex-col justify-between p-4 shrink-0">
@@ -428,6 +509,13 @@
             Faturalar
         </button>
 
+        <button onclick="openPage('rent', this)"
+                class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl
+                       text-xs font-semibold text-slate-300 hover:bg-slate-800/80">
+            <span class="text-orange-400">⌂</span>
+            Kira
+        </button>
+
         <button onclick="openPage('transactions', this)"
                 class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl
                        text-xs font-semibold text-slate-300 hover:bg-slate-800/80">
@@ -452,14 +540,21 @@
     </div>
 
     <div class="p-3 bg-slate-900/60 rounded-2xl border border-slate-800 text-center">
-        <div class="text-[11px] font-bold text-slate-300">Hayal Pide v3.0</div>
+
+        <div class="text-[11px] font-bold text-slate-300">
+            Hayal Pide v4.0
+        </div>
+
         <div class="text-[10px] text-slate-500 mt-0.5">
             Hızlı Finans Paneli
         </div>
+
     </div>
 </aside>
 
-<!-- MAIN -->
+<!-- =========================================================
+     MAIN
+========================================================= -->
 <main class="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full overflow-hidden">
 
 <!-- =========================================================
@@ -468,10 +563,12 @@
 <section id="page-dashboard" class="page space-y-6">
 
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+
         <div>
             <h2 class="text-2xl font-black text-white tracking-tight">
                 Genel Bakış
             </h2>
+
             <p class="text-xs text-slate-400">
                 Anlık finansal durum
             </p>
@@ -482,63 +579,188 @@
                      border border-slate-700/60 text-slate-300">
             --:--:--
         </span>
+
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- DASHBOARD CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
 
-        <div class="glass-panel p-5 rounded-2xl">
+        <!-- BANK -->
+        <button type="button"
+                class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full"
+                onclick="openPage('dashboard')">
+
             <div class="text-xs font-semibold text-slate-400 mb-2">
                 Banka Bakiyesi
             </div>
-            <div id="dashBank" class="text-2xl font-black text-sky-400">
+
+            <div id="dashBank"
+                 class="text-2xl font-black text-sky-400">
                 ₺0,00
             </div>
+
             <div class="text-[11px] text-slate-500 mt-2">
                 Ana kasa & hesap
             </div>
-        </div>
 
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs font-semibold text-slate-400 mb-2">
-                Yemek Kartları
+        </button>
+
+        <!-- FOOD -->
+        <button type="button"
+                class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full"
+                onclick="openPage('foodcards')">
+
+            <div class="flex items-center justify-between gap-2">
+
+                <div class="text-xs font-semibold text-slate-400 mb-2">
+                    Yemek Kartları
+                </div>
+
+                <span class="text-[10px] font-bold px-2 py-1 rounded-lg
+                             bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                    Aç
+                </span>
+
             </div>
-            <div id="dashFood" class="text-2xl font-black text-amber-400">
+
+            <div id="dashFood"
+                 class="text-2xl font-black text-amber-400">
                 ₺0,00
             </div>
-            <div class="text-[11px] text-slate-500 mt-2">
-                Tüm kartlar toplamı
-            </div>
-        </div>
 
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs font-semibold text-slate-400 mb-2">
-                Tedarikçi Borçları
+            <div class="text-[11px] text-slate-500 mt-2">
+                Tüm kartlar toplamı • Detaya git →
             </div>
-            <div id="dashDebt" class="text-2xl font-black text-rose-400">
+
+        </button>
+
+        <!-- SUPPLIER -->
+        <button type="button"
+                class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full"
+                onclick="openPage('suppliers')">
+
+            <div class="flex items-center justify-between gap-2">
+
+                <div class="text-xs font-semibold text-slate-400 mb-2">
+                    Tedarikçi Borçları
+                </div>
+
+                <span class="text-[10px] font-bold px-2 py-1 rounded-lg
+                             bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                    Aç
+                </span>
+
+            </div>
+
+            <div id="dashDebt"
+                 class="text-2xl font-black text-rose-400">
                 ₺0,00
             </div>
-            <div class="text-[11px] text-slate-500 mt-2">
-                Güncel toplam borç
-            </div>
-        </div>
 
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs font-semibold text-slate-400 mb-2">
-                Bu Ay Kâr / Zarar
+            <div class="text-[11px] text-slate-500 mt-2">
+                Güncel toplam borç • Detaya git →
             </div>
-            <div id="dashProfit" class="text-2xl font-black text-emerald-400">
+
+        </button>
+
+        <!-- BILLS DEBT -->
+        <button type="button"
+                class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full"
+                onclick="openPage('bills')">
+
+            <div class="flex items-center justify-between gap-2">
+
+                <div class="text-xs font-semibold text-slate-400 mb-2">
+                    Fatura Borçları
+                </div>
+
+                <span class="text-[10px] font-bold px-2 py-1 rounded-lg
+                             bg-sky-500/10 text-sky-300 border border-sky-500/20">
+                    Aç
+                </span>
+
+            </div>
+
+            <div id="dashBills"
+                 class="text-2xl font-black text-sky-400">
                 ₺0,00
             </div>
-            <div class="text-[11px] text-slate-500 mt-2">
-                Net hareket
+
+            <div id="dashBillsSub"
+                 class="text-[11px] text-slate-500 mt-2">
+                Ödenmemiş faturalar
             </div>
-        </div>
+
+        </button>
+
+        <!-- RENT -->
+        <button type="button"
+                class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full"
+                onclick="openPage('rent')">
+
+            <div class="flex items-center justify-between gap-2">
+
+                <div class="text-xs font-semibold text-slate-400 mb-2">
+                    Kira
+                </div>
+
+                <span id="dashRentStatusBadge"
+                      class="text-[10px] font-bold px-2 py-1 rounded-lg
+                             bg-orange-500/10 text-orange-300 border border-orange-500/20">
+                    Ayın 10'u
+                </span>
+
+            </div>
+
+            <div id="dashRent"
+                 class="text-2xl font-black text-orange-400">
+                ₺28.000,00
+            </div>
+
+            <div id="dashRentSub"
+                 class="text-[11px] text-slate-500 mt-2">
+                Bu ay için kira
+            </div>
+
+        </button>
+
+        <!-- PROFIT -->
+        <button type="button"
+                class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full"
+                onclick="openMonthlyReport()">
+
+            <div class="flex items-center justify-between gap-2">
+
+                <div class="text-xs font-semibold text-slate-400 mb-2">
+                    Bu Ay Kâr / Zarar
+                </div>
+
+                <span class="text-[10px] font-bold px-2 py-1 rounded-lg
+                             bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                    Rapor →
+                </span>
+
+            </div>
+
+            <div id="dashProfit"
+                 class="text-2xl font-black text-emerald-400">
+                ₺0,00
+            </div>
+
+            <div class="text-[11px] text-slate-500 mt-2">
+                Gelir + gider detayını gör
+            </div>
+
+        </button>
 
     </div>
 
+    <!-- DASHBOARD LOWER -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
+        <!-- BANK -->
         <div class="glass-panel p-6 rounded-2xl">
+
             <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">
                 Banka Bakiyesi
             </h3>
@@ -553,40 +775,71 @@
                     class="w-full py-3 mt-3 bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs rounded-xl">
                 Bakiyeyi Güncelle
             </button>
+
         </div>
 
+        <!-- MONTH -->
         <div class="glass-panel p-6 rounded-2xl">
 
             <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+
                 <h3 class="font-bold text-white text-sm">
                     Bu Ayın Özeti
                 </h3>
+
                 <span id="currentMonthLabel"
                       class="text-[11px] font-semibold text-slate-400">
                     Bu Ay
                 </span>
+
             </div>
 
             <div class="space-y-3 text-xs">
 
                 <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
-                    <span class="text-slate-400">Toplam Gelir</span>
-                    <strong id="monthIncome" class="text-emerald-400">₺0,00</strong>
+
+                    <span class="text-slate-400">
+                        Toplam Gelir
+                    </span>
+
+                    <strong id="monthIncome"
+                            class="text-emerald-400">
+                        ₺0,00
+                    </strong>
+
                 </div>
 
                 <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
-                    <span class="text-slate-400">Toplam Gider</span>
-                    <strong id="monthExpense" class="text-rose-400">₺0,00</strong>
+
+                    <span class="text-slate-400">
+                        Toplam Gider
+                    </span>
+
+                    <strong id="monthExpense"
+                            class="text-rose-400">
+                        ₺0,00
+                    </strong>
+
                 </div>
 
                 <div class="flex justify-between p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                    <span class="text-amber-300 font-semibold">Net Durum</span>
-                    <strong id="monthNet" class="text-white">₺0,00</strong>
+
+                    <span class="text-amber-300 font-semibold">
+                        Net Durum
+                    </span>
+
+                    <strong id="monthNet"
+                            class="text-white">
+                        ₺0,00
+                    </strong>
+
                 </div>
 
             </div>
+
         </div>
 
+        <!-- QUICK -->
         <div class="glass-panel p-6 rounded-2xl">
 
             <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">
@@ -620,10 +873,11 @@
                 </button>
 
             </div>
-        </div>
 
+        </div>
     </div>
 
+    <!-- RECENT -->
     <div class="glass-panel p-6 rounded-2xl">
 
         <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
@@ -639,7 +893,9 @@
 
         </div>
 
-        <div id="recentTransactions" class="overflow-x-auto"></div>
+        <div id="recentTransactions"
+             class="overflow-x-auto">
+        </div>
 
     </div>
 
@@ -662,7 +918,8 @@
 
     <div class="glass-panel p-6 rounded-2xl max-w-2xl">
 
-        <form onsubmit="addIncome(event)" class="space-y-4">
+        <form onsubmit="addIncome(event)"
+              class="space-y-4">
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
@@ -670,6 +927,7 @@
                     <label class="block text-xs text-slate-400 mb-1.5">
                         Tarih
                     </label>
+
                     <input id="incomeDate"
                            type="date"
                            required
@@ -680,6 +938,7 @@
                     <label class="block text-xs text-slate-400 mb-1.5">
                         Tutar (₺)
                     </label>
+
                     <input id="incomeAmount"
                            type="number"
                            step="0.01"
@@ -690,6 +949,7 @@
                 </div>
 
                 <div>
+
                     <label class="block text-xs text-slate-400 mb-1.5">
                         Gelir Kanalı / Türü
                     </label>
@@ -707,9 +967,11 @@
                         <option>Diğer</option>
 
                     </select>
+
                 </div>
 
                 <div>
+
                     <label class="block text-xs text-slate-400 mb-1.5">
                         Açıklama
                     </label>
@@ -717,6 +979,7 @@
                     <input id="incomeDescription"
                            placeholder="Örn: Gün ortası kasa z raporu"
                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
+
                 </div>
 
             </div>
@@ -727,6 +990,7 @@
             </button>
 
         </form>
+
     </div>
 
 </section>
@@ -750,7 +1014,8 @@
 
         <div class="glass-panel p-6 rounded-2xl lg:col-span-2">
 
-            <form onsubmit="addExpense(event)" class="space-y-4">
+            <form onsubmit="addExpense(event)"
+                  class="space-y-4">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
@@ -758,6 +1023,7 @@
                         <label class="block text-xs text-slate-400 mb-1.5">
                             Tarih
                         </label>
+
                         <input id="expenseDate"
                                type="date"
                                required
@@ -768,6 +1034,7 @@
                         <label class="block text-xs text-slate-400 mb-1.5">
                             Tutar (₺)
                         </label>
+
                         <input id="expenseAmount"
                                type="number"
                                step="0.01"
@@ -778,6 +1045,7 @@
                     </div>
 
                     <div>
+
                         <label class="block text-xs text-slate-400 mb-1.5">
                             Gider Kalemi
                         </label>
@@ -803,9 +1071,11 @@
                             <option>Diğer</option>
 
                         </select>
+
                     </div>
 
                     <div>
+
                         <label class="block text-xs text-slate-400 mb-1.5">
                             Açıklama
                         </label>
@@ -813,6 +1083,7 @@
                         <input id="expenseDescription"
                                placeholder="Örn: 5 çuval un alımı"
                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
+
                     </div>
 
                 </div>
@@ -823,7 +1094,6 @@
                 </button>
 
             </form>
-
         </div>
 
         <div class="glass-panel p-6 rounded-2xl">
@@ -844,7 +1114,8 @@
                     </thead>
 
                     <tbody id="expenseSummary"
-                           class="divide-y divide-slate-800/60"></tbody>
+                           class="divide-y divide-slate-800/60">
+                    </tbody>
 
                 </table>
 
@@ -852,7 +1123,6 @@
         </div>
 
     </div>
-
 </section>
 
 <!-- =========================================================
@@ -878,7 +1148,8 @@
                 Yeni Tedarikçi
             </h3>
 
-            <form onsubmit="addSupplier(event)" class="space-y-4">
+            <form onsubmit="addSupplier(event)"
+                  class="space-y-4">
 
                 <div>
                     <label class="block text-xs text-slate-400 mb-1.5">
@@ -910,7 +1181,6 @@
                 </button>
 
             </form>
-
         </div>
 
         <div class="lg:col-span-2 space-y-6">
@@ -947,7 +1217,8 @@
                         </thead>
 
                         <tbody id="supplierTable"
-                               class="divide-y divide-slate-800/60"></tbody>
+                               class="divide-y divide-slate-800/60">
+                        </tbody>
 
                     </table>
 
@@ -957,7 +1228,6 @@
         </div>
 
     </div>
-
 </section>
 
 <!-- =========================================================
@@ -985,7 +1255,11 @@
                     <label class="block text-xs text-slate-400 mb-1">
                         Edenred
                     </label>
-                    <input id="foodEdenred" type="number" step="0.01" min="0"
+
+                    <input id="foodEdenred"
+                           type="number"
+                           step="0.01"
+                           min="0"
                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
                 </div>
 
@@ -993,7 +1267,11 @@
                     <label class="block text-xs text-slate-400 mb-1">
                         Multinet
                     </label>
-                    <input id="foodMultinet" type="number" step="0.01" min="0"
+
+                    <input id="foodMultinet"
+                           type="number"
+                           step="0.01"
+                           min="0"
                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
                 </div>
 
@@ -1001,7 +1279,11 @@
                     <label class="block text-xs text-slate-400 mb-1">
                         Sodexo / Pluxee
                     </label>
-                    <input id="foodSodexo" type="number" step="0.01" min="0"
+
+                    <input id="foodSodexo"
+                           type="number"
+                           step="0.01"
+                           min="0"
                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
                 </div>
 
@@ -1009,7 +1291,11 @@
                     <label class="block text-xs text-slate-400 mb-1">
                         Setcard
                     </label>
-                    <input id="foodSetcard" type="number" step="0.01" min="0"
+
+                    <input id="foodSetcard"
+                           type="number"
+                           step="0.01"
+                           min="0"
                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
                 </div>
 
@@ -1017,7 +1303,11 @@
                     <label class="block text-xs text-slate-400 mb-1">
                         Metropol / Diğer
                     </label>
-                    <input id="foodOther" type="number" step="0.01" min="0"
+
+                    <input id="foodOther"
+                           type="number"
+                           step="0.01"
+                           min="0"
                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
                 </div>
 
@@ -1041,12 +1331,13 @@
                 ₺0,00
             </div>
 
-            <div id="foodCardList" class="space-y-2.5 text-xs mt-4"></div>
+            <div id="foodCardList"
+                 class="space-y-2.5 text-xs mt-4">
+            </div>
 
         </div>
 
     </div>
-
 </section>
 
 <!-- =========================================================
@@ -1064,6 +1355,49 @@
         </p>
     </div>
 
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+        <div class="glass-panel p-5 rounded-2xl">
+
+            <div class="text-xs text-slate-400">
+                Ödenmemiş Fatura Borcu
+            </div>
+
+            <div id="billUnpaidTotal"
+                 class="text-2xl font-black text-sky-400 mt-1">
+                ₺0,00
+            </div>
+
+        </div>
+
+        <div class="glass-panel p-5 rounded-2xl">
+
+            <div class="text-xs text-slate-400">
+                Ödenmemiş Fatura Sayısı
+            </div>
+
+            <div id="billUnpaidCount"
+                 class="text-2xl font-black text-rose-400 mt-1">
+                0
+            </div>
+
+        </div>
+
+        <div class="glass-panel p-5 rounded-2xl">
+
+            <div class="text-xs text-slate-400">
+                Toplam Fatura
+            </div>
+
+            <div id="billTotalCount"
+                 class="text-2xl font-black text-white mt-1">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         <div class="glass-panel p-6 rounded-2xl">
@@ -1072,16 +1406,19 @@
                 Yeni Fatura Kaydı
             </h3>
 
-            <form onsubmit="addBill(event)" class="space-y-3.5">
+            <form onsubmit="addBill(event)"
+                  class="space-y-3.5">
 
                 <select id="billType"
                         class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
+
                     <option>Elektrik</option>
                     <option>Su</option>
                     <option>Doğalgaz (Fırın/Isınma)</option>
                     <option>Telefon / GSM</option>
                     <option>İnternet / POS Hattı</option>
                     <option>Diğer Fatura</option>
+
                 </select>
 
                 <div class="grid grid-cols-2 gap-2">
@@ -1107,8 +1444,15 @@
 
                 <select id="billStatus"
                         class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-                    <option value="paid">Ödendi (Bankadan Düş)</option>
-                    <option value="unpaid">Ödenmedi</option>
+
+                    <option value="paid">
+                        Ödendi (Bankadan Düş)
+                    </option>
+
+                    <option value="unpaid">
+                        Ödenmedi
+                    </option>
+
                 </select>
 
                 <input id="billDescription"
@@ -1121,7 +1465,6 @@
                 </button>
 
             </form>
-
         </div>
 
         <div class="glass-panel p-6 rounded-2xl lg:col-span-2">
@@ -1136,21 +1479,236 @@
 
                     <thead>
                         <tr class="text-slate-400 border-b border-slate-800">
+
                             <th class="pb-3">Tür</th>
                             <th class="pb-3">Tarih</th>
                             <th class="pb-3">Son Ödeme</th>
                             <th class="pb-3">Tutar</th>
                             <th class="pb-3">Durum</th>
                             <th class="pb-3 text-right">İşlem</th>
+
                         </tr>
                     </thead>
 
                     <tbody id="billTable"
-                           class="divide-y divide-slate-800/60"></tbody>
+                           class="divide-y divide-slate-800/60">
+                    </tbody>
 
                 </table>
 
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     RENT
+========================================================= -->
+<section id="page-rent" class="page space-y-6 hidden">
+
+    <div>
+        <h2 class="text-2xl font-black text-white">
+            Kira Yönetimi
+        </h2>
+
+        <p class="text-xs text-slate-400">
+            Aylık kira tutarını ve ödeme gününü buradan değiştirebilirsin.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- SETTINGS -->
+        <div class="glass-panel p-6 rounded-2xl lg:col-span-2">
+
+            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-5">
+                Kira Ayarları
+            </h3>
+
+            <form onsubmit="saveRentSettings(event)"
+                  class="space-y-4">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <div>
+
+                        <label class="block text-xs text-slate-400 mb-1.5">
+                            Aylık Kira Tutarı (₺)
+                        </label>
+
+                        <input id="rentAmount"
+                               type="number"
+                               min="0"
+                               step="0.01"
+                               required
+                               class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold text-lg">
+
+                    </div>
+
+                    <div>
+
+                        <label class="block text-xs text-slate-400 mb-1.5">
+                            Ödeme Günü
+                        </label>
+
+                        <select id="rentDueDay"
+                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold">
+
+                            <option value="1">Ayın 1'i</option>
+                            <option value="2">Ayın 2'si</option>
+                            <option value="3">Ayın 3'ü</option>
+                            <option value="4">Ayın 4'ü</option>
+                            <option value="5">Ayın 5'i</option>
+                            <option value="6">Ayın 6'sı</option>
+                            <option value="7">Ayın 7'si</option>
+                            <option value="8">Ayın 8'i</option>
+                            <option value="9">Ayın 9'u</option>
+                            <option value="10">Ayın 10'u</option>
+                            <option value="11">Ayın 11'i</option>
+                            <option value="12">Ayın 12'si</option>
+                            <option value="13">Ayın 13'ü</option>
+                            <option value="14">Ayın 14'ü</option>
+                            <option value="15">Ayın 15'i</option>
+                            <option value="16">Ayın 16'sı</option>
+                            <option value="17">Ayın 17'si</option>
+                            <option value="18">Ayın 18'i</option>
+                            <option value="19">Ayın 19'u</option>
+                            <option value="20">Ayın 20'si</option>
+                            <option value="21">Ayın 21'i</option>
+                            <option value="22">Ayın 22'si</option>
+                            <option value="23">Ayın 23'ü</option>
+                            <option value="24">Ayın 24'ü</option>
+                            <option value="25">Ayın 25'i</option>
+                            <option value="26">Ayın 26'sı</option>
+                            <option value="27">Ayın 27'si</option>
+                            <option value="28">Ayın 28'i</option>
+                            <option value="29">Ayın 29'u</option>
+                            <option value="30">Ayın 30'u</option>
+                            <option value="31">Ayın 31'i</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800">
+
+                    <label class="flex items-start gap-3 cursor-pointer">
+
+                        <input id="rentAutoRecord"
+                               type="checkbox"
+                               class="mt-1 w-4 h-4 accent-amber-500">
+
+                        <span>
+
+                            <span class="block text-sm font-bold text-white">
+                                Kira gününde otomatik gider oluştur
+                            </span>
+
+                            <span class="block text-xs text-slate-500 mt-1 leading-relaxed">
+                                Sistem ayın ödeme günü geçtiğinde ve o ay için kira kaydı yoksa,
+                                kira tutarını otomatik olarak gider kaydeder.
+                            </span>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+                <button type="submit"
+                        class="w-full py-3.5 bg-orange-600 hover:bg-orange-500 text-white font-bold text-sm rounded-xl">
+                    Kira Ayarlarını Kaydet
+                </button>
+
+            </form>
+        </div>
+
+        <!-- CURRENT MONTH -->
+        <div class="glass-panel p-6 rounded-2xl">
+
+            <div class="text-xs text-slate-400">
+                Bu Ay Kira
+            </div>
+
+            <div id="rentCurrentAmount"
+                 class="text-3xl font-black text-orange-400 mt-1">
+                ₺28.000,00
+            </div>
+
+            <div id="rentCurrentStatus"
+                 class="mt-3 text-xs font-bold text-slate-300">
+                Ayın 10'u bekleniyor
+            </div>
+
+            <button id="rentPayButton"
+                    onclick="payCurrentMonthRent()"
+                    class="w-full mt-5 py-3 rounded-xl bg-orange-600 hover:bg-orange-500
+                           text-white text-xs font-bold">
+                Bu Ay Kirayı Ödendi Olarak Kaydet
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="glass-panel p-6 rounded-2xl">
+
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+
+            <h3 class="font-bold text-white text-sm">
+                Kira Durumu
+            </h3>
+
+            <span id="rentMonthLabel"
+                  class="text-[11px] text-slate-400">
+                Bu Ay
+            </span>
+
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+
+                <div class="text-[10px] uppercase font-bold text-slate-500">
+                    Tutar
+                </div>
+
+                <div id="rentInfoAmount"
+                     class="text-xl font-black text-orange-400 mt-1">
+                    ₺28.000,00
+                </div>
+
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+
+                <div class="text-[10px] uppercase font-bold text-slate-500">
+                    Ödeme Günü
+                </div>
+
+                <div id="rentInfoDay"
+                     class="text-xl font-black text-white mt-1">
+                    10
+                </div>
+
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+
+                <div class="text-[10px] uppercase font-bold text-slate-500">
+                    Otomatik Kayıt
+                </div>
+
+                <div id="rentInfoAuto"
+                     class="text-xl font-black text-emerald-400 mt-1">
+                    Açık
+                </div>
+
+            </div>
+
         </div>
 
     </div>
@@ -1165,13 +1723,15 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
         <div>
+
             <h2 class="text-2xl font-black text-white">
                 Finansal Hareketler
             </h2>
 
             <p class="text-xs text-slate-400">
-                Yanlış girilen gelir, gider, tedarikçi ödemesi ve borç eklemelerini geri alabilirsiniz.
+                Yanlış girilen gelir, gider, tedarikçi ödemesi, kira ve borç eklemelerini geri alabilirsiniz.
             </p>
+
         </div>
 
         <button onclick="undoLastTransactionPrompt()"
@@ -1196,6 +1756,7 @@
         </div>
 
         <div>
+
             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">
                 Bitiş Tarihi
             </label>
@@ -1204,14 +1765,17 @@
                    type="date"
                    onchange="renderTransactions()"
                    class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+
         </div>
 
         <div class="flex items-end">
+
             <button onclick="resetTransactionFilters()"
                     class="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700
                            text-slate-300 text-xs font-semibold">
                 Filtreleri Sıfırla
             </button>
+
         </div>
 
     </div>
@@ -1236,7 +1800,8 @@
                 </thead>
 
                 <tbody id="transactionTable"
-                       class="divide-y divide-slate-800/60"></tbody>
+                       class="divide-y divide-slate-800/60">
+                </tbody>
 
             </table>
 
@@ -1256,11 +1821,11 @@
         <div>
 
             <h2 class="text-2xl font-black text-white">
-                Gelir / Gider Analiz Raporları
+                Detaylı Gelir / Gider Raporu
             </h2>
 
             <p class="text-xs text-slate-400">
-                Seçilen dönem finansal özeti
+                Seçilen dönemde gelir, gider, kira ve tüm finans hareketleri
             </p>
 
         </div>
@@ -1307,39 +1872,89 @@
 
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- REPORT METRICS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
 
         <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Toplam Gelir</div>
-            <div id="reportIncome" class="text-2xl font-black text-emerald-400">₺0,00</div>
+            <div class="text-xs text-slate-400 mb-1">
+                Toplam Gelir
+            </div>
+
+            <div id="reportIncome"
+                 class="text-2xl font-black text-emerald-400">
+                ₺0,00
+            </div>
         </div>
 
         <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Toplam Gider</div>
-            <div id="reportExpense" class="text-2xl font-black text-rose-400">₺0,00</div>
+            <div class="text-xs text-slate-400 mb-1">
+                Toplam Gider
+            </div>
+
+            <div id="reportExpense"
+                 class="text-2xl font-black text-rose-400">
+                ₺0,00
+            </div>
         </div>
 
         <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Net</div>
-            <div id="reportNet" class="text-2xl font-black text-white">₺0,00</div>
+            <div class="text-xs text-slate-400 mb-1">
+                Net
+            </div>
+
+            <div id="reportNet"
+                 class="text-2xl font-black text-white">
+                ₺0,00
+            </div>
         </div>
 
         <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Toplam Borç</div>
-            <div id="reportDebt" class="text-2xl font-black text-rose-400">₺0,00</div>
+            <div class="text-xs text-slate-400 mb-1">
+                Hareket Sayısı
+            </div>
+
+            <div id="reportTxCount"
+                 class="text-2xl font-black text-sky-400">
+                0
+            </div>
+        </div>
+
+        <div class="glass-panel p-5 rounded-2xl">
+            <div class="text-xs text-slate-400 mb-1">
+                Toplam Tedarikçi Borcu
+            </div>
+
+            <div id="reportDebt"
+                 class="text-2xl font-black text-rose-400">
+                ₺0,00
+            </div>
         </div>
 
     </div>
 
+    <!-- SUMMARY -->
+    <div class="glass-panel p-6 rounded-2xl">
+
+        <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">
+            Dönem Özeti
+        </h3>
+
+        <div id="reportSummary"></div>
+
+    </div>
+
+    <!-- INCOME / EXPENSE BREAKDOWN -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         <div class="glass-panel p-6 rounded-2xl">
 
             <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">
-                Dönem Özeti
+                Gelir Dağılımı
             </h3>
 
-            <div id="reportSummary"></div>
+            <div id="incomeReport"
+                 class="space-y-3">
+            </div>
 
         </div>
 
@@ -1349,7 +1964,50 @@
                 Gider Dağılımı
             </h3>
 
-            <div id="expenseReport" class="space-y-2.5"></div>
+            <div id="expenseReport"
+                 class="space-y-3">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DETAILED TRANSACTIONS -->
+    <div class="glass-panel p-6 rounded-2xl">
+
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+
+            <h3 class="font-bold text-white text-sm">
+                Dönem Hareketleri
+            </h3>
+
+            <span id="reportDateLabel"
+                  class="text-[10px] text-slate-500">
+            </span>
+
+        </div>
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full text-left text-xs">
+
+                <thead>
+                    <tr class="text-slate-400 border-b border-slate-800">
+
+                        <th class="pb-3">Tarih</th>
+                        <th class="pb-3">Tür</th>
+                        <th class="pb-3">Kategori</th>
+                        <th class="pb-3">Açıklama</th>
+                        <th class="pb-3 text-right">Tutar</th>
+
+                    </tr>
+                </thead>
+
+                <tbody id="reportTransactionTable"
+                       class="divide-y divide-slate-800/60">
+                </tbody>
+
+            </table>
 
         </div>
 
@@ -1425,6 +2083,11 @@
                 </li>
 
                 <li>
+                    <strong class="text-orange-400">Kira:</strong>
+                    Aylık sabit gider olarak işlenir ve raporlara dahil edilir.
+                </li>
+
+                <li>
                     <strong class="text-amber-400">Geri Alma:</strong>
                     İlgili banka ve borç bakiyesi eski duruma döndürülür.
                 </li>
@@ -1439,13 +2102,14 @@
         </div>
 
     </div>
-
 </section>
 
 </main>
 </div>
 
-<!-- MOBILE NAV -->
+<!-- =========================================================
+     MOBILE NAV
+========================================================= -->
 <nav class="md:hidden fixed bottom-0 left-0 right-0 z-30 glass-panel border-t border-slate-800
             px-2 py-1.5 flex items-center justify-around">
 
@@ -1488,7 +2152,9 @@
 ========================================================= -->
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
 import {
     getAuth,
@@ -1537,6 +2203,7 @@ let renderQueued = false;
 let clockStarted = false;
 
 let finance = {
+
     bankBalance: 0,
 
     foodCards: {
@@ -1549,7 +2216,15 @@ let finance = {
 
     suppliers: {},
     transactions: {},
-    bills: {}
+    bills: {},
+
+    rentSettings: {
+        amount: 28000,
+        dueDay: 10,
+        autoRecord: true,
+        title: "Kira"
+    }
+
 };
 
 /* =========================================================
@@ -1559,55 +2234,135 @@ let finance = {
 const $ = id => document.getElementById(id);
 
 function number(value) {
+
     const n = Number(value);
-    return Number.isFinite(n) ? n : 0;
+
+    return Number.isFinite(n)
+        ? n
+        : 0;
 }
 
 function money(value) {
+
     return new Intl.NumberFormat("tr-TR", {
         style: "currency",
         currency: "TRY"
     }).format(number(value));
+
 }
 
 function today() {
+
     const d = new Date();
 
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
+    const year =
+        d.getFullYear();
+
+    const month =
+        String(d.getMonth() + 1)
+            .padStart(2, "0");
+
+    const day =
+        String(d.getDate())
+            .padStart(2, "0");
 
     return `${year}-${month}-${day}`;
 }
 
 function monthStart() {
+
     const d = new Date();
 
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year =
+        d.getFullYear();
+
+    const month =
+        String(d.getMonth() + 1)
+            .padStart(2, "0");
 
     return `${year}-${month}-01`;
 }
 
+function currentMonthKey() {
+
+    const d = new Date();
+
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+
+}
+
+function formatMonthTR(date = new Date()) {
+
+    return date.toLocaleDateString(
+        "tr-TR",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+}
+
+function getDayOfMonth() {
+
+    return new Date().getDate();
+
+}
+
 function escapeHtml(text) {
+
     return String(text ?? "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+
 }
 
 function supplierArray() {
-    return Object.values(finance.suppliers || {});
+
+    return Object.values(
+        finance.suppliers || {}
+    );
+
 }
 
 function transactionArray() {
-    return Object.values(finance.transactions || {});
+
+    return Object.values(
+        finance.transactions || {}
+    );
+
 }
 
 function billArray() {
-    return Object.values(finance.bills || {});
+
+    return Object.values(
+        finance.bills || {}
+    );
+
+}
+
+function unpaidBills() {
+
+    return billArray()
+        .filter(
+            bill =>
+                bill.status === "unpaid"
+        );
+
+}
+
+function unpaidBillTotal() {
+
+    return unpaidBills()
+        .reduce(
+            (sum, bill) =>
+                sum + number(bill.amount),
+            0
+        );
+
 }
 
 /* =========================================================
@@ -1618,13 +2373,20 @@ let toastTimer = null;
 
 window.toast = function(message, type = "info") {
 
-    const el = $("toast");
-    const msg = $("toastMessage");
-    const icon = $("toastIcon");
+    const el =
+        $("toast");
 
-    if (!el || !msg) return;
+    const msg =
+        $("toastMessage");
 
-    msg.textContent = message;
+    const icon =
+        $("toastIcon");
+
+    if (!el || !msg)
+        return;
+
+    msg.textContent =
+        message;
 
     icon.className =
         "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 " +
@@ -1646,46 +2408,73 @@ window.toast = function(message, type = "info") {
         "opacity-100"
     );
 
-    clearTimeout(toastTimer);
+    clearTimeout(
+        toastTimer
+    );
 
-    toastTimer = setTimeout(() => {
+    toastTimer =
+        setTimeout(
+            () => {
 
-        el.classList.add(
-            "translate-y-[-100px]",
-            "opacity-0"
+                el.classList.add(
+                    "translate-y-[-100px]",
+                    "opacity-0"
+                );
+
+                el.classList.remove(
+                    "translate-y-0",
+                    "opacity-100"
+                );
+
+            },
+            2600
         );
 
-        el.classList.remove(
-            "translate-y-0",
-            "opacity-100"
-        );
-
-    }, 2600);
 };
 
 /* =========================================================
    MODAL
 ========================================================= */
 
-window.openModal = function(title, bodyHtml, buttonsHtml) {
+window.openModal = function(
+    title,
+    bodyHtml,
+    buttonsHtml
+) {
 
-    $("modalTitle").innerHTML = title;
-    $("modalBody").innerHTML = bodyHtml;
-    $("modalFooter").innerHTML = buttonsHtml;
+    $("modalTitle").innerHTML =
+        title;
 
-    $("modalOverlay").classList.remove("hidden");
+    $("modalBody").innerHTML =
+        bodyHtml;
+
+    $("modalFooter").innerHTML =
+        buttonsHtml;
+
+    $("modalOverlay")
+        .classList
+        .remove("hidden");
+
 };
 
 window.closeModal = function() {
-    $("modalOverlay").classList.add("hidden");
+
+    $("modalOverlay")
+        .classList
+        .add("hidden");
+
 };
 
-/* ESC = MODAL KAPAT */
-document.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
-        closeModal();
+document.addEventListener(
+    "keydown",
+    e => {
+
+        if (e.key === "Escape") {
+            closeModal();
+        }
+
     }
-});
+);
 
 /* =========================================================
    LOGIN
@@ -1693,10 +2482,22 @@ document.addEventListener("keydown", e => {
 
 window.showLoginTab = function(tab) {
 
-    const login = tab === "login";
+    const login =
+        tab === "login";
 
-    $("loginForm").classList.toggle("hidden", !login);
-    $("registerForm").classList.toggle("hidden", login);
+    $("loginForm")
+        .classList
+        .toggle(
+            "hidden",
+            !login
+        );
+
+    $("registerForm")
+        .classList
+        .toggle(
+            "hidden",
+            login
+        );
 
     $("loginTab").className =
         login
@@ -1707,54 +2508,106 @@ window.showLoginTab = function(tab) {
         !login
             ? "py-2.5 px-4 rounded-xl font-medium text-sm bg-amber-500 text-white shadow-sm"
             : "py-2.5 px-4 rounded-xl font-medium text-sm text-slate-400";
+
 };
 
 window.loginUser = async function() {
 
-    const email = $("loginEmail").value.trim();
-    const password = $("loginPassword").value;
-    const err = $("loginError");
+    const email =
+        $("loginEmail")
+            .value
+            .trim();
 
-    err.classList.add("hidden");
+    const password =
+        $("loginPassword")
+            .value;
+
+    const err =
+        $("loginError");
+
+    err.classList.add(
+        "hidden"
+    );
 
     if (!email || !password) {
-        err.textContent = "E-posta ve şifre gerekli.";
-        err.classList.remove("hidden");
+
+        err.textContent =
+            "E-posta ve şifre gerekli.";
+
+        err.classList.remove(
+            "hidden"
+        );
+
         return;
     }
 
     try {
 
-        await signInWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
     } catch (error) {
 
         console.error(error);
 
-        err.textContent = firebaseError(error);
-        err.classList.remove("hidden");
+        err.textContent =
+            firebaseError(error);
+
+        err.classList.remove(
+            "hidden"
+        );
 
     }
+
 };
 
 window.registerUser = async function() {
 
-    const name = $("registerName").value.trim();
-    const email = $("registerEmail").value.trim();
-    const password = $("registerPassword").value;
-    const err = $("registerError");
+    const name =
+        $("registerName")
+            .value
+            .trim();
 
-    err.classList.add("hidden");
+    const email =
+        $("registerEmail")
+            .value
+            .trim();
+
+    const password =
+        $("registerPassword")
+            .value;
+
+    const err =
+        $("registerError");
+
+    err.classList.add(
+        "hidden"
+    );
 
     if (!name || !email || !password) {
-        err.textContent = "Tüm alanları doldurun.";
-        err.classList.remove("hidden");
+
+        err.textContent =
+            "Tüm alanları doldurun.";
+
+        err.classList.remove(
+            "hidden"
+        );
+
         return;
     }
 
     if (password.length < 6) {
-        err.textContent = "Şifre en az 6 karakter olmalı.";
-        err.classList.remove("hidden");
+
+        err.textContent =
+            "Şifre en az 6 karakter olmalı.";
+
+        err.classList.remove(
+            "hidden"
+        );
+
         return;
     }
 
@@ -1767,49 +2620,76 @@ window.registerUser = async function() {
                 password
             );
 
-        const uid = credential.user.uid;
+        const uid =
+            credential.user.uid;
 
-        await set(ref(db, `users/${uid}`), {
+        await set(
+            ref(
+                db,
+                `users/${uid}`
+            ),
+            {
 
-            profile: {
-                name,
-                email,
-                createdAt: Date.now()
-            },
+                profile: {
+                    name,
+                    email,
+                    createdAt: Date.now()
+                },
 
-            bankBalance: 0,
+                bankBalance: 0,
 
-            foodCards: {
-                edenred: 0,
-                multinet: 0,
-                sodexo: 0,
-                setcard: 0,
-                other: 0
-            },
+                foodCards: {
+                    edenred: 0,
+                    multinet: 0,
+                    sodexo: 0,
+                    setcard: 0,
+                    other: 0
+                },
 
-            suppliers: {},
-            transactions: {},
-            bills: {}
+                suppliers: {},
+                transactions: {},
+                bills: {},
 
-        });
+                rentSettings: {
+                    amount: 28000,
+                    dueDay: 10,
+                    autoRecord: true,
+                    title: "Kira"
+                }
 
-        toast("Hesap oluşturuldu.", "success");
+            }
+        );
+
+        toast(
+            "Hesap oluşturuldu.",
+            "success"
+        );
 
     } catch (error) {
 
         console.error(error);
 
-        err.textContent = firebaseError(error);
-        err.classList.remove("hidden");
+        err.textContent =
+            firebaseError(error);
+
+        err.classList.remove(
+            "hidden"
+        );
+
     }
+
 };
 
 window.logoutUser = async function() {
 
     try {
+
         await signOut(auth);
+
     } catch (error) {
+
         console.error(error);
+
     }
 
 };
@@ -1843,43 +2723,61 @@ function firebaseError(error) {
 
     return messages[error?.code] ||
         "İşlem sırasında hata oluştu.";
+
 }
 
 /* =========================================================
    LOAD FINANCE
 ========================================================= */
 
-onAuthStateChanged(auth, async user => {
+onAuthStateChanged(
+    auth,
+    async user => {
 
-    currentUser = user;
+        currentUser =
+            user;
 
-    if (!user) {
+        if (!user) {
 
-        $("loginScreen").style.display = "flex";
-        $("app").style.display = "none";
+            $("loginScreen").style.display =
+                "flex";
 
-        return;
+            $("app").style.display =
+                "none";
+
+            return;
+        }
+
+        $("loginScreen").style.display =
+            "none";
+
+        $("app").style.display =
+            "flex";
+
+        await loadFinance();
+
     }
-
-    $("loginScreen").style.display = "none";
-    $("app").style.display = "flex";
-
-    await loadFinance();
-
-});
+);
 
 async function loadFinance() {
 
-    if (!currentUser) return;
+    if (!currentUser)
+        return;
 
     try {
 
         const snapshot =
-            await get(ref(db, `users/${currentUser.uid}`));
+            await get(
+                ref(
+                    db,
+                    `users/${currentUser.uid}`
+                )
+            );
 
         if (snapshot.exists()) {
 
-            const data = snapshot.val();
+            const data =
+                snapshot.val();
 
             finance = {
 
@@ -1887,20 +2785,32 @@ async function loadFinance() {
                     number(data.bankBalance),
 
                 foodCards: {
+
                     edenred:
-                        number(data.foodCards?.edenred),
+                        number(
+                            data.foodCards?.edenred
+                        ),
 
                     multinet:
-                        number(data.foodCards?.multinet),
+                        number(
+                            data.foodCards?.multinet
+                        ),
 
                     sodexo:
-                        number(data.foodCards?.sodexo),
+                        number(
+                            data.foodCards?.sodexo
+                        ),
 
                     setcard:
-                        number(data.foodCards?.setcard),
+                        number(
+                            data.foodCards?.setcard
+                        ),
 
                     other:
-                        number(data.foodCards?.other)
+                        number(
+                            data.foodCards?.other
+                        )
+
                 },
 
                 suppliers:
@@ -1910,7 +2820,38 @@ async function loadFinance() {
                     data.transactions || {},
 
                 bills:
-                    data.bills || {}
+                    data.bills || {},
+
+                rentSettings: {
+
+                    amount:
+                        number(
+                            data.rentSettings?.amount
+                        ) > 0
+                            ? number(
+                                data.rentSettings.amount
+                            )
+                            : 28000,
+
+                    dueDay:
+                        Math.min(
+                            31,
+                            Math.max(
+                                1,
+                                number(
+                                    data.rentSettings?.dueDay
+                                ) || 10
+                            )
+                        ),
+
+                    autoRecord:
+                        data.rentSettings?.autoRecord !== false,
+
+                    title:
+                        data.rentSettings?.title ||
+                        "Kira"
+
+                }
 
             };
 
@@ -1919,24 +2860,45 @@ async function loadFinance() {
                 currentUser.email ||
                 "Kullanıcı";
 
-            $("topUserName").textContent = userName;
-            $("settingsName").textContent = userName;
+            $("topUserName").textContent =
+                userName;
+
+            $("settingsName").textContent =
+                userName;
+
             $("settingsEmail").textContent =
                 currentUser.email || "-";
+
             $("settingsUid").textContent =
                 currentUser.uid;
+
         }
 
     } catch (error) {
 
-        console.error("Finance load error:", error);
+        console.error(
+            "Finance load error:",
+            error
+        );
 
-        toast("Veriler yüklenemedi.", "error");
+        toast(
+            "Veriler yüklenemedi.",
+            "error"
+        );
+
     }
 
     fillDefaults();
+
+    /*
+     * Ayın kira günü geçtiyse ve o ay için
+     * kira kaydı yoksa otomatik oluştur.
+     */
+    await ensureMonthlyRentPayment();
+
     renderCurrentPage();
     renderDashboard();
+
 }
 
 /* =========================================================
@@ -1946,43 +2908,68 @@ async function loadFinance() {
 async function saveUserPatch(patch) {
 
     if (!currentUser) {
-        throw new Error("Kullanıcı giriş yapmamış.");
+
+        throw new Error(
+            "Kullanıcı giriş yapmamış."
+        );
+
     }
 
     await update(
-        ref(db, `users/${currentUser.uid}`),
+        ref(
+            db,
+            `users/${currentUser.uid}`
+        ),
         patch
     );
+
 }
 
 /* =========================================================
    NAVIGATION
 ========================================================= */
 
-window.openPage = function(page, button) {
+window.openPage = function(
+    page,
+    button
+) {
 
-    currentPage = page;
+    currentPage =
+        page;
 
     document.querySelectorAll(".page")
-        .forEach(el => el.classList.add("hidden"));
+        .forEach(
+            el =>
+                el.classList.add("hidden")
+        );
 
-    const target = $(`page-${page}`);
+    const target =
+        $(`page-${page}`);
 
     if (target) {
-        target.classList.remove("hidden");
+
+        target.classList.remove(
+            "hidden"
+        );
+
     }
 
     document.querySelectorAll(".nav-btn")
-        .forEach(btn => {
+        .forEach(
+            btn => {
 
-            btn.classList.remove(
-                "active",
-                "bg-slate-800/80",
-                "text-white"
-            );
+                btn.classList.remove(
+                    "active",
+                    "bg-slate-800/80",
+                    "text-white"
+                );
 
-            btn.classList.add("text-slate-300");
-        });
+                btn.classList.add(
+                    "text-slate-300"
+                );
+
+            }
+        );
 
     if (button) {
 
@@ -1992,16 +2979,22 @@ window.openPage = function(page, button) {
             "text-white"
         );
 
-        button.classList.remove("text-slate-300");
+        button.classList.remove(
+            "text-slate-300"
+        );
 
     } else {
 
         const match =
             Array.from(
                 document.querySelectorAll(".nav-btn")
-            ).find(btn =>
-                btn.getAttribute("onclick")
-                    ?.includes(`'${page}'`)
+            )
+            .find(
+                btn =>
+                    btn.getAttribute("onclick")
+                        ?.includes(
+                            `'${page}'`
+                        )
             );
 
         if (match) {
@@ -2012,13 +3005,39 @@ window.openPage = function(page, button) {
                 "text-white"
             );
 
-            match.classList.remove("text-slate-300");
+            match.classList.remove(
+                "text-slate-300"
+            );
+
         }
+
     }
 
     closeSidebar();
 
     renderCurrentPage();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+};
+
+/* =========================================================
+   MONTHLY REPORT NAV
+========================================================= */
+
+window.openMonthlyReport = function() {
+
+    openPage(
+        "reports"
+    );
+
+    setReportPeriod(
+        "thisMonth"
+    );
+
 };
 
 /* =========================================================
@@ -2027,17 +3046,28 @@ window.openPage = function(page, button) {
 
 function closeSidebar() {
 
-    $("sidebar").classList.add("-translate-x-full");
-    $("sidebarBackdrop").classList.add("hidden");
+    $("sidebar")
+        .classList
+        .add("-translate-x-full");
+
+    $("sidebarBackdrop")
+        .classList
+        .add("hidden");
+
 }
 
 window.toggleSidebar = function() {
 
-    const sidebar = $("sidebar");
-    const backdrop = $("sidebarBackdrop");
+    const sidebar =
+        $("sidebar");
+
+    const backdrop =
+        $("sidebarBackdrop");
 
     const open =
-        !sidebar.classList.contains("-translate-x-full");
+        !sidebar.classList.contains(
+            "-translate-x-full"
+        );
 
     if (open) {
 
@@ -2045,10 +3075,16 @@ window.toggleSidebar = function() {
 
     } else {
 
-        sidebar.classList.remove("-translate-x-full");
-        backdrop.classList.remove("hidden");
+        sidebar.classList.remove(
+            "-translate-x-full"
+        );
+
+        backdrop.classList.remove(
+            "hidden"
+        );
 
     }
+
 };
 
 /* =========================================================
@@ -2057,18 +3093,24 @@ window.toggleSidebar = function() {
 
 function queueRender() {
 
-    if (renderQueued) return;
+    if (renderQueued)
+        return;
 
-    renderQueued = true;
+    renderQueued =
+        true;
 
-    requestAnimationFrame(() => {
+    requestAnimationFrame(
+        () => {
 
-        renderQueued = false;
+            renderQueued =
+                false;
 
-        renderCurrentPage();
-        renderDashboard();
+            renderCurrentPage();
+            renderDashboard();
 
-    });
+        }
+    );
+
 }
 
 function renderCurrentPage() {
@@ -2096,6 +3138,10 @@ function renderCurrentPage() {
             renderBills();
             break;
 
+        case "rent":
+            renderRentPage();
+            break;
+
         case "transactions":
             renderTransactions();
             break;
@@ -2103,7 +3149,9 @@ function renderCurrentPage() {
         case "reports":
             renderReports();
             break;
+
     }
+
 }
 
 /* =========================================================
@@ -2113,22 +3161,34 @@ function renderCurrentPage() {
 window.saveBankBalance = async function() {
 
     const value =
-        number($("manualBankBalance").value);
+        number(
+            $("manualBankBalance").value
+        );
 
     if (value < 0) {
-        toast("Banka bakiyesi negatif olamaz.", "error");
+
+        toast(
+            "Banka bakiyesi negatif olamaz.",
+            "error"
+        );
+
         return;
     }
 
     try {
 
-        finance.bankBalance = value;
+        finance.bankBalance =
+            value;
 
         await saveUserPatch({
-            bankBalance: value
+            bankBalance:
+                value
         });
 
-        toast("Banka bakiyesi güncellendi.", "success");
+        toast(
+            "Banka bakiyesi güncellendi.",
+            "success"
+        );
 
         queueRender();
 
@@ -2136,8 +3196,13 @@ window.saveBankBalance = async function() {
 
         console.error(error);
 
-        toast("Banka bakiyesi kaydedilemedi.", "error");
+        toast(
+            "Banka bakiyesi kaydedilemedi.",
+            "error"
+        );
+
     }
+
 };
 
 window.promptEditBankBalance = function() {
@@ -2172,36 +3237,56 @@ window.promptEditBankBalance = function() {
         </button>
         `
     );
+
 };
 
 window.confirmModalBankBalance = async function() {
 
     const value =
-        number($("modalBankInput")?.value);
+        number(
+            $("modalBankInput")?.value
+        );
 
     if (value < 0) {
-        toast("Bakiye negatif olamaz.", "error");
+
+        toast(
+            "Bakiye negatif olamaz.",
+            "error"
+        );
+
         return;
     }
 
     try {
 
-        finance.bankBalance = value;
+        finance.bankBalance =
+            value;
 
         await saveUserPatch({
-            bankBalance: value
+            bankBalance:
+                value
         });
 
         closeModal();
+
         queueRender();
 
-        toast("Banka bakiyesi güncellendi.", "success");
+        toast(
+            "Banka bakiyesi güncellendi.",
+            "success"
+        );
 
     } catch (error) {
 
         console.error(error);
-        toast("Bakiye kaydedilemedi.", "error");
+
+        toast(
+            "Bakiye kaydedilemedi.",
+            "error"
+        );
+
     }
+
 };
 
 /* =========================================================
@@ -2211,14 +3296,17 @@ window.confirmModalBankBalance = async function() {
 async function createTransaction(data) {
 
     const transactionRef =
-        push(ref(
-            db,
-            `users/${currentUser.uid}/transactions`
-        ));
+        push(
+            ref(
+                db,
+                `users/${currentUser.uid}/transactions`
+            )
+        );
 
     const transaction = {
 
-        id: transactionRef.key,
+        id:
+            transactionRef.key,
 
         date:
             data.date || today(),
@@ -2262,6 +3350,7 @@ async function createTransaction(data) {
     ] = transaction;
 
     return transaction;
+
 }
 
 /* =========================================================
@@ -2272,41 +3361,51 @@ window.addIncome = async function(e) {
 
     e.preventDefault();
 
-    const form = e.target;
+    const form =
+        e.target;
 
     const amount =
-        number($("incomeAmount").value);
+        number(
+            $("incomeAmount").value
+        );
 
     if (amount <= 0) {
-        toast("Geçerli bir gelir tutarı girin.", "error");
+
+        toast(
+            "Geçerli bir gelir tutarı girin.",
+            "error"
+        );
+
         return;
     }
 
     try {
 
-        const transaction =
-            await createTransaction({
+        await createTransaction({
 
-                date:
-                    $("incomeDate").value,
+            date:
+                $("incomeDate").value,
 
-                type:
-                    "income",
+            type:
+                "income",
 
-                category:
-                    $("incomeCategory").value,
+            category:
+                $("incomeCategory").value,
 
-                description:
-                    $("incomeDescription").value.trim(),
+            description:
+                $("incomeDescription")
+                    .value
+                    .trim(),
 
-                amount,
+            amount,
 
-                sourceType:
-                    "income"
+            sourceType:
+                "income"
 
-            });
+        });
 
-        finance.bankBalance += amount;
+        finance.bankBalance +=
+            amount;
 
         await saveUserPatch({
             bankBalance:
@@ -2335,6 +3434,7 @@ window.addIncome = async function(e) {
         );
 
     }
+
 };
 
 /* =========================================================
@@ -2345,13 +3445,21 @@ window.addExpense = async function(e) {
 
     e.preventDefault();
 
-    const form = e.target;
+    const form =
+        e.target;
 
     const amount =
-        number($("expenseAmount").value);
+        number(
+            $("expenseAmount").value
+        );
 
     if (amount <= 0) {
-        toast("Geçerli bir gider tutarı girin.", "error");
+
+        toast(
+            "Geçerli bir gider tutarı girin.",
+            "error"
+        );
+
         return;
     }
 
@@ -2369,7 +3477,9 @@ window.addExpense = async function(e) {
                 $("expenseCategory").value,
 
             description:
-                $("expenseDescription").value.trim(),
+                $("expenseDescription")
+                    .value
+                    .trim(),
 
             amount,
 
@@ -2378,7 +3488,8 @@ window.addExpense = async function(e) {
 
         });
 
-        finance.bankBalance -= amount;
+        finance.bankBalance -=
+            amount;
 
         await saveUserPatch({
             bankBalance:
@@ -2405,7 +3516,9 @@ window.addExpense = async function(e) {
             "Gider kaydedilirken hata oluştu.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
@@ -2416,7 +3529,8 @@ window.addSupplier = async function(e) {
 
     e.preventDefault();
 
-    const form = e.target;
+    const form =
+        e.target;
 
     const name =
         $("supplierName")
@@ -2430,12 +3544,22 @@ window.addSupplier = async function(e) {
         );
 
     if (!name) {
-        toast("Tedarikçi adı girin.", "error");
+
+        toast(
+            "Tedarikçi adı girin.",
+            "error"
+        );
+
         return;
     }
 
     if (initialDebt < 0) {
-        toast("Borç negatif olamaz.", "error");
+
+        toast(
+            "Borç negatif olamaz.",
+            "error"
+        );
+
         return;
     }
 
@@ -2473,12 +3597,6 @@ window.addSupplier = async function(e) {
             supplierRef.key
         ] = supplier;
 
-        /*
-         * Başlangıç borcu 0'dan büyükse bunu da
-         * hareket olarak kaydet.
-         *
-         * Bu hareket bankayı etkilemez.
-         */
         if (initialDebt > 0) {
 
             await createTransaction({
@@ -2511,6 +3629,7 @@ window.addSupplier = async function(e) {
                     supplierRef.key
 
             });
+
         }
 
         form.reset();
@@ -2533,7 +3652,9 @@ window.addSupplier = async function(e) {
             "Tedarikçi eklenirken hata oluştu.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
@@ -2545,7 +3666,8 @@ window.editSupplierPrompt = function(id) {
     const supplier =
         finance.suppliers[id];
 
-    if (!supplier) return;
+    if (!supplier)
+        return;
 
     openModal(
 
@@ -2555,6 +3677,7 @@ window.editSupplierPrompt = function(id) {
         <div class="space-y-4">
 
             <div>
+
                 <label class="block text-xs text-slate-400 mb-1">
                     Tedarikçi Adı
                 </label>
@@ -2562,13 +3685,19 @@ window.editSupplierPrompt = function(id) {
                 <input id="editSupplierName"
                        value="${escapeHtml(supplier.name)}"
                        class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
+
             </div>
 
             <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
-                <div class="text-xs text-slate-400">Mevcut Borç</div>
+
+                <div class="text-xs text-slate-400">
+                    Mevcut Borç
+                </div>
+
                 <div class="text-lg font-bold text-rose-400 mt-1">
                     ${money(supplier.debt)}
                 </div>
+
             </div>
 
         </div>
@@ -2586,6 +3715,7 @@ window.editSupplierPrompt = function(id) {
         </button>
         `
     );
+
 };
 
 window.confirmSupplierEdit = async function(id) {
@@ -2593,7 +3723,8 @@ window.confirmSupplierEdit = async function(id) {
     const supplier =
         finance.suppliers[id];
 
-    if (!supplier) return;
+    if (!supplier)
+        return;
 
     const newName =
         $("editSupplierName")
@@ -2601,13 +3732,19 @@ window.confirmSupplierEdit = async function(id) {
             .trim();
 
     if (!newName) {
-        toast("Tedarikçi adı boş bırakılamaz.", "error");
+
+        toast(
+            "Tedarikçi adı boş bırakılamaz.",
+            "error"
+        );
+
         return;
     }
 
     try {
 
-        supplier.name = newName;
+        supplier.name =
+            newName;
 
         await update(
             ref(
@@ -2615,7 +3752,8 @@ window.confirmSupplierEdit = async function(id) {
                 `users/${currentUser.uid}/suppliers/${id}`
             ),
             {
-                name: newName
+                name:
+                    newName
             }
         );
 
@@ -2636,7 +3774,9 @@ window.confirmSupplierEdit = async function(id) {
             "Tedarikçi güncellenemedi.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
@@ -2648,19 +3788,16 @@ window.deleteSupplierPrompt = function(id) {
     const supplier =
         finance.suppliers[id];
 
-    if (!supplier) return;
+    if (!supplier)
+        return;
 
     const related =
         transactionArray()
-            .filter(t =>
-                t.supplierId === id
+            .filter(
+                t =>
+                    t.supplierId === id
             );
 
-    /*
-     * Hareket geçmişi varsa direkt silmeye izin vermiyoruz.
-     * Çünkü eski tedarikçi ödemelerinin geri alınabilirliğini
-     * bozmamak gerekiyor.
-     */
     if (related.length > 0) {
 
         openModal(
@@ -2719,10 +3856,12 @@ window.deleteSupplierPrompt = function(id) {
             </div>
 
             <div class="mt-3 text-xs text-slate-400">
+
                 Güncel borç:
                 <strong class="text-rose-400">
                     ${money(supplier.debt)}
                 </strong>
+
             </div>
 
         </div>
@@ -2740,6 +3879,7 @@ window.deleteSupplierPrompt = function(id) {
         </button>
         `
     );
+
 };
 
 window.executeDeleteSupplier = async function(id) {
@@ -2747,7 +3887,8 @@ window.executeDeleteSupplier = async function(id) {
     const supplier =
         finance.suppliers[id];
 
-    if (!supplier) return;
+    if (!supplier)
+        return;
 
     try {
 
@@ -2777,7 +3918,9 @@ window.executeDeleteSupplier = async function(id) {
             "Tedarikçi silinemedi.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
@@ -2789,7 +3932,8 @@ window.supplierPaymentPrompt = function(id) {
     const supplier =
         finance.suppliers[id];
 
-    if (!supplier) return;
+    if (!supplier)
+        return;
 
     if (number(supplier.debt) <= 0) {
 
@@ -2843,6 +3987,7 @@ window.supplierPaymentPrompt = function(id) {
         </button>
         `
     );
+
 };
 
 window.confirmSupplierPayment = async function(id) {
@@ -2850,7 +3995,8 @@ window.confirmSupplierPayment = async function(id) {
     const supplier =
         finance.suppliers[id];
 
-    if (!supplier) return;
+    if (!supplier)
+        return;
 
     const amount =
         number(
@@ -2859,11 +4005,19 @@ window.confirmSupplierPayment = async function(id) {
         );
 
     if (amount <= 0) {
-        toast("Geçerli bir ödeme tutarı girin.", "error");
+
+        toast(
+            "Geçerli bir ödeme tutarı girin.",
+            "error"
+        );
+
         return;
     }
 
-    if (amount > number(supplier.debt)) {
+    if (
+        amount >
+        number(supplier.debt)
+    ) {
 
         toast(
             "Ödeme borçtan fazla olamaz.",
@@ -2873,60 +4027,70 @@ window.confirmSupplierPayment = async function(id) {
         return;
     }
 
-    if (finance.bankBalance < amount) {
+    if (
+        finance.bankBalance <
+        amount
+    ) {
 
         const proceed =
-            await new Promise(resolve => {
+            await new Promise(
+                resolve => {
 
-                openModal(
+                    openModal(
 
-                    "Banka Bakiyesi Yetersiz",
+                        "Banka Bakiyesi Yetersiz",
 
-                    `
-                    <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm">
+                        `
+                        <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm">
 
-                        Banka bakiyesi:
-                        <strong class="text-sky-400">
-                            ${money(finance.bankBalance)}
-                        </strong>
+                            Banka bakiyesi:
+                            <strong class="text-sky-400">
+                                ${money(finance.bankBalance)}
+                            </strong>
 
-                        <br><br>
+                            <br><br>
 
-                        Ödeme:
-                        <strong class="text-rose-400">
-                            ${money(amount)}
-                        </strong>
+                            Ödeme:
+                            <strong class="text-rose-400">
+                                ${money(amount)}
+                            </strong>
 
-                        <br><br>
+                            <br><br>
 
-                        Yine de işlemi kaydetmek ister misiniz?
+                            Yine de işlemi kaydetmek ister misiniz?
 
-                    </div>
-                    `,
+                        </div>
+                        `,
 
-                    `
-                    <button onclick="closeModal(); window.__confirmResolve(false)"
-                            class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs">
-                        Vazgeç
-                    </button>
+                        `
+                        <button onclick="closeModal(); window.__confirmResolve(false)"
+                                class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs">
+                            Vazgeç
+                        </button>
 
-                    <button onclick="closeModal(); window.__confirmResolve(true)"
-                            class="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-bold">
-                        Yine de Kaydet
-                    </button>
-                    `
-                );
+                        <button onclick="closeModal(); window.__confirmResolve(true)"
+                                class="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-bold">
+                            Yine de Kaydet
+                        </button>
+                        `
+                    );
 
-                window.__confirmResolve = resolve;
-            });
+                    window.__confirmResolve =
+                        resolve;
 
-        if (!proceed) return;
+                }
+            );
+
+        if (!proceed)
+            return;
+
     }
 
     try {
 
         supplier.debt =
-            number(supplier.debt) - amount;
+            number(supplier.debt) -
+            amount;
 
         await update(
             ref(
@@ -2969,7 +4133,8 @@ window.confirmSupplierPayment = async function(id) {
 
         });
 
-        finance.bankBalance -= amount;
+        finance.bankBalance -=
+            amount;
 
         await saveUserPatch({
             bankBalance:
@@ -2993,7 +4158,9 @@ window.confirmSupplierPayment = async function(id) {
             "Tedarikçi ödemesi kaydedilemedi.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
@@ -3005,7 +4172,8 @@ window.supplierAddDebtPrompt = function(id) {
     const supplier =
         finance.suppliers[id];
 
-    if (!supplier) return;
+    if (!supplier)
+        return;
 
     openModal(
 
@@ -3053,6 +4221,7 @@ window.supplierAddDebtPrompt = function(id) {
         </button>
         `
     );
+
 };
 
 window.confirmSupplierDebtAdd = async function(id) {
@@ -3060,7 +4229,8 @@ window.confirmSupplierDebtAdd = async function(id) {
     const supplier =
         finance.suppliers[id];
 
-    if (!supplier) return;
+    if (!supplier)
+        return;
 
     const amount =
         number(
@@ -3111,7 +4281,8 @@ window.confirmSupplierDebtAdd = async function(id) {
         });
 
         supplier.debt =
-            number(supplier.debt) + amount;
+            number(supplier.debt) +
+            amount;
 
         await update(
             ref(
@@ -3141,7 +4312,9 @@ window.confirmSupplierDebtAdd = async function(id) {
             "Borç eklenirken hata oluştu.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
@@ -3153,25 +4326,36 @@ window.saveFoodCards = async function() {
     const cards = {
 
         edenred:
-            number($("foodEdenred").value),
+            number(
+                $("foodEdenred").value
+            ),
 
         multinet:
-            number($("foodMultinet").value),
+            number(
+                $("foodMultinet").value
+            ),
 
         sodexo:
-            number($("foodSodexo").value),
+            number(
+                $("foodSodexo").value
+            ),
 
         setcard:
-            number($("foodSetcard").value),
+            number(
+                $("foodSetcard").value
+            ),
 
         other:
-            number($("foodOther").value)
+            number(
+                $("foodOther").value
+            )
 
     };
 
     try {
 
-        finance.foodCards = cards;
+        finance.foodCards =
+            cards;
 
         await saveUserPatch({
             foodCards:
@@ -3193,7 +4377,9 @@ window.saveFoodCards = async function() {
             "Yemek kartları kaydedilemedi.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
@@ -3205,10 +4391,17 @@ window.addBill = async function(e) {
     e.preventDefault();
 
     const amount =
-        number($("billAmount").value);
+        number(
+            $("billAmount").value
+        );
 
     if (amount <= 0) {
-        toast("Geçerli bir fatura tutarı girin.", "error");
+
+        toast(
+            "Geçerli bir fatura tutarı girin.",
+            "error"
+        );
+
         return;
     }
 
@@ -3264,38 +4457,39 @@ window.addBill = async function(e) {
 
         if (status === "paid") {
 
-            const tx =
-                await createTransaction({
+            await createTransaction({
 
-                    date:
-                        bill.date,
+                date:
+                    bill.date,
 
-                    type:
-                        "expense",
+                type:
+                    "expense",
 
-                    category:
-                        bill.type,
+                category:
+                    bill.type,
 
-                    description:
-                        bill.description ||
-                        `${bill.type} faturası`,
+                description:
+                    bill.description ||
+                    `${bill.type} faturası`,
 
-                    amount,
+                amount,
 
-                    sourceType:
-                        "bill",
+                sourceType:
+                    "bill",
 
-                    sourceId:
-                        billRef.key
+                sourceId:
+                    billRef.key
 
-                });
+            });
 
-            finance.bankBalance -= amount;
+            finance.bankBalance -=
+                amount;
 
             await saveUserPatch({
                 bankBalance:
                     finance.bankBalance
             });
+
         }
 
         e.target.reset();
@@ -3320,7 +4514,9 @@ window.addBill = async function(e) {
             "Fatura kaydedilemedi.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
@@ -3332,7 +4528,8 @@ window.deleteBillPrompt = function(id) {
     const bill =
         finance.bills[id];
 
-    if (!bill) return;
+    if (!bill)
+        return;
 
     openModal(
 
@@ -3350,11 +4547,13 @@ window.deleteBillPrompt = function(id) {
             </div>
 
             <div class="text-xs text-slate-400 mt-2">
+
                 ${
                     bill.status === "paid"
                         ? "Bu fatura ödenmiş. Silindiğinde banka çıkışı da geri alınacaktır."
                         : "Bu fatura ödenmemiş. Sadece fatura kaydı silinecektir."
                 }
+
             </div>
 
         </div>
@@ -3372,6 +4571,7 @@ window.deleteBillPrompt = function(id) {
         </button>
         `
     );
+
 };
 
 window.executeDeleteBill = async function(id) {
@@ -3379,18 +4579,17 @@ window.executeDeleteBill = async function(id) {
     const bill =
         finance.bills[id];
 
-    if (!bill) return;
+    if (!bill)
+        return;
 
     try {
 
-        /*
-         * Ödenmiş faturanın ilgili hareketini bul.
-         */
         const relatedTransaction =
             transactionArray()
-                .find(t =>
-                    t.sourceType === "bill" &&
-                    t.sourceId === id
+                .find(
+                    t =>
+                        t.sourceType === "bill" &&
+                        t.sourceId === id
                 );
 
         if (
@@ -3399,7 +4598,9 @@ window.executeDeleteBill = async function(id) {
         ) {
 
             finance.bankBalance +=
-                number(relatedTransaction.amount);
+                number(
+                    relatedTransaction.amount
+                );
 
             delete finance.transactions[
                 relatedTransaction.id
@@ -3416,6 +4617,7 @@ window.executeDeleteBill = async function(id) {
                 bankBalance:
                     finance.bankBalance
             });
+
         }
 
         delete finance.bills[id];
@@ -3444,8 +4646,486 @@ window.executeDeleteBill = async function(id) {
             "Fatura silinemedi.",
             "error"
         );
+
     }
+
 };
+
+/* =========================================================
+   RENT HELPERS
+========================================================= */
+
+function getRentTransactionForMonth(
+    monthKey
+) {
+
+    return transactionArray()
+        .find(
+            t =>
+                t.type === "expense" &&
+                t.sourceType === "rent" &&
+                t.sourceId === `rent-${monthKey}`
+        );
+
+}
+
+function isRentPaidForCurrentMonth() {
+
+    return Boolean(
+        getRentTransactionForMonth(
+            currentMonthKey()
+        )
+    );
+
+}
+
+function rentDueDateForMonth(
+    year,
+    monthIndex,
+    day
+) {
+
+    const lastDay =
+        new Date(
+            year,
+            monthIndex + 1,
+            0
+        ).getDate();
+
+    const safeDay =
+        Math.min(
+            number(day) || 10,
+            lastDay
+        );
+
+    return new Date(
+        year,
+        monthIndex,
+        safeDay
+    );
+
+}
+
+/*
+ * Ayın ödeme günü geçmişse, otomatik kayıt açıksa
+ * ilgili aya yalnızca bir kez kira gideri oluşturur.
+ */
+async function ensureMonthlyRentPayment() {
+
+    if (!currentUser)
+        return;
+
+    if (
+        !finance.rentSettings?.autoRecord
+    )
+        return;
+
+    const now =
+        new Date();
+
+    const year =
+        now.getFullYear();
+
+    const monthIndex =
+        now.getMonth();
+
+    const monthKey =
+        `${year}-${String(monthIndex + 1).padStart(2, "0")}`;
+
+    const dueDay =
+        number(
+            finance.rentSettings?.dueDay
+        ) || 10;
+
+    const currentDay =
+        now.getDate();
+
+    if (
+        currentDay <
+        dueDay
+    )
+        return;
+
+    const exists =
+        getRentTransactionForMonth(
+            monthKey
+        );
+
+    if (exists)
+        return;
+
+    const amount =
+        number(
+            finance.rentSettings?.amount
+        ) || 28000;
+
+    try {
+
+        const rentDate =
+            `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(Math.min(currentDay, rentDueDateForMonth(year, monthIndex, dueDay).getDate())).padStart(2, "0")}`;
+
+        /*
+         * Kira kaydı otomatik oluşturuluyor.
+         * Kaydın sourceId değeri ay bazlıdır.
+         */
+        await createTransaction({
+
+            date:
+                rentDate,
+
+            type:
+                "expense",
+
+            category:
+                "Kira",
+
+            description:
+                `${formatMonthTR(now)} kira ödemesi`,
+
+            amount,
+
+            sourceType:
+                "rent",
+
+            sourceId:
+                `rent-${monthKey}`
+
+        });
+
+        finance.bankBalance -=
+            amount;
+
+        await saveUserPatch({
+            bankBalance:
+                finance.bankBalance
+        });
+
+        /*
+         * Sadece otomatik ödeme gerçekten gerçekleştiğinde
+         * bilgi göster.
+         */
+        setTimeout(
+            () => {
+
+                toast(
+                    `${money(amount)} ${formatMonthTR(now)} kira gideri otomatik kaydedildi.`,
+                    "success"
+                );
+
+            },
+            300
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Auto rent error:",
+            error
+        );
+
+    }
+
+}
+
+window.saveRentSettings = async function(e) {
+
+    e.preventDefault();
+
+    const amount =
+        number(
+            $("rentAmount").value
+        );
+
+    const dueDay =
+        number(
+            $("rentDueDay").value
+        );
+
+    const autoRecord =
+        $("rentAutoRecord").checked;
+
+    if (amount <= 0) {
+
+        toast(
+            "Kira tutarı 0'dan büyük olmalı.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (
+        dueDay < 1 ||
+        dueDay > 31
+    ) {
+
+        toast(
+            "Geçerli bir ödeme günü seçin.",
+            "error"
+        );
+
+        return;
+    }
+
+    try {
+
+        finance.rentSettings = {
+
+            amount,
+
+            dueDay,
+
+            autoRecord,
+
+            title:
+                "Kira"
+
+        };
+
+        await saveUserPatch({
+
+            rentSettings:
+                finance.rentSettings
+
+        });
+
+        /*
+         * Ayın günü zaten geçtiyse ve otomatik kayıt açıksa
+         * yeni ayar ile o ayın kaydını kontrol et.
+         */
+        await ensureMonthlyRentPayment();
+
+        queueRender();
+
+        toast(
+            "Kira ayarları kaydedildi.",
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        toast(
+            "Kira ayarları kaydedilemedi.",
+            "error"
+        );
+
+    }
+
+};
+
+window.payCurrentMonthRent = async function() {
+
+    const monthKey =
+        currentMonthKey();
+
+    const alreadyPaid =
+        getRentTransactionForMonth(
+            monthKey
+        );
+
+    if (alreadyPaid) {
+
+        toast(
+            "Bu ayın kirası zaten kaydedilmiş.",
+            "info"
+        );
+
+        return;
+    }
+
+    const amount =
+        number(
+            finance.rentSettings?.amount
+        ) || 28000;
+
+    const d =
+        new Date();
+
+    const year =
+        d.getFullYear();
+
+    const monthIndex =
+        d.getMonth();
+
+    const dueDay =
+        number(
+            finance.rentSettings?.dueDay
+        ) || 10;
+
+    const dateObj =
+        rentDueDateForMonth(
+            year,
+            monthIndex,
+            dueDay
+        );
+
+    const rentDate =
+        `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}`;
+
+    try {
+
+        await createTransaction({
+
+            date:
+                rentDate,
+
+            type:
+                "expense",
+
+            category:
+                "Kira",
+
+            description:
+                `${formatMonthTR(d)} kira ödemesi`,
+
+            amount,
+
+            sourceType:
+                "rent",
+
+            sourceId:
+                `rent-${monthKey}`
+
+        });
+
+        finance.bankBalance -=
+            amount;
+
+        await saveUserPatch({
+
+            bankBalance:
+                finance.bankBalance
+
+        });
+
+        toast(
+            `${money(amount)} kira kaydedildi.`,
+            "success"
+        );
+
+        queueRender();
+
+    } catch (error) {
+
+        console.error(error);
+
+        toast(
+            "Kira kaydedilemedi.",
+            "error"
+        );
+
+    }
+
+};
+
+/* =========================================================
+   RENT RENDER
+========================================================= */
+
+function renderRentPage() {
+
+    if (!$("rentAmount"))
+        return;
+
+    const settings =
+        finance.rentSettings || {};
+
+    $("rentAmount").value =
+        number(
+            settings.amount
+        ) || 28000;
+
+    $("rentDueDay").value =
+        String(
+            number(
+                settings.dueDay
+            ) || 10
+        );
+
+    $("rentAutoRecord").checked =
+        settings.autoRecord !== false;
+
+    $("rentCurrentAmount").textContent =
+        money(
+            settings.amount
+        );
+
+    $("rentInfoAmount").textContent =
+        money(
+            settings.amount
+        );
+
+    $("rentInfoDay").textContent =
+        number(
+            settings.dueDay
+        ) || 10;
+
+    $("rentInfoAuto").textContent =
+        settings.autoRecord !== false
+            ? "Açık"
+            : "Kapalı";
+
+    $("rentInfoAuto").className =
+        "text-xl font-black mt-1 " +
+        (
+            settings.autoRecord !== false
+                ? "text-emerald-400"
+                : "text-slate-400"
+        );
+
+    $("rentMonthLabel").textContent =
+        formatMonthTR();
+
+    const paid =
+        isRentPaidForCurrentMonth();
+
+    const dueDay =
+        number(
+            settings.dueDay
+        ) || 10;
+
+    if (paid) {
+
+        $("rentCurrentStatus").innerHTML =
+            `
+            <span class="inline-flex items-center gap-2 text-emerald-400">
+                <span class="status-dot bg-emerald-400"></span>
+                Bu ayın kirası ödendi.
+            </span>
+            `;
+
+        $("rentPayButton").disabled =
+            true;
+
+        $("rentPayButton").className =
+            "w-full mt-5 py-3 rounded-xl bg-slate-800 text-slate-500 text-xs font-bold cursor-not-allowed";
+
+        $("rentPayButton").textContent =
+            "Bu Ay Ödendi";
+
+    } else {
+
+        $("rentCurrentStatus").innerHTML =
+            `
+            <span class="inline-flex items-center gap-2 text-orange-400">
+                <span class="status-dot bg-orange-400"></span>
+                Ayın ${dueDay}'unda kira ödenecek.
+            </span>
+            `;
+
+        $("rentPayButton").disabled =
+            false;
+
+        $("rentPayButton").className =
+            "w-full mt-5 py-3 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold";
+
+        $("rentPayButton").textContent =
+            "Bu Ay Kirayı Ödendi Olarak Kaydet";
+    }
+
+}
 
 /* =========================================================
    TRANSACTION LABELS
@@ -3456,8 +5136,17 @@ function transactionTypeLabel(t) {
     if (t.type === "income")
         return "Gelir";
 
-    if (t.type === "expense")
+    if (t.type === "expense") {
+
+        if (t.sourceType === "rent")
+            return "Kira";
+
+        if (t.sourceType === "bill")
+            return "Fatura Gideri";
+
         return "Gider";
+
+    }
 
     if (t.type === "supplier_payment")
         return "Tedarikçi Ödemesi";
@@ -3466,17 +5155,22 @@ function transactionTypeLabel(t) {
         return "Borç Ekleme";
 
     return "Diğer";
+
 }
 
 function transactionIsIncome(t) {
+
     return t.type === "income";
+
 }
 
 function transactionIsExpense(t) {
+
     return (
         t.type === "expense" ||
         t.type === "supplier_payment"
     );
+
 }
 
 /* =========================================================
@@ -3498,7 +5192,8 @@ window.undoTransactionPrompt = function(id) {
         return;
     }
 
-    let description = "";
+    let description =
+        "";
 
     if (t.type === "income") {
 
@@ -3509,6 +5204,13 @@ window.undoTransactionPrompt = function(id) {
 
         description =
             `Bu gider kaydı silinecek ve ${money(t.amount)} banka/kasa bakiyesine geri eklenecek.`;
+
+        if (t.sourceType === "rent") {
+
+            description +=
+                " Bu işlem kira kaydı olduğu için bu ayın kira durumu da tekrar 'ödenmedi' olacaktır.";
+
+        }
 
     } else if (t.type === "supplier_payment") {
 
@@ -3524,6 +5226,7 @@ window.undoTransactionPrompt = function(id) {
 
         description =
             "Bu hareket silinecek.";
+
     }
 
     openModal(
@@ -3553,11 +5256,13 @@ window.undoTransactionPrompt = function(id) {
         </button>
         `
     );
+
 };
 
 window.executeUndoTransaction = async function(id) {
 
-    if (!currentUser) return;
+    if (!currentUser)
+        return;
 
     const t =
         finance.transactions[id];
@@ -3565,7 +5270,12 @@ window.executeUndoTransaction = async function(id) {
     if (!t) {
 
         closeModal();
-        toast("Hareket bulunamadı.", "error");
+
+        toast(
+            "Hareket bulunamadı.",
+            "error"
+        );
+
         return;
     }
 
@@ -3584,6 +5294,7 @@ window.executeUndoTransaction = async function(id) {
                 bankBalance:
                     finance.bankBalance
             });
+
         }
 
         /* GİDER GERİ AL */
@@ -3617,18 +5328,22 @@ window.executeUndoTransaction = async function(id) {
                                 "unpaid"
                         }
                     );
+
                 }
+
             }
 
             await saveUserPatch({
                 bankBalance:
                     finance.bankBalance
             });
+
         }
 
         /* TEDARİKÇİ ÖDEMESİ GERİ AL */
         else if (
-            t.type === "supplier_payment"
+            t.type ===
+            "supplier_payment"
         ) {
 
             finance.bankBalance +=
@@ -3644,10 +5359,13 @@ window.executeUndoTransaction = async function(id) {
                 throw new Error(
                     "Tedarikçi bulunamadı. İşlem geri alınamadı."
                 );
+
             }
 
             supplier.debt =
-                number(supplier.debt) +
+                number(
+                    supplier.debt
+                ) +
                 amount;
 
             await update(
@@ -3665,11 +5383,13 @@ window.executeUndoTransaction = async function(id) {
                 bankBalance:
                     finance.bankBalance
             });
+
         }
 
         /* TEDARİKÇİ BORÇ EKLEME GERİ AL */
         else if (
-            t.type === "supplier_debt_add"
+            t.type ===
+            "supplier_debt_add"
         ) {
 
             const supplier =
@@ -3682,12 +5402,15 @@ window.executeUndoTransaction = async function(id) {
                 throw new Error(
                     "Tedarikçi bulunamadı. Borç geri alınamadı."
                 );
+
             }
 
             supplier.debt =
                 Math.max(
                     0,
-                    number(supplier.debt) -
+                    number(
+                        supplier.debt
+                    ) -
                     amount
                 );
 
@@ -3701,6 +5424,7 @@ window.executeUndoTransaction = async function(id) {
                         supplier.debt
                 }
             );
+
         }
 
         await remove(
@@ -3730,7 +5454,9 @@ window.executeUndoTransaction = async function(id) {
             "Hareket geri alınamadı.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
@@ -3739,15 +5465,17 @@ window.executeUndoTransaction = async function(id) {
 
 function getSortedTransactions() {
 
-    return transactionArray().sort(
-        (a, b) =>
+    return transactionArray()
+        .sort(
+            (a, b) =>
+                String(b.date)
+                    .localeCompare(
+                        String(a.date)
+                    ) ||
+                number(b.createdAt) -
+                    number(a.createdAt)
+        );
 
-            String(b.date)
-                .localeCompare(String(a.date)) ||
-
-            number(b.createdAt) -
-            number(a.createdAt)
-    );
 }
 
 window.undoLastTransactionPrompt = function() {
@@ -3768,6 +5496,7 @@ window.undoLastTransactionPrompt = function() {
     undoTransactionPrompt(
         list[0].id
     );
+
 };
 
 /* =========================================================
@@ -3776,7 +5505,8 @@ window.undoLastTransactionPrompt = function() {
 
 window.quickActionModal = function() {
 
-    window.quickType = "income";
+    window.quickType =
+        "income";
 
     openModal(
 
@@ -3827,11 +5557,13 @@ window.quickActionModal = function() {
         </button>
         `
     );
+
 };
 
 window.toggleQuickType = function(type) {
 
-    window.quickType = type;
+    window.quickType =
+        type;
 
     const inc =
         $("qTypeIncome");
@@ -3855,14 +5587,14 @@ window.toggleQuickType = function(type) {
         inc.className =
             "py-2 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs";
     }
+
 };
 
 window.submitQuickAction = async function() {
 
     const amount =
         number(
-            $("qAmount")
-                ?.value
+            $("qAmount")?.value
         );
 
     const desc =
@@ -3910,6 +5642,7 @@ window.submitQuickAction = async function() {
 
                 sourceType:
                     "income"
+
             });
 
             finance.bankBalance +=
@@ -3940,6 +5673,7 @@ window.submitQuickAction = async function() {
 
             finance.bankBalance -=
                 amount;
+
         }
 
         await saveUserPatch({
@@ -3964,53 +5698,76 @@ window.submitQuickAction = async function() {
             "Kayıt oluşturulamadı.",
             "error"
         );
+
     }
+
 };
 
 /* =========================================================
    PERIOD CALCULATION
 ========================================================= */
 
-function calculatePeriod(start, end) {
+function calculatePeriod(
+    start,
+    end
+) {
 
-    let income = 0;
-    let expense = 0;
+    let income =
+        0;
+
+    let expense =
+        0;
 
     transactionArray()
-        .forEach(t => {
+        .forEach(
+            t => {
 
-            if (
-                start &&
-                String(t.date) < String(start)
-            ) return;
+                if (
+                    start &&
+                    String(t.date) <
+                    String(start)
+                )
+                    return;
 
-            if (
-                end &&
-                String(t.date) > String(end)
-            ) return;
+                if (
+                    end &&
+                    String(t.date) >
+                    String(end)
+                )
+                    return;
 
-            if (t.type === "income") {
+                if (
+                    t.type ===
+                    "income"
+                ) {
 
-                income +=
-                    number(t.amount);
+                    income +=
+                        number(t.amount);
 
-            } else if (
-                t.type === "expense" ||
-                t.type === "supplier_payment"
-            ) {
+                } else if (
+                    t.type === "expense" ||
+                    t.type === "supplier_payment"
+                ) {
 
-                expense +=
-                    number(t.amount);
+                    expense +=
+                        number(t.amount);
+
+                }
+
             }
-
-        });
+        );
 
     return {
+
         income,
+
         expense,
+
         net:
             income - expense
+
     };
+
 }
 
 /* =========================================================
@@ -4019,10 +5776,13 @@ function calculatePeriod(start, end) {
 
 function renderDashboard() {
 
-    if (!$("dashBank")) return;
+    if (!$("dashBank"))
+        return;
 
     $("dashBank").textContent =
-        money(finance.bankBalance);
+        money(
+            finance.bankBalance
+        );
 
     const foodTotal =
         Object.values(
@@ -4030,7 +5790,8 @@ function renderDashboard() {
         )
         .reduce(
             (sum, value) =>
-                sum + number(value),
+                sum +
+                number(value),
             0
         );
 
@@ -4044,7 +5805,10 @@ function renderDashboard() {
         supplierArray()
             .reduce(
                 (sum, supplier) =>
-                    sum + number(supplier.debt),
+                    sum +
+                    number(
+                        supplier.debt
+                    ),
                 0
             );
 
@@ -4057,6 +5821,72 @@ function renderDashboard() {
     $("reportDebt").textContent =
         money(debt);
 
+    /* FATURA BORCU */
+    const billDebt =
+        unpaidBillTotal();
+
+    const unpaidCount =
+        unpaidBills().length;
+
+    $("dashBills").textContent =
+        money(billDebt);
+
+    $("dashBillsSub").textContent =
+        unpaidCount > 0
+            ? `${unpaidCount} ödenmemiş fatura • Detaya git →`
+            : "Ödenmemiş fatura yok";
+
+    $("billUnpaidTotal").textContent =
+        money(billDebt);
+
+    $("billUnpaidCount").textContent =
+        unpaidCount;
+
+    $("billTotalCount").textContent =
+        billArray().length;
+
+    /* KİRA */
+    const rentAmount =
+        number(
+            finance.rentSettings?.amount
+        ) || 28000;
+
+    const rentDay =
+        number(
+            finance.rentSettings?.dueDay
+        ) || 10;
+
+    const rentPaid =
+        isRentPaidForCurrentMonth();
+
+    $("dashRent").textContent =
+        money(rentAmount);
+
+    if (rentPaid) {
+
+        $("dashRentSub").textContent =
+            "Bu ay ödendi • Detaya git →";
+
+        $("dashRentStatusBadge").textContent =
+            "ÖDENDİ";
+
+        $("dashRentStatusBadge").className =
+            "text-[10px] font-bold px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20";
+
+    } else {
+
+        $("dashRentSub").textContent =
+            `Her ayın ${rentDay}'u • Detaya git →`;
+
+        $("dashRentStatusBadge").textContent =
+            `Ayın ${rentDay}'u`;
+
+        $("dashRentStatusBadge").className =
+            "text-[10px] font-bold px-2 py-1 rounded-lg bg-orange-500/10 text-orange-300 border border-orange-500/20";
+
+    }
+
+    /* AY ÖZETİ */
     const month =
         calculatePeriod(
             monthStart(),
@@ -4086,7 +5916,11 @@ function renderDashboard() {
     $("manualBankBalance").value =
         finance.bankBalance;
 
+    $("currentMonthLabel").textContent =
+        formatMonthTR();
+
     renderRecentTransactions();
+
 }
 
 /* =========================================================
@@ -4098,87 +5932,112 @@ function renderRecentTransactions() {
     const target =
         $("recentTransactions");
 
-    if (!target) return;
+    if (!target)
+        return;
 
     const list =
         getSortedTransactions()
-            .slice(0, 6);
+            .slice(
+                0,
+                6
+            );
 
     if (!list.length) {
 
         target.innerHTML =
-            `<div class="py-6 text-center text-xs text-slate-500">
+            `
+            <div class="py-6 text-center text-xs text-slate-500">
                 Henüz finansal hareket yok.
-             </div>`;
+            </div>
+            `;
 
         return;
     }
 
-    target.innerHTML = `
+    target.innerHTML =
+        `
 
         <table class="w-full text-left text-xs">
 
             <thead>
+
                 <tr class="text-slate-400 border-b border-slate-800">
 
-                    <th class="pb-2">Tarih</th>
-                    <th class="pb-2">Tür</th>
-                    <th class="pb-2">Açıklama</th>
-                    <th class="pb-2 text-right">Tutar</th>
+                    <th class="pb-2">
+                        Tarih
+                    </th>
+
+                    <th class="pb-2">
+                        Tür
+                    </th>
+
+                    <th class="pb-2">
+                        Açıklama
+                    </th>
+
+                    <th class="pb-2 text-right">
+                        Tutar
+                    </th>
 
                 </tr>
+
             </thead>
 
             <tbody class="divide-y divide-slate-800/60">
 
-                ${list.map(t => {
+                ${list.map(
+                    t => {
 
-                    const income =
-                        t.type === "income";
+                        const income =
+                            t.type === "income";
 
-                    const sign =
-                        income ? "+" : "-";
+                        const sign =
+                            income
+                                ? "+"
+                                : "-";
 
-                    const color =
-                        income
-                            ? "text-emerald-400"
-                            : "text-rose-400";
+                        const color =
+                            income
+                                ? "text-emerald-400"
+                                : "text-rose-400";
 
-                    return `
+                        return `
 
-                    <tr>
+                        <tr>
 
-                        <td class="py-2.5 text-slate-400">
-                            ${escapeHtml(t.date)}
-                        </td>
+                            <td class="py-2.5 text-slate-400">
+                                ${escapeHtml(t.date)}
+                            </td>
 
-                        <td class="py-2.5 text-slate-300 font-medium">
-                            ${escapeHtml(transactionTypeLabel(t))}
-                        </td>
+                            <td class="py-2.5 text-slate-300 font-medium">
+                                ${escapeHtml(
+                                    transactionTypeLabel(t)
+                                )}
+                            </td>
 
-                        <td class="py-2.5 text-slate-400">
-                            ${escapeHtml(
-                                t.description ||
-                                t.category ||
-                                "-"
-                            )}
-                        </td>
+                            <td class="py-2.5 text-slate-400">
+                                ${escapeHtml(
+                                    t.description ||
+                                    t.category ||
+                                    "-"
+                                )}
+                            </td>
 
-                        <td class="py-2.5 text-right font-bold ${color}">
-                            ${sign}${money(t.amount)}
-                        </td>
+                            <td class="py-2.5 text-right font-bold ${color}">
+                                ${sign}${money(t.amount)}
+                            </td>
 
-                    </tr>
+                        </tr>
+                        `;
 
-                    `;
-
-                }).join("")}
+                    }
+                ).join("")}
 
             </tbody>
 
         </table>
+        `;
 
-    `;
 }
 
 /* =========================================================
@@ -4190,45 +6049,57 @@ function renderExpenseSummary() {
     const target =
         $("expenseSummary");
 
-    if (!target) return;
+    if (!target)
+        return;
 
     const totals = {};
 
     transactionArray()
-        .forEach(t => {
+        .forEach(
+            t => {
 
-            if (
-                !transactionIsExpense(t)
-            ) return;
+                if (
+                    !transactionIsExpense(t)
+                )
+                    return;
 
-            const category =
-                t.category ||
-                "Diğer";
+                const category =
+                    t.category ||
+                    "Diğer";
 
-            totals[category] =
-                number(totals[category]) +
-                number(t.amount);
+                totals[category] =
+                    number(
+                        totals[category]
+                    ) +
+                    number(t.amount);
 
-        });
+            }
+        );
 
     const rows =
         Object.entries(totals)
-            .sort((a, b) => b[1] - a[1])
-            .map(([category, total]) => `
+            .sort(
+                (a, b) =>
+                    b[1] - a[1]
+            )
+            .map(
+                ([category, total]) =>
+                    `
 
-                <tr>
+                    <tr>
 
-                    <td class="py-2.5 text-slate-300 font-medium">
-                        ${escapeHtml(category)}
-                    </td>
+                        <td class="py-2.5 text-slate-300 font-medium">
+                            ${escapeHtml(category)}
+                        </td>
 
-                    <td class="py-2.5 text-right font-bold text-rose-400">
-                        ${money(total)}
-                    </td>
+                        <td class="py-2.5 text-right font-bold text-rose-400">
+                            ${money(total)}
+                        </td>
 
-                </tr>
+                    </tr>
 
-            `)
+                    `
+            )
             .join("");
 
     target.innerHTML =
@@ -4241,6 +6112,7 @@ function renderExpenseSummary() {
             </td>
         </tr>
         `;
+
 }
 
 /* =========================================================
@@ -4252,16 +6124,18 @@ function renderSuppliers() {
     const target =
         $("supplierTable");
 
-    if (!target) return;
+    if (!target)
+        return;
 
     const list =
         supplierArray()
-            .sort((a, b) =>
-                String(a.name)
-                    .localeCompare(
-                        String(b.name),
-                        "tr"
-                    )
+            .sort(
+                (a, b) =>
+                    String(a.name)
+                        .localeCompare(
+                            String(b.name),
+                            "tr"
+                        )
             );
 
     if (!list.length) {
@@ -4280,7 +6154,8 @@ function renderSuppliers() {
     }
 
     target.innerHTML =
-        list.map(s => `
+        list.map(
+            s => `
 
             <tr>
 
@@ -4291,7 +6166,11 @@ function renderSuppliers() {
                     </div>
 
                     <div class="text-[10px] text-slate-500 mt-0.5">
-                        ${s.debt > 0 ? "Borçlu" : "Borç yok"}
+                        ${
+                            s.debt > 0
+                                ? "Borçlu"
+                                : "Borç yok"
+                        }
                     </div>
 
                 </td>
@@ -4330,7 +6209,10 @@ function renderSuppliers() {
 
             </tr>
 
-        `).join("");
+            `
+        )
+        .join("");
+
 }
 
 /* =========================================================
@@ -4339,22 +6221,33 @@ function renderSuppliers() {
 
 function renderFoodCards() {
 
-    if (!$("foodEdenred")) return;
+    if (!$("foodEdenred"))
+        return;
 
     $("foodEdenred").value =
-        number(finance.foodCards.edenred);
+        number(
+            finance.foodCards.edenred
+        );
 
     $("foodMultinet").value =
-        number(finance.foodCards.multinet);
+        number(
+            finance.foodCards.multinet
+        );
 
     $("foodSodexo").value =
-        number(finance.foodCards.sodexo);
+        number(
+            finance.foodCards.sodexo
+        );
 
     $("foodSetcard").value =
-        number(finance.foodCards.setcard);
+        number(
+            finance.foodCards.setcard
+        );
 
     $("foodOther").value =
-        number(finance.foodCards.other);
+        number(
+            finance.foodCards.other
+        );
 
     const labels = {
 
@@ -4379,22 +6272,26 @@ function renderFoodCards() {
         Object.entries(
             finance.foodCards
         )
-        .map(([key, value]) => `
+        .map(
+            ([key, value]) =>
+                `
 
-            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-800">
 
-                <span class="text-slate-400 font-medium">
-                    ${labels[key]}
-                </span>
+                    <span class="text-slate-400 font-medium">
+                        ${labels[key]}
+                    </span>
 
-                <strong class="text-amber-400 font-bold">
-                    ${money(value)}
-                </strong>
+                    <strong class="text-amber-400 font-bold">
+                        ${money(value)}
+                    </strong>
 
-            </div>
+                </div>
 
-        `)
+                `
+        )
         .join("");
+
 }
 
 /* =========================================================
@@ -4406,16 +6303,33 @@ function renderBills() {
     const target =
         $("billTable");
 
-    if (!target) return;
+    if (!target)
+        return;
 
     const list =
         billArray()
-            .sort((a, b) =>
-                String(b.date)
-                    .localeCompare(
-                        String(a.date)
-                    )
+            .sort(
+                (a, b) =>
+                    String(b.date)
+                        .localeCompare(
+                            String(a.date)
+                        )
             );
+
+    const unpaidTotal =
+        unpaidBillTotal();
+
+    const unpaidCount =
+        unpaidBills().length;
+
+    $("billUnpaidTotal").textContent =
+        money(unpaidTotal);
+
+    $("billUnpaidCount").textContent =
+        unpaidCount;
+
+    $("billTotalCount").textContent =
+        billArray().length;
 
     if (!list.length) {
 
@@ -4433,7 +6347,8 @@ function renderBills() {
     }
 
     target.innerHTML =
-        list.map(b => `
+        list.map(
+            b => `
 
             <tr>
 
@@ -4482,7 +6397,9 @@ function renderBills() {
 
             </tr>
 
-        `).join("");
+            `
+        ).join("");
+
 }
 
 /* =========================================================
@@ -4494,13 +6411,16 @@ window.renderTransactions = function() {
     const target =
         $("transactionTable");
 
-    if (!target) return;
+    if (!target)
+        return;
 
     const start =
-        $("transactionStart")?.value || "";
+        $("transactionStart")
+            ?.value || "";
 
     const end =
-        $("transactionEnd")?.value || "";
+        $("transactionEnd")
+            ?.value || "";
 
     let list =
         getSortedTransactions();
@@ -4513,6 +6433,7 @@ window.renderTransactions = function() {
                     String(t.date) >=
                     String(start)
             );
+
     }
 
     if (end) {
@@ -4523,6 +6444,7 @@ window.renderTransactions = function() {
                     String(t.date) <=
                     String(end)
             );
+
     }
 
     if (!list.length) {
@@ -4541,85 +6463,90 @@ window.renderTransactions = function() {
     }
 
     target.innerHTML =
-        list.map(t => {
+        list.map(
+            t => {
 
-            const income =
-                t.type === "income";
+                const income =
+                    t.type === "income";
 
-            const expense =
-                transactionIsExpense(t);
+                const expense =
+                    transactionIsExpense(t);
 
-            const sign =
-                income
-                    ? "+"
-                    : expense
-                        ? "-"
-                        : "";
+                const sign =
+                    income
+                        ? "+"
+                        : expense
+                            ? "-"
+                            : "";
 
-            const color =
-                income
-                    ? "text-emerald-400"
-                    : expense
-                        ? "text-rose-400"
-                        : "text-amber-400";
+                const color =
+                    income
+                        ? "text-emerald-400"
+                        : expense
+                            ? "text-rose-400"
+                            : "text-amber-400";
 
-            const badge =
-                income
-                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                    : expense
-                        ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                        : "bg-amber-500/10 text-amber-400 border-amber-500/20";
+                const badge =
+                    income
+                        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                        : expense
+                            ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                            : "bg-amber-500/10 text-amber-400 border-amber-500/20";
 
-            return `
+                return `
 
-            <tr>
+                <tr>
 
-                <td class="py-3 text-slate-400 font-mono text-[11px]">
-                    ${escapeHtml(t.date)}
-                </td>
+                    <td class="py-3 text-slate-400 font-mono text-[11px]">
+                        ${escapeHtml(t.date)}
+                    </td>
 
-                <td class="py-3">
+                    <td class="py-3">
 
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-md
-                                 text-[10px] font-bold border ${badge}">
-                        ${escapeHtml(transactionTypeLabel(t))}
-                    </span>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md
+                                     text-[10px] font-bold border ${badge}">
+                            ${escapeHtml(
+                                transactionTypeLabel(t)
+                            )}
+                        </span>
 
-                </td>
+                    </td>
 
-                <td class="py-3 font-medium text-slate-300">
-                    ${escapeHtml(t.category)}
-                </td>
+                    <td class="py-3 font-medium text-slate-300">
+                        ${escapeHtml(t.category)}
+                    </td>
 
-                <td class="py-3 text-slate-400">
-                    ${escapeHtml(t.description)}
-                </td>
+                    <td class="py-3 text-slate-400">
+                        ${escapeHtml(t.description)}
+                    </td>
 
-                <td class="py-3 font-bold ${color}">
-                    ${sign}${money(t.amount)}
-                </td>
+                    <td class="py-3 font-bold ${color}">
+                        ${sign}${money(t.amount)}
+                    </td>
 
-                <td class="py-3 text-right">
+                    <td class="py-3 text-right">
 
-                    <button onclick="undoTransactionPrompt('${t.id}')"
-                            class="px-2.5 py-1.5 rounded-lg bg-rose-500/10
-                                   hover:bg-rose-500/20 text-rose-300
-                                   text-[11px] font-semibold
-                                   border border-rose-500/20">
-                        ↩ Geri Al & Sil
-                    </button>
+                        <button onclick="undoTransactionPrompt('${t.id}')"
+                                class="px-2.5 py-1.5 rounded-lg bg-rose-500/10
+                                       hover:bg-rose-500/20 text-rose-300
+                                       text-[11px] font-semibold
+                                       border border-rose-500/20">
+                            ↩ Geri Al & Sil
+                        </button>
 
-                </td>
+                    </td>
 
-            </tr>
+                </tr>
 
-            `;
+                `;
 
-        }).join("");
+            }
+        ).join("");
+
 };
 
 /* =========================================================
-   FILTERS
+   TRANSACTION FILTERS
 ========================================================= */
 
 window.resetTransactionFilters = function() {
@@ -4631,7 +6558,51 @@ window.resetTransactionFilters = function() {
         today();
 
     renderTransactions();
+
 };
+
+/* =========================================================
+   REPORT HELPERS
+========================================================= */
+
+function getTransactionsForPeriod(
+    start,
+    end
+) {
+
+    return transactionArray()
+        .filter(
+            t => {
+
+                if (
+                    start &&
+                    String(t.date) <
+                    String(start)
+                )
+                    return false;
+
+                if (
+                    end &&
+                    String(t.date) >
+                    String(end)
+                )
+                    return false;
+
+                return true;
+
+            }
+        )
+        .sort(
+            (a, b) =>
+                String(b.date)
+                    .localeCompare(
+                        String(a.date)
+                    ) ||
+                number(b.createdAt) -
+                    number(a.createdAt)
+        );
+
+}
 
 /* =========================================================
    REPORTS
@@ -4646,6 +6617,12 @@ window.renderReports = function() {
     const end =
         $("reportEnd")?.value ||
         today();
+
+    const periodTransactions =
+        getTransactionsForPeriod(
+            start || null,
+            end || null
+        );
 
     const result =
         calculatePeriod(
@@ -4662,6 +6639,9 @@ window.renderReports = function() {
     $("reportNet").textContent =
         money(result.net);
 
+    $("reportTxCount").textContent =
+        periodTransactions.length;
+
     $("reportNet").className =
         "text-2xl font-black " +
         (
@@ -4672,60 +6652,61 @@ window.renderReports = function() {
 
     $("reportSummary").innerHTML = `
 
-        <div class="space-y-3 text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
 
-            <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
 
-                <span class="text-slate-400">
+                <div class="text-[10px] uppercase font-bold text-slate-500">
                     Tarih Aralığı
-                </span>
-
-                <strong class="text-white font-mono">
-                    ${escapeHtml(start || "Başlangıç")} →
-                    ${escapeHtml(end || "Bugün")}
-                </strong>
-
-            </div>
-
-            <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
-
-                <span class="text-slate-400">
-                    Toplam Gelir
-                </span>
-
-                <strong class="text-emerald-400">
-                    ${money(result.income)}
-                </strong>
-
-            </div>
-
-            <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
-
-                <span class="text-slate-400">
-                    Toplam Gider
-                </span>
-
-                <strong class="text-rose-400">
-                    ${money(result.expense)}
-                </strong>
-
-            </div>
-
-            <div class="p-4 rounded-xl ${
-                result.net >= 0
-                    ? "bg-emerald-500/10 border border-emerald-500/20"
-                    : "bg-rose-500/10 border border-rose-500/20"
-            } text-center">
-
-                <div class="text-[10px] uppercase font-bold text-slate-400">
-                    Dönem Net Durumu
                 </div>
 
-                <div class="text-2xl font-black mt-1 ${
+                <div class="text-sm font-bold text-white mt-1">
+                    ${escapeHtml(start || "Başlangıç")}
+                    →
+                    ${escapeHtml(end || "Bugün")}
+                </div>
+
+            </div>
+
+            <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+
+                <div class="text-[10px] uppercase font-bold text-emerald-300">
+                    Gelir
+                </div>
+
+                <div class="text-xl font-black text-emerald-400 mt-1">
+                    ${money(result.income)}
+                </div>
+
+            </div>
+
+            <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20">
+
+                <div class="text-[10px] uppercase font-bold text-rose-300">
+                    Gider
+                </div>
+
+                <div class="text-xl font-black text-rose-400 mt-1">
+                    ${money(result.expense)}
+                </div>
+
+            </div>
+
+            <div class="${
+                result.net >= 0
+                    ? "bg-emerald-500/10 border-emerald-500/20"
+                    : "bg-rose-500/10 border-rose-500/20"
+            } p-4 rounded-xl border">
+
+                <div class="text-[10px] uppercase font-bold text-slate-400">
+                    Net Durum
+                </div>
+
+                <div class="${
                     result.net >= 0
                         ? "text-emerald-400"
                         : "text-rose-400"
-                }">
+                } text-xl font-black mt-1">
 
                     ${
                         result.net >= 0
@@ -4743,43 +6724,143 @@ window.renderReports = function() {
 
     `;
 
-    const totals = {};
+    $("reportDateLabel").textContent =
+        `${periodTransactions.length} hareket`;
 
-    transactionArray()
-        .forEach(t => {
+    /* GELİR DAĞILIMI */
+    const incomeTotals = {};
 
-            if (
-                !transactionIsExpense(t)
-            ) return;
+    periodTransactions
+        .forEach(
+            t => {
 
-            if (
-                start &&
-                String(t.date) < String(start)
-            ) return;
+                if (
+                    t.type !== "income"
+                )
+                    return;
 
-            if (
-                end &&
-                String(t.date) > String(end)
-            ) return;
+                const category =
+                    t.category ||
+                    "Diğer";
 
-            const category =
-                t.category ||
-                "Diğer";
+                incomeTotals[category] =
+                    number(
+                        incomeTotals[category]
+                    ) +
+                    number(t.amount);
 
-            totals[category] =
-                number(totals[category]) +
-                number(t.amount);
+            }
+        );
 
-        });
+    const incomeEntries =
+        Object.entries(
+            incomeTotals
+        )
+        .sort(
+            (a, b) =>
+                b[1] - a[1]
+        );
 
-    const entries =
-        Object.entries(totals)
-            .sort(
-                (a, b) =>
-                    b[1] - a[1]
-            );
+    if (!incomeEntries.length) {
 
-    if (!entries.length) {
+        $("incomeReport").innerHTML =
+            `
+            <div class="py-6 text-center text-xs text-slate-500">
+                Seçilen dönemde gelir yok.
+            </div>
+            `;
+
+    } else {
+
+        $("incomeReport").innerHTML =
+            incomeEntries
+                .map(
+                    ([category, total]) => {
+
+                        const pct =
+                            result.income > 0
+                                ? Math.round(
+                                    (total / result.income) * 100
+                                )
+                                : 0;
+
+                        const width =
+                            Math.min(
+                                100,
+                                pct
+                            );
+
+                        return `
+
+                        <div class="space-y-1.5">
+
+                            <div class="flex justify-between text-xs">
+
+                                <span class="text-slate-300 font-medium">
+                                    ${escapeHtml(category)}
+                                </span>
+
+                                <strong class="text-emerald-400">
+                                    ${money(total)}
+                                    <span class="text-slate-500 ml-1">
+                                        (%${pct})
+                                    </span>
+                                </strong>
+
+                            </div>
+
+                            <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+
+                                <div class="h-full bg-emerald-500 rounded-full"
+                                     style="width:${width}%"></div>
+
+                            </div>
+
+                        </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+    /* GİDER DAĞILIMI */
+    const expenseTotals = {};
+
+    periodTransactions
+        .forEach(
+            t => {
+
+                if (
+                    !transactionIsExpense(t)
+                )
+                    return;
+
+                const category =
+                    t.category ||
+                    "Diğer";
+
+                expenseTotals[category] =
+                    number(
+                        expenseTotals[category]
+                    ) +
+                    number(t.amount);
+
+            }
+        );
+
+    const expenseEntries =
+        Object.entries(
+            expenseTotals
+        )
+        .sort(
+            (a, b) =>
+                b[1] - a[1]
+        );
+
+    if (!expenseEntries.length) {
 
         $("expenseReport").innerHTML =
             `
@@ -4788,67 +6869,155 @@ window.renderReports = function() {
             </div>
             `;
 
-        return;
+    } else {
+
+        $("expenseReport").innerHTML =
+            expenseEntries
+                .map(
+                    ([category, total]) => {
+
+                        const pct =
+                            result.expense > 0
+                                ? Math.round(
+                                    (total / result.expense) * 100
+                                )
+                                : 0;
+
+                        const width =
+                            Math.min(
+                                100,
+                                pct
+                            );
+
+                        return `
+
+                        <div class="space-y-1.5">
+
+                            <div class="flex justify-between text-xs">
+
+                                <span class="text-slate-300 font-medium">
+                                    ${escapeHtml(category)}
+                                </span>
+
+                                <strong class="text-rose-400">
+                                    ${money(total)}
+                                    <span class="text-slate-500 ml-1">
+                                        (%${pct})
+                                    </span>
+                                </strong>
+
+                            </div>
+
+                            <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+
+                                <div class="h-full bg-rose-500 rounded-full"
+                                     style="width:${width}%"></div>
+
+                            </div>
+
+                        </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
     }
 
-    const max =
-        entries[0][1] || 1;
+    /* DETAY TABLOSU */
+    if (!periodTransactions.length) {
 
-    $("expenseReport").innerHTML =
-        entries.map(
-            ([category, total]) => {
+        $("reportTransactionTable").innerHTML =
+            `
+            <tr>
 
-                const pct =
-                    Math.round(
-                        (
-                            total /
-                            (
-                                result.expense ||
-                                1
-                            )
-                        ) * 100
-                    );
+                <td colspan="5"
+                    class="py-8 text-center text-slate-500">
+                    Seçilen dönemde hareket bulunamadı.
+                </td>
 
-                const width =
-                    Math.min(
-                        100,
-                        Math.round(
-                            (
-                                total /
-                                max
-                            ) * 100
-                        )
-                    );
+            </tr>
+            `;
 
-                return `
+    } else {
 
-                <div class="space-y-1">
+        $("reportTransactionTable").innerHTML =
+            periodTransactions
+                .map(
+                    t => {
 
-                    <div class="flex justify-between text-xs">
+                        const income =
+                            t.type === "income";
 
-                        <span class="text-slate-300 font-medium">
-                            ${escapeHtml(category)}
-                            (%${pct})
-                        </span>
+                        const expense =
+                            transactionIsExpense(t);
 
-                        <strong class="text-rose-400">
-                            ${money(total)}
-                        </strong>
+                        const sign =
+                            income
+                                ? "+"
+                                : expense
+                                    ? "-"
+                                    : "";
 
-                    </div>
+                        const color =
+                            income
+                                ? "text-emerald-400"
+                                : expense
+                                    ? "text-rose-400"
+                                    : "text-amber-400";
 
-                    <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+                        return `
 
-                        <div class="h-full bg-rose-500 rounded-full"
-                             style="width:${width}%"></div>
+                        <tr class="report-row">
 
-                    </div>
+                            <td class="py-3 text-slate-400 font-mono text-[11px]">
+                                ${escapeHtml(t.date)}
+                            </td>
 
-                </div>
+                            <td class="py-3">
 
-                `;
-            }
-        ).join("");
+                                <span class="inline-flex px-2 py-0.5 rounded-md
+                                             text-[10px] font-bold border
+                                             ${
+                                                income
+                                                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                                    : "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                             }">
+                                    ${escapeHtml(
+                                        transactionTypeLabel(t)
+                                    )}
+                                </span>
+
+                            </td>
+
+                            <td class="py-3 text-slate-300">
+                                ${escapeHtml(
+                                    t.category || "-"
+                                )}
+                            </td>
+
+                            <td class="py-3 text-slate-400">
+                                ${escapeHtml(
+                                    t.description ||
+                                    "-"
+                                )}
+                            </td>
+
+                            <td class="py-3 text-right font-bold ${color}">
+                                ${sign}${money(t.amount)}
+                            </td>
+
+                        </tr>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
 };
 
 window.setReportPeriod = function(period) {
@@ -4862,7 +7031,8 @@ window.setReportPeriod = function(period) {
             today();
 
     } else if (
-        period === "thisMonth"
+        period ===
+        "thisMonth"
     ) {
 
         $("reportStart").value =
@@ -4872,14 +7042,20 @@ window.setReportPeriod = function(period) {
             today();
 
     } else if (
-        period === "all"
+        period ===
+        "all"
     ) {
 
-        $("reportStart").value = "";
-        $("reportEnd").value = "";
+        $("reportStart").value =
+            "";
+
+        $("reportEnd").value =
+            "";
+
     }
 
     renderReports();
+
 };
 
 /* =========================================================
@@ -4891,34 +7067,55 @@ function fillDefaults() {
     const date =
         today();
 
-    if ($("incomeDate") && !$("incomeDate").value)
-        $("incomeDate").value = date;
+    if (
+        $("incomeDate") &&
+        !$("incomeDate").value
+    )
+        $("incomeDate").value =
+            date;
 
-    if ($("expenseDate") && !$("expenseDate").value)
-        $("expenseDate").value = date;
+    if (
+        $("expenseDate") &&
+        !$("expenseDate").value
+    )
+        $("expenseDate").value =
+            date;
 
-    if ($("billDate") && !$("billDate").value)
-        $("billDate").value = date;
+    if (
+        $("billDate") &&
+        !$("billDate").value
+    )
+        $("billDate").value =
+            date;
 
-    if ($("transactionStart"))
+    if (
+        $("transactionStart")
+    )
         $("transactionStart").value =
             $("transactionStart").value ||
             monthStart();
 
-    if ($("transactionEnd"))
+    if (
+        $("transactionEnd")
+    )
         $("transactionEnd").value =
             $("transactionEnd").value ||
             today();
 
-    if ($("reportStart"))
+    if (
+        $("reportStart")
+    )
         $("reportStart").value =
             $("reportStart").value ||
             monthStart();
 
-    if ($("reportEnd"))
+    if (
+        $("reportEnd")
+    )
         $("reportEnd").value =
             $("reportEnd").value ||
             today();
+
 }
 
 /* =========================================================
@@ -4930,21 +7127,25 @@ function startClock() {
     if (clockStarted)
         return;
 
-    clockStarted = true;
+    clockStarted =
+        true;
 
-    const tick = () => {
+    const tick =
+        () => {
 
-        const el =
-            $("liveClock");
+            const el =
+                $("liveClock");
 
-        if (!el) return;
+            if (!el)
+                return;
 
-        el.textContent =
-            new Date()
-                .toLocaleTimeString(
-                    "tr-TR"
-                );
-    };
+            el.textContent =
+                new Date()
+                    .toLocaleTimeString(
+                        "tr-TR"
+                    );
+
+        };
 
     tick();
 
@@ -4952,6 +7153,7 @@ function startClock() {
         tick,
         1000
     );
+
 }
 
 /* =========================================================
