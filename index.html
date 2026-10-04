@@ -1,1814 +1,274 @@
 <!DOCTYPE html>
 <html lang="tr" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0f172a">
-    <title>Hayal Pide Rapor Merkezi</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            500: "#f59e0b",
-                            600: "#d97706",
-                            700: "#b45309"
-                        },
-                        darkbg: "#0b0f19",
-                        panel: "#131b2e"
-                    },
-                    fontFamily: { sans: ["Inter", "sans-serif"] }
-                }
-            }
-        };
-    </script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <style>
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: "Inter", sans-serif;
-            background: #0b0f19;
-            color: #f8fafc;
-            -webkit-tap-highlight-color: transparent;
-        }
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: #0b0f19; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 999px; }
-
-        .glass-panel {
-            background: rgba(19, 27, 46, .88);
-            border: 1px solid rgba(255, 255, 255, .08);
-            backdrop-filter: blur(12px);
-        }
-
-        .dashboard-card {
-            transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-        }
-        .dashboard-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(245, 158, 11, .3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
-        }
-
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none; margin: 0;
-        }
-        input[type="number"] { -moz-appearance: textfield; }
-
-        .status-dot { width: 7px; height: 7px; border-radius: 999px; display: inline-block; }
-        
-        @media print {
-            .no-print { display: none !important; }
-            body { background: #fff; color: #000; }
-            .glass-panel { background: none !important; border: 1px solid #ccc !important; color: #000 !important; }
-            .text-white, .text-slate-200, .text-slate-300, .text-slate-400 { color: #111 !important; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f172a">
+<title>Hayal Pide Rapor Merkezi</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{colors:{brand:{500:"#f59e0b",600:"#d97706",700:"#b45309"},darkbg:"#0b0f19",panel:"#131b2e"},fontFamily:{sans:["Inter","sans-serif"]}}}};
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{font-family:"Inter",sans-serif;background:#0b0f19;color:#f8fafc;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:#0b0f19}::-webkit-scrollbar-thumb{background:#334155;border-radius:999px}
+.glass-panel{background:rgba(19,27,46,.94);border:1px solid rgba(255,255,255,.07);}
+/* backdrop-filter maliyetlidir; sadece destekleyen masaüstü cihazlarda ve düşük seviyede kullanılır */
+@media (min-width:768px) and (hover:hover){.glass-panel{backdrop-filter:blur(6px)}}
+.dashboard-card{transition:transform .14s ease,border-color .14s ease}
+@media (hover:hover){.dashboard-card:hover{transform:translateY(-1px);border-color:rgba(245,158,11,.25)}}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+button{touch-action:manipulation}
+.status-dot{width:7px;height:7px;border-radius:999px;display:inline-block}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media print{
+.no-print{display:none!important}body{background:#fff;color:#000}.glass-panel{background:none!important;border:1px solid #ccc!important;color:#000!important}.text-white,.text-slate-200,.text-slate-300,.text-slate-400{color:#111!important}
+}
+</style>
 </head>
-
 <body class="min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-white">
 
-<!-- TOAST NOTIFICATION -->
 <div id="toast" class="fixed top-5 right-5 z-[100] translate-y-[-100px] opacity-0 transition-all duration-200 max-w-md w-full px-4 pointer-events-none">
-    <div class="glass-panel text-white px-5 py-4 rounded-2xl shadow-2xl border border-amber-500/30 flex items-center gap-3">
-        <div id="toastIcon" class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </div>
-        <div id="toastMessage" class="text-sm font-medium">Bildirim</div>
-    </div>
-</div>
+<div class="glass-panel text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
+<div id="toastIcon" class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+<div id="toastMessage" class="text-sm font-medium">Bildirim</div>
+</div></div>
 
-<!-- MODAL SYSTEM -->
-<div id="modalOverlay" class="fixed inset-0 bg-black/75 z-[90] flex items-center justify-center p-4 hidden backdrop-blur-sm">
-    <div class="glass-panel w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-slate-700/80 animate-in fade-in zoom-in-95 duration-150">
-        <div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
-            <h3 id="modalTitle" class="text-lg font-bold text-white">Pencere Başlığı</h3>
-            <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-        </div>
-        <div id="modalBody" class="space-y-4 text-slate-300 text-sm"></div>
-        <div id="modalFooter" class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-slate-700/60"></div>
-    </div>
+<div id="modalOverlay" class="fixed inset-0 bg-black/75 z-[90] flex items-center justify-center p-4 hidden">
+<div class="glass-panel w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-slate-700/80">
+<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
+<h3 id="modalTitle" class="text-lg font-bold text-white">Pencere Başlığı</h3>
+<button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
 </div>
+<div id="modalBody" class="space-y-4 text-slate-300 text-sm"></div>
+<div id="modalFooter" class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-slate-700/60"></div>
+</div></div>
 
-<!-- AUTH LOGIN / REGISTER SCREEN -->
 <section id="loginScreen" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/30">
-    <div class="w-full max-w-md glass-panel rounded-3xl p-8 shadow-2xl border border-slate-800">
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-lg shadow-amber-500/20 mb-4">
-                <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3c-4.97 0-9 2.239-9 5v8c0 2.761 4.03 5 9 5s9-2.239 9-5V8c0-2.761-4.03-5-9-5z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8c0 2.761 4.03 5 9 5s9-2.761 9-5"/>
-                </svg>
-            </div>
-            <h1 class="text-2xl font-black tracking-tight text-white">Hayal Pide</h1>
-            <p class="text-xs font-semibold uppercase tracking-widest text-amber-500 mt-1">Rapor & Finans Merkezi</p>
-        </div>
+<div class="w-full max-w-md glass-panel rounded-3xl p-8 shadow-2xl border border-slate-800">
+<div class="text-center mb-8">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-lg shadow-amber-500/20 mb-4"><svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3c-4.97 0-9 2.239-9 5v8c0 2.761 4.03 5 9 5s9-2.239 9-5V8c0-2.761-4.03-5-9-5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8c0 2.761 4.03 5 9 5s9-2.239 9-5"/></svg></div>
+<h1 class="text-2xl font-black tracking-tight text-white">Hayal Pide</h1><p class="text-xs font-semibold uppercase tracking-widest text-amber-500 mt-1">Rapor & Finans Merkezi</p>
+</div>
+<div class="grid grid-cols-2 gap-2 bg-slate-900/80 p-1.5 rounded-2xl mb-6 border border-slate-800">
+<button id="loginTab" onclick="showLoginTab('login')" class="py-2.5 px-4 rounded-xl font-medium text-sm bg-amber-500 text-white">Giriş Yap</button>
+<button id="registerTab" onclick="showLoginTab('register')" class="py-2.5 px-4 rounded-xl font-medium text-sm text-slate-400">Yeni Hesap</button>
+</div>
+<div id="loginForm" class="space-y-4">
+<div id="loginError" class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium hidden"></div>
+<div><label class="block text-xs font-medium text-slate-400 mb-1.5">E-posta Adresi</label><input id="loginEmail" type="email" autocomplete="email" placeholder="ornek@hayalpide.com" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"></div>
+<div><label class="block text-xs font-medium text-slate-400 mb-1.5">Şifre</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"></div>
+<button onclick="loginUser()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm shadow-lg shadow-amber-500/20">Sisteme Giriş Yap</button>
+</div>
+<div id="registerForm" class="space-y-4 hidden">
+<div id="registerError" class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium hidden"></div>
+<div><label class="block text-xs font-medium text-slate-400 mb-1.5">Kullanıcı Adı / Ad Soyad</label><input id="registerName" type="text" autocomplete="name" placeholder="Örn: Mehmet Usta" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"></div>
+<div><label class="block text-xs font-medium text-slate-400 mb-1.5">E-posta Adresi</label><input id="registerEmail" type="email" autocomplete="email" placeholder="ornek@hayalpide.com" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"></div>
+<div><label class="block text-xs font-medium text-slate-400 mb-1.5">Şifre</label><input id="registerPassword" type="password" autocomplete="new-password" placeholder="En az 6 karakter" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"></div>
+<button onclick="registerUser()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm shadow-lg shadow-amber-500/20">Hesap Oluştur</button>
+</div>
+</div></section>
 
-        <div class="grid grid-cols-2 gap-2 bg-slate-900/80 p-1.5 rounded-2xl mb-6 border border-slate-800">
-            <button id="loginTab" onclick="showLoginTab('login')" class="py-2.5 px-4 rounded-xl font-medium text-sm bg-amber-500 text-white">Giriş Yap</button>
-            <button id="registerTab" onclick="showLoginTab('register')" class="py-2.5 px-4 rounded-xl font-medium text-sm text-slate-400">Yeni Hesap</button>
-        </div>
-
-        <div id="loginForm" class="space-y-4">
-            <div id="loginError" class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium hidden"></div>
-            <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1.5">E-posta Adresi</label>
-                <input id="loginEmail" type="email" placeholder="ornek@hayalpide.com" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
-            </div>
-            <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1.5">Şifre</label>
-                <input id="loginPassword" type="password" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
-            </div>
-            <button onclick="loginUser()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-sm shadow-lg shadow-amber-500/20">Sisteme Giriş Yap</button>
-        </div>
-
-        <div id="registerForm" class="space-y-4 hidden">
-            <div id="registerError" class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium hidden"></div>
-            <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1.5">Kullanıcı Adı / Ad Soyad</label>
-                <input id="registerName" type="text" placeholder="Örn: Mehmet Usta" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
-            </div>
-            <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1.5">E-posta Adresi</label>
-                <input id="registerEmail" type="email" placeholder="ornek@hayalpide.com" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
-            </div>
-            <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1.5">Şifre</label>
-                <input id="registerPassword" type="password" placeholder="En az 6 karakter" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
-            </div>
-            <button onclick="registerUser()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-sm shadow-lg shadow-amber-500/20">Hesap Oluştur</button>
-        </div>
-    </div>
-</section>
-
-<!-- MAIN APPLICATION WRAPPER -->
 <div id="app" class="hidden min-h-screen flex-col bg-slate-950 pb-20 md:pb-0">
-
 <header class="sticky top-0 z-30 glass-panel border-b border-slate-800/80 px-4 lg:px-8 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-        <button onclick="toggleSidebar()" class="md:hidden p-2.5 rounded-xl bg-slate-800/80 text-slate-300 hover:bg-slate-700">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-        <div class="flex items-center gap-2.5 cursor-pointer" onclick="openPage('dashboard')">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-amber-500/20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c-4.97 0-9 2.239-9 5v8c0 2.761 4.03 5 9 5s9-2.239 9-5V8c0-2.761-4.03-5-9-5z"/></svg>
-            </div>
-            <div>
-                <div class="font-extrabold text-base tracking-tight text-white leading-none">Hayal Pide</div>
-                <div class="text-[10px] font-bold text-amber-500 uppercase tracking-wider mt-0.5">Rapor Merkezi</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="flex items-center gap-3">
-        <button onclick="quickActionModal()" class="hidden sm:flex items-center gap-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
-            + Hızlı İşlem
-        </button>
-        <div class="flex items-center gap-2 pl-3 border-l border-slate-800">
-            <div class="text-right hidden sm:block">
-                <div id="topUserName" class="text-xs font-bold text-white">Yükleniyor...</div>
-                <div class="text-[10px] text-slate-400">Pide Salonu Yöneticisi</div>
-            </div>
-            <button onclick="logoutUser()" title="Çıkış Yap" class="p-2.5 rounded-xl bg-slate-800/60 text-slate-300 hover:text-rose-400 hover:bg-slate-800 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-            </button>
-        </div>
-    </div>
+<div class="flex items-center gap-3">
+<button onclick="toggleSidebar()" class="md:hidden p-2.5 rounded-xl bg-slate-800/80 text-slate-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+<div class="flex items-center gap-2.5 cursor-pointer" onclick="openPage('dashboard')"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 text-white flex items-center justify-center shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c-4.97 0-9 2.239-9 5v8c0 2.761 4.03 5 9 5s9-2.239 9-5V8c0-2.761-4.03-5-9-5z"/></svg></div><div><div class="font-extrabold text-base tracking-tight text-white leading-none">Hayal Pide</div><div class="text-[10px] font-bold text-amber-500 uppercase tracking-wider mt-0.5">Rapor Merkezi</div></div></div>
+</div>
+<div class="flex items-center gap-3"><button onclick="quickActionModal()" class="hidden sm:flex items-center gap-2 bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs font-semibold">+ Hızlı İşlem</button><div class="flex items-center gap-2 pl-3 border-l border-slate-800"><div class="text-right hidden sm:block"><div id="topUserName" class="text-xs font-bold text-white">Yükleniyor...</div><div class="text-[10px] text-slate-400">Pide Salonu Yöneticisi</div></div><button onclick="logoutUser()" title="Çıkış Yap" class="p-2.5 rounded-xl bg-slate-800/60 text-slate-300 hover:text-rose-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3V7a3 3 0 013 3v1"/></svg></button></div></div>
 </header>
-
 <div class="flex flex-1 min-h-[calc(100vh-65px)]">
 <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-30 hidden md:hidden"></div>
-
-<!-- NAVIGATION SIDEBAR -->
 <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-40 w-64 glass-panel border-r border-slate-800 transform -translate-x-full md:translate-x-0 transition-transform duration-200 flex flex-col justify-between p-4 shrink-0">
-    <div class="space-y-1">
-        <div class="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Navigasyon</div>
-        <button onclick="openPage('dashboard', this)" class="nav-btn active w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800/80 text-white"><span class="text-amber-500">●</span> Genel Bakış</button>
-        <button onclick="openPage('income', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-emerald-400">＋</span> Gelir Kaydı</button>
-        <button onclick="openPage('expense', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-rose-400">－</span> Gider Kaydı</button>
-        <button onclick="openPage('suppliers', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-indigo-400">🏢</span> Tedarikçi / Borçlar</button>
-        <button onclick="openPage('foodcards', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-amber-400">₺</span> Yemek Kartları</button>
-        <button onclick="openPage('bills', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-sky-400">▣</span> Faturalar</button>
-        <button onclick="openPage('rent', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-orange-400">⌂</span> Kira</button>
-        <button onclick="openPage('transactions', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-purple-400">↔</span> Hareketler</button>
-        <button onclick="openPage('reports', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-teal-400">▥</span> Raporlar & Analiz</button>
-        <button onclick="openPage('settings', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-slate-400">⚙</span> Ayarlar</button>
-    </div>
-    <div class="p-3 bg-slate-900/60 rounded-2xl border border-slate-800 text-center">
-        <div class="text-[11px] font-bold text-slate-300">Hayal Pide v5.0</div>
-        <div class="text-[10px] text-slate-500 mt-0.5">Finans & Rapor Merkezi</div>
-    </div>
+<div class="space-y-1"><div class="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Navigasyon</div>
+<button data-page="dashboard" onclick="openPage('dashboard',this)" class="nav-btn active w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800/80 text-white"><span class="text-amber-500">●</span> Genel Bakış</button>
+<button data-page="income" onclick="openPage('income',this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-emerald-400">＋</span> Gelir Kaydı</button>
+<button data-page="expense" onclick="openPage('expense',this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-rose-400">－</span> Gider Kaydı</button>
+<button data-page="suppliers" onclick="openPage('suppliers',this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-indigo-400">🏢</span> Tedarikçi / Borçlar</button>
+<button data-page="foodcards" onclick="openPage('foodcards',this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-amber-400">₺</span> Yemek Kartları</button>
+<button data-page="bills" onclick="openPage('bills',this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-sky-400">▣</span> Faturalar</button>
+<button data-page="rent" onclick="openPage('rent',this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-orange-400">⌂</span> Kira</button>
+<button data-page="transactions" onclick="openPage('transactions',this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-purple-400">↔</span> Hareketler</button>
+<button data-page="reports" onclick="openPage('reports',this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-teal-400">▥</span> Raporlar & Analiz</button>
+<button data-page="settings" onclick="openPage('settings',this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80"><span class="text-slate-400">⚙</span> Ayarlar</button></div>
+<div class="p-3 bg-slate-900/60 rounded-2xl border border-slate-800 text-center"><div class="text-[11px] font-bold text-slate-300">Hayal Pide v6.0</div><div class="text-[10px] text-slate-500 mt-0.5">Finans & Rapor Merkezi</div></div>
 </aside>
 
-<!-- MAIN CONTENT AREA -->
 <main class="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full overflow-hidden">
 
-<!-- DASHBOARD -->
 <section id="page-dashboard" class="page space-y-6">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-            <h2 class="text-2xl font-black text-white tracking-tight">Genel Bakış</h2>
-            <p class="text-xs text-slate-400">Anlık finansal durum</p>
-        </div>
-        <span id="liveClock" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/60 text-slate-300">--:--:--</span>
-    </div>
-
-    <!-- DASHBOARD SUMMARY CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-        <div class="dashboard-card glass-panel p-5 rounded-2xl">
-            <div class="text-xs font-semibold text-slate-400 mb-2">Banka Bakiyesi</div>
-            <div id="dashBank" class="text-2xl font-black text-sky-400">₺0,00</div>
-            <div class="text-[11px] text-slate-500 mt-2">Ana banka hesabı</div>
-        </div>
-
-        <div class="dashboard-card glass-panel p-5 rounded-2xl">
-            <div class="flex items-center justify-between gap-2">
-                <div class="text-xs font-semibold text-slate-400 mb-2">Günlük Gelen Nakit</div>
-                <span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">NAKİT</span>
-            </div>
-            <div id="dashCash" class="text-2xl font-black text-emerald-400">₺0,00</div>
-            <div class="text-[11px] text-slate-500 mt-2">Nakit kasa bakiyesi</div>
-        </div>
-
-        <button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openPage('foodcards')">
-            <div class="flex items-center justify-between gap-2">
-                <div class="text-xs font-semibold text-slate-400 mb-2">Yemek Kartları</div>
-                <span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">AÇ</span>
-            </div>
-            <div id="dashFood" class="text-2xl font-black text-amber-400">₺0,00</div>
-            <div class="text-[11px] text-slate-500 mt-2">Tüm kartlar toplamı • Detaya git →</div>
-        </button>
-
-        <button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openPage('suppliers')">
-            <div class="flex items-center justify-between gap-2">
-                <div class="text-xs font-semibold text-slate-400 mb-2">Tedarikçi Borçları</div>
-                <span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">AÇ</span>
-            </div>
-            <div id="dashDebt" class="text-2xl font-black text-rose-400">₺0,00</div>
-            <div class="text-[11px] text-slate-500 mt-2">Güncel toplam borç • Detaya git →</div>
-        </button>
-
-        <button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openPage('bills')">
-            <div class="flex items-center justify-between gap-2">
-                <div class="text-xs font-semibold text-slate-400 mb-2">Fatura Borçları</div>
-                <span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">AÇ</span>
-            </div>
-            <div id="dashBills" class="text-2xl font-black text-sky-400">₺0,00</div>
-            <div id="dashBillsSub" class="text-[11px] text-slate-500 mt-2">Ödenmemiş faturalar</div>
-        </button>
-
-        <button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openPage('rent')">
-            <div class="flex items-center justify-between gap-2">
-                <div class="text-xs font-semibold text-slate-400 mb-2">Kira</div>
-                <span id="dashRentStatusBadge" class="text-[10px] font-bold px-2 py-1 rounded-lg bg-orange-500/10 text-orange-300 border border-orange-500/20">Ayın 10'u</span>
-            </div>
-            <div id="dashRent" class="text-2xl font-black text-orange-400">₺28.000,00</div>
-            <div id="dashRentSub" class="text-[11px] text-slate-500 mt-2">Bu ay için kira</div>
-        </button>
-
-        <button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openMonthlyReport()">
-            <div class="flex items-center justify-between gap-2">
-                <div class="text-xs font-semibold text-slate-400 mb-2">Bu Ay Kâr / Zarar</div>
-                <span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">RAPOR →</span>
-            </div>
-            <div id="dashProfit" class="text-2xl font-black text-emerald-400">₺0,00</div>
-            <div class="text-[11px] text-slate-500 mt-2">Gelir + gider detayını gör</div>
-        </button>
-    </div>
-
-    <!-- QUICK ACTIONS & BALANCES -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div class="glass-panel p-6 rounded-2xl">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Banka Bakiyesi</h3>
-            <input id="manualBankBalance" type="number" step="0.01" min="0" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold">
-            <button onclick="saveBankBalance()" class="w-full py-3 mt-3 bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs rounded-xl transition">Bakiyeyi Güncelle</button>
-        </div>
-
-        <div class="glass-panel p-6 rounded-2xl">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Gelen Nakit</h3>
-            <input id="manualCashBalance" type="number" step="0.01" min="0" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold">
-            <button onclick="saveCashBalance()" class="w-full py-3 mt-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition">Nakit Bakiyesini Güncelle</button>
-        </div>
-
-        <div class="glass-panel p-6 rounded-2xl">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-                <h3 class="font-bold text-white text-sm">Bu Ayın Özeti</h3>
-                <span id="currentMonthLabel" class="text-[11px] font-semibold text-slate-400">Bu Ay</span>
-            </div>
-            <div class="space-y-3 text-xs">
-                <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
-                    <span class="text-slate-400">Toplam Gelir</span>
-                    <strong id="monthIncome" class="text-emerald-400">₺0,00</strong>
-                </div>
-                <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
-                    <span class="text-slate-400">Toplam Gider</span>
-                    <strong id="monthExpense" class="text-rose-400">₺0,00</strong>
-                </div>
-                <div class="flex justify-between p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                    <span class="text-amber-300 font-semibold">Net Durum</span>
-                    <strong id="monthNet" class="text-white">₺0,00</strong>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-panel p-6 rounded-2xl">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Hızlı Eylemler</h3>
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="openPage('income')" class="p-4 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition">+ Gelir</button>
-                <button onclick="openPage('expense')" class="p-4 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-bold transition">− Gider</button>
-                <button onclick="openPage('suppliers')" class="p-4 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-bold transition">Tedarikçiler</button>
-                <button onclick="openPage('transactions')" class="p-4 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold transition">Hareketler</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- RECENT TRANSACTIONS -->
-    <div class="glass-panel p-6 rounded-2xl">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-            <h3 class="font-bold text-white text-sm">Son Finansal Hareketler</h3>
-            <button onclick="openPage('transactions')" class="text-xs text-amber-400 hover:underline font-semibold">Tümünü Gör →</button>
-        </div>
-        <div id="recentTransactions" class="overflow-x-auto"></div>
-    </div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><h2 class="text-2xl font-black text-white tracking-tight">Genel Bakış</h2><p class="text-xs text-slate-400">Anlık finansal durum</p></div><span id="liveClock" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/60 text-slate-300">--:--:--</span></div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+<div class="dashboard-card glass-panel p-5 rounded-2xl"><div class="text-xs font-semibold text-slate-400 mb-2">Banka Bakiyesi</div><div id="dashBank" class="text-2xl font-black text-sky-400">₺0,00</div><div class="text-[11px] text-slate-500 mt-2">Ana banka hesabı</div></div>
+<div class="dashboard-card glass-panel p-5 rounded-2xl"><div class="flex items-center justify-between gap-2"><div class="text-xs font-semibold text-slate-400 mb-2">Günlük Gelen Nakit</div><span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">NAKİT</span></div><div id="dashCash" class="text-2xl font-black text-emerald-400">₺0,00</div><div class="text-[11px] text-slate-500 mt-2">Nakit kasa bakiyesi</div></div>
+<button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openPage('foodcards')"><div class="flex items-center justify-between gap-2"><div class="text-xs font-semibold text-slate-400 mb-2">Yemek Kartları</div><span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">AÇ</span></div><div id="dashFood" class="text-2xl font-black text-amber-400">₺0,00</div><div class="text-[11px] text-slate-500 mt-2">Tüm kartlar toplamı • Detaya git →</div></button>
+<button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openPage('suppliers')"><div class="flex items-center justify-between gap-2"><div class="text-xs font-semibold text-slate-400 mb-2">Tedarikçi Borçları</div><span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">AÇ</span></div><div id="dashDebt" class="text-2xl font-black text-rose-400">₺0,00</div><div class="text-[11px] text-slate-500 mt-2">Güncel toplam borç • Detaya git →</div></button>
+<button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openPage('bills')"><div class="flex items-center justify-between gap-2"><div class="text-xs font-semibold text-slate-400 mb-2">Fatura Borçları</div><span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20">AÇ</span></div><div id="dashBills" class="text-2xl font-black text-sky-400">₺0,00</div><div id="dashBillsSub" class="text-[11px] text-slate-500 mt-2">Ödenmemiş faturalar</div></button>
+<button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openPage('rent')"><div class="flex items-center justify-between gap-2"><div class="text-xs font-semibold text-slate-400 mb-2">Kira</div><span id="dashRentStatusBadge" class="text-[10px] font-bold px-2 py-1 rounded-lg bg-orange-500/10 text-orange-300 border border-orange-500/20">Ayın 10'u</span></div><div id="dashRent" class="text-2xl font-black text-orange-400">₺28.000,00</div><div id="dashRentSub" class="text-[11px] text-slate-500 mt-2">Bu ay için kira</div></button>
+<button type="button" class="dashboard-card glass-panel p-5 rounded-2xl text-left w-full" onclick="openMonthlyReport()"><div class="flex items-center justify-between gap-2"><div class="text-xs font-semibold text-slate-400 mb-2">Bu Ay Kâr / Zarar</div><span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">RAPOR →</span></div><div id="dashProfit" class="text-2xl font-black text-emerald-400">₺0,00</div><div class="text-[11px] text-slate-500 mt-2">Gelir + gider detayını gör</div></button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+<div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Banka Bakiyesi</h3><input id="manualBankBalance" type="number" step="0.01" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold"><button onclick="saveBankBalance()" class="w-full py-3 mt-3 bg-sky-600 text-white font-bold text-xs rounded-xl">Bakiyeyi Güncelle</button></div>
+<div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Gelen Nakit</h3><input id="manualCashBalance" type="number" step="0.01" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold"><button onclick="saveCashBalance()" class="w-full py-3 mt-3 bg-emerald-600 text-white font-bold text-xs rounded-xl">Nakit Bakiyesini Güncelle</button></div>
+<div class="glass-panel p-6 rounded-2xl"><div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4"><h3 class="font-bold text-white text-sm">Bu Ayın Özeti</h3><span id="currentMonthLabel" class="text-[11px] font-semibold text-slate-400">Bu Ay</span></div><div class="space-y-3 text-xs"><div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800"><span class="text-slate-400">Toplam Gelir</span><strong id="monthIncome" class="text-emerald-400">₺0,00</strong></div><div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800"><span class="text-slate-400">Toplam Gider</span><strong id="monthExpense" class="text-rose-400">₺0,00</strong></div><div class="flex justify-between p-3 rounded-xl bg-amber-500/10 border border-amber-500/20"><span class="text-amber-300 font-semibold">Net Durum</span><strong id="monthNet" class="text-white">₺0,00</strong></div></div></div>
+<div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Hızlı Eylemler</h3><div class="grid grid-cols-2 gap-3"><button onclick="openPage('income')" class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold">+ Gelir</button><button onclick="openPage('expense')" class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">− Gider</button><button onclick="openPage('suppliers')" class="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold">Tedarikçiler</button><button onclick="openPage('transactions')" class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold">Hareketler</button></div></div>
+</div>
+<div class="glass-panel p-6 rounded-2xl"><div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4"><h3 class="font-bold text-white text-sm">Son Finansal Hareketler</h3><button onclick="openPage('transactions')" class="text-xs text-amber-400 hover:underline font-semibold">Tümünü Gör →</button></div><div id="recentTransactions" class="overflow-x-auto"></div></div>
 </section>
 
-<!-- INCOME SECTION -->
-<section id="page-income" class="page space-y-6 hidden">
-    <div>
-        <h2 class="text-2xl font-black text-white">Gelir Kaydı Ekle</h2>
-        <p class="text-xs text-slate-400">Geliri hangi hesaba aldığını seçebilirsin.</p>
-    </div>
+<section id="page-income" class="page space-y-6 hidden"><div><h2 class="text-2xl font-black text-white">Gelir Kaydı Ekle</h2><p class="text-xs text-slate-400">Geliri hangi hesaba aldığını seçebilirsin.</p></div><div class="glass-panel p-6 rounded-2xl max-w-3xl"><form id="incomeForm" onsubmit="return false" class="space-y-4"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs text-slate-400 mb-1.5">Tarih</label><input id="incomeDate" type="date" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"></div><div><label class="block text-xs text-slate-400 mb-1.5">Tutar (₺)</label><input id="incomeAmount" type="number" step="0.01" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"></div><div><label class="block text-xs text-slate-400 mb-1.5">Gelir Kanalı / Türü</label><select id="incomeCategory" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"><option>Restoran Satışı (Kasa / POS)</option><option>Trendyol Yemek</option><option>Yemeksepeti</option><option>Migros Yemek</option><option>Getir Yemek</option><option>Nakit Satış</option><option>Toplu Pide Siparişi</option><option>Diğer</option></select></div><div><label class="block text-xs text-slate-400 mb-1.5">Açıklama</label><input id="incomeDescription" placeholder="Örn: Gün ortası kasa z raporu" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"></div></div><div class="pt-2"><div class="text-xs font-bold text-slate-400 mb-2">Gelir hangi hesaba eklenecek?</div><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><button type="button" onclick="saveIncome('bank')" class="w-full py-3.5 bg-sky-600 text-white font-bold text-sm rounded-xl">₺ Geliri Bankaya Ekle</button><button type="button" onclick="saveIncome('cash')" class="w-full py-3.5 bg-emerald-600 text-white font-bold text-sm rounded-xl">₺ Geliri Nakite Ekle</button></div></div></form></div></section>
 
-    <div class="glass-panel p-6 rounded-2xl max-w-3xl">
-        <form id="incomeForm" onsubmit="saveIncome('bank'); return false;" class="space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1.5">Tarih</label>
-                    <input id="incomeDate" type="date" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1.5">Tutar (₺)</label>
-                    <input id="incomeAmount" type="number" step="0.01" min="0" required placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1.5">Gelir Kanalı / Türü</label>
-                    <select id="incomeCategory" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-                        <option>Restoran Satışı (Kasa / POS)</option>
-                        <option>Trendyol Yemek</option>
-                        <option>Yemeksepeti</option>
-                        <option>Migros Yemek</option>
-                        <option>Getir Yemek</option>
-                        <option>Nakit Satış</option>
-                        <option>Toplu Pide Siparişi</option>
-                        <option>Diğer</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1.5">Açıklama</label>
-                    <input id="incomeDescription" placeholder="Örn: Gün ortası kasa z raporu" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-                </div>
-            </div>
+<section id="page-expense" class="page space-y-6 hidden"><div><h2 class="text-2xl font-black text-white">Gider Kaydı Ekle</h2><p class="text-xs text-slate-400">Gideri kaydederken paranın hangi hesaptan çıktığını seç.</p></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><div class="glass-panel p-6 rounded-2xl lg:col-span-2"><form id="expenseForm" onsubmit="return false" class="space-y-4"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs text-slate-400 mb-1.5">Tarih</label><input id="expenseDate" type="date" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"></div><div><label class="block text-xs text-slate-400 mb-1.5">Tutar (₺)</label><input id="expenseAmount" type="number" step="0.01" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"></div><div><label class="block text-xs text-slate-400 mb-1.5">Gider Kalemi</label><select id="expenseCategory" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"><option>Kasap (Et / Kıymalık)</option><option>Kaşarcı / Peynirci</option><option>Uncu (Pide Unu)</option><option>Ayrancı / İçecek</option><option>Kolacı / Gazlı İçecekler</option><option>Sebze / Hal Alışverişi</option><option>Ambalaj & Kutu Giderleri</option><option>Elektrik</option><option>Su</option><option>Doğalgaz (Fırın Gazı)</option><option>Telefon / İnternet</option><option>Kira</option><option>Personel Maaş & Avans</option><option>Anneye Çekilen Nakit</option><option>Market / Temizlik</option><option>Diğer</option></select></div><div><label class="block text-xs text-slate-400 mb-1.5">Açıklama</label><input id="expenseDescription" placeholder="Örn: 5 çuval un alımı" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"></div></div><div class="pt-2"><div class="text-xs font-bold text-slate-400 mb-2">Gideri hangi hesaptan düşelim?</div><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><button type="button" onclick="saveExpense('bank')" class="w-full py-3.5 bg-sky-600 text-white font-bold text-sm rounded-xl">Gideri Kaydet <span class="block text-xs font-normal text-sky-200 mt-0.5">(Bankadan Düş)</span></button><button type="button" onclick="saveExpense('cash')" class="w-full py-3.5 bg-emerald-600 text-white font-bold text-sm rounded-xl">Gideri Kaydet <span class="block text-xs font-normal text-emerald-200 mt-0.5">(Nakit Kasadan Düş)</span></button></div></div></form></div><div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Gider Kalemleri Özeti</h3><div class="overflow-y-auto max-h-80"><table class="w-full text-left text-xs"><thead><tr class="text-slate-400 border-b border-slate-800"><th class="pb-2">Kalem</th><th class="pb-2 text-right">Toplam</th></tr></thead><tbody id="expenseSummary" class="divide-y divide-slate-800/60"></tbody></table></div></div></div></section>
 
-            <div class="pt-2">
-                <div class="text-xs font-bold text-slate-400 mb-2">Gelir hangi hesaba eklenecek?</div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <button type="button" onclick="saveIncome('bank')" class="w-full py-3.5 bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm rounded-xl transition">₺ Geliri Bankaya Ekle</button>
-                    <button type="button" onclick="saveIncome('cash')" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl transition">₺ Geliri Nakite Ekle</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
+<section id="page-suppliers" class="page space-y-6 hidden"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><h2 class="text-2xl font-black text-white tracking-tight">Tedarikçi ve Borç Yönetimi</h2><p class="text-xs text-slate-400">Tedarikçilerinizi kartlar halinde görüntüleyin, hızlıca borç veya ödeme ekleyin.</p></div><div class="glass-panel px-5 py-3 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-rose-950/30 border border-rose-500/20 shrink-0"><div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Toplam Tedarikçi Borcu</div><div id="supplierTotalDebt" class="text-2xl font-black text-rose-400 mt-0.5">₺0,00</div></div></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><div class="glass-panel p-6 rounded-2xl h-fit"><div class="flex items-center gap-2 border-b border-slate-800 pb-3 mb-4"><span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm font-bold">＋</span><h3 class="font-bold text-white text-sm">Yeni Tedarikçi Ekle</h3></div><form onsubmit="addSupplier(event);return false" class="space-y-4"><div><label class="block text-xs text-slate-400 mb-1.5">Tedarikçi Firma / Şahıs</label><input id="supplierName" required placeholder="Örn: Özkarşılı Kaşar Ticaret" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"></div><div><label class="block text-xs text-slate-400 mb-1.5">Başlangıç Borcu (₺)</label><input id="supplierInitialDebt" type="number" step="0.01" min="0" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white"></div><button type="submit" class="w-full py-3.5 bg-indigo-600 text-white font-bold text-xs rounded-xl">+ Tedarikçiyi Kaydet</button></form></div><div class="lg:col-span-2 space-y-4"><div class="flex items-center justify-between"><h3 class="font-bold text-white text-sm flex items-center gap-2"><span>Kayıtlı Tedarikçi Bannerları</span><span id="supplierCountBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">0</span></h3></div><div id="supplierTable" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div></div></div></section>
 
-<!-- EXPENSE SECTION -->
-<section id="page-expense" class="page space-y-6 hidden">
-    <div>
-        <h2 class="text-2xl font-black text-white">Gider Kaydı Ekle</h2>
-        <p class="text-xs text-slate-400">Gideri kaydederken paranın hangi hesaptan çıktığını seç.</p>
-    </div>
+<section id="page-foodcards" class="page space-y-6 hidden"><div><h2 class="text-2xl font-black text-white">Yemek Kartları Takibi</h2><p class="text-xs text-slate-400">Yemek kartları banka ve nakit bakiyesinden bağımsız tutulur.</p></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><div class="glass-panel p-6 rounded-2xl lg:col-span-2"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs text-slate-400 mb-1">Edenred (Ticket)</label><input id="foodEdenred" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"></div><div><label class="block text-xs text-slate-400 mb-1">Multinet</label><input id="foodMultinet" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"></div><div><label class="block text-xs text-slate-400 mb-1">Sodexo / Pluxee</label><input id="foodSodexo" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"></div><div><label class="block text-xs text-slate-400 mb-1">Setcard</label><input id="foodSetcard" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"></div><div class="sm:col-span-2"><label class="block text-xs text-slate-400 mb-1">Metropol / Diğer</label><input id="foodOther" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"></div></div><button onclick="saveFoodCards()" class="w-full py-3 mt-4 bg-amber-500 text-white font-bold text-xs rounded-xl">Yemek Kartı Bakiyelerini Güncelle</button></div><div class="glass-panel p-6 rounded-2xl"><div class="text-xs text-slate-400">Toplam Yemek Kartı Bakiyesi</div><div id="foodTotal" class="text-2xl font-black text-amber-400 mt-0.5">₺0,00</div><div id="foodCardList" class="space-y-2.5 text-xs mt-4"></div></div></div></section>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="glass-panel p-6 rounded-2xl lg:col-span-2">
-            <form id="expenseForm" onsubmit="saveExpense('bank'); return false;" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1.5">Tarih</label>
-                        <input id="expenseDate" type="date" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1.5">Tutar (₺)</label>
-                        <input id="expenseAmount" type="number" step="0.01" min="0" required placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1.5">Gider Kalemi</label>
-                        <select id="expenseCategory" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-                            <option>Kasap (Et / Kıymalık)</option>
-                            <option>Kaşarcı / Peynirci</option>
-                            <option>Uncu (Pide Unu)</option>
-                            <option>Ayrancı / İçecek</option>
-                            <option>Kolacı / Gazlı İçecekler</option>
-                            <option>Sebze / Hal Alışverişi</option>
-                            <option>Ambalaj & Kutu Giderleri</option>
-                            <option>Elektrik</option>
-                            <option>Su</option>
-                            <option>Doğalgaz (Fırın Gazı)</option>
-                            <option>Telefon / İnternet</option>
-                            <option>Kira</option>
-                            <option>Personel Maaş & Avans</option>
-                            <option>Anneye Çekilen Nakit</option>
-                            <option>Market / Temizlik</option>
-                            <option>Diğer</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1.5">Açıklama</label>
-                        <input id="expenseDescription" placeholder="Örn: 5 çuval un alımı" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
-                    </div>
-                </div>
+<section id="page-bills" class="page space-y-6 hidden"><div><h2 class="text-2xl font-black text-white">Fatura Takibi</h2><p class="text-xs text-slate-400">Fatura ekleyebilir, ödemeyi kaydedebilir veya faturayı silebilirsin.</p></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-4"><div class="glass-panel p-5 rounded-2xl"><div class="text-xs text-slate-400">Ödenmemiş Fatura Borcu</div><div id="billUnpaidTotal" class="text-2xl font-black text-sky-400 mt-1">₺0,00</div></div><div class="glass-panel p-5 rounded-2xl"><div class="text-xs text-slate-400">Ödenmemiş Fatura Sayısı</div><div id="billUnpaidCount" class="text-2xl font-black text-rose-400 mt-1">0</div></div><div class="glass-panel p-5 rounded-2xl"><div class="text-xs text-slate-400">Toplam Fatura</div><div id="billTotalCount" class="text-2xl font-black text-white mt-1">0</div></div></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Yeni Fatura Kaydı</h3><form onsubmit="addBill(event);return false" class="space-y-3.5"><select id="billType" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"><option>Elektrik</option><option>Su</option><option>Doğalgaz (Fırın/Isınma)</option><option>Telefon / GSM</option><option>İnternet / POS Hattı</option><option>Diğer Fatura</option></select><div class="grid grid-cols-2 gap-2"><input id="billDate" type="date" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"><input id="billDueDate" type="date" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"></div><input id="billAmount" type="number" step="0.01" min="0" required placeholder="Tutar (₺)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"><select id="billStatus" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"><option value="paid">Ödendi (Bankadan Düş)</option><option value="unpaid">Ödenmedi</option></select><input id="billDescription" placeholder="Açıklama" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"><button type="submit" class="w-full py-3 bg-sky-600 text-white font-bold text-xs rounded-xl">Faturayı Kaydet</button></form></div><div class="glass-panel p-6 rounded-2xl lg:col-span-2"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Faturalar Listesi</h3><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead><tr class="text-slate-400 border-b border-slate-800"><th class="pb-3">Tür</th><th class="pb-3">Tarih</th><th class="pb-3">Son Ödeme</th><th class="pb-3">Tutar</th><th class="pb-3">Durum</th><th class="pb-3 text-right">İşlem</th></tr></thead><tbody id="billTable" class="divide-y divide-slate-800/60"></tbody></table></div></div></div></section>
 
-                <div class="pt-2">
-                    <div class="text-xs font-bold text-slate-400 mb-2">Gideri hangi hesaptan düşelim?</div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <button type="button" onclick="saveExpense('bank')" class="w-full py-3.5 bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm rounded-xl transition">
-                            Gideri Kaydet <span class="block text-xs font-normal text-sky-200 mt-0.5">(Bankadan Düş)</span>
-                        </button>
-                        <button type="button" onclick="saveExpense('cash')" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl transition">
-                            Gideri Kaydet <span class="block text-xs font-normal text-emerald-200 mt-0.5">(Nakit Kasadan Düş)</span>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
+<section id="page-rent" class="page space-y-6 hidden"><div><h2 class="text-2xl font-black text-white">Kira Yönetimi</h2><p class="text-xs text-slate-400">Aylık kira tutarını ve ödeme gününü buradan değiştirebilirsin.</p></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><div class="glass-panel p-6 rounded-2xl lg:col-span-2"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-5">Kira Ayarları</h3><form onsubmit="saveRentSettings(event);return false" class="space-y-4"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs text-slate-400 mb-1.5">Aylık Kira Tutarı (₺)</label><input id="rentAmount" type="number" min="0" step="0.01" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold text-lg"></div><div><label class="block text-xs text-slate-400 mb-1.5">Ödeme Günü</label><select id="rentDueDay" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold"><option value="1">Ayın 1'i</option><option value="5">Ayın 5'i</option><option value="10">Ayın 10'u</option><option value="15">Ayın 15'i</option><option value="20">Ayın 20'si</option><option value="25">Ayın 25'i</option><option value="30">Ayın 30'u</option></select></div></div><div class="p-4 rounded-2xl bg-slate-900 border border-slate-800"><label class="flex items-start gap-3 cursor-pointer"><input id="rentAutoRecord" type="checkbox" class="mt-1 w-4 h-4 accent-amber-500"><span><span class="block text-sm font-bold text-white">Kira gününde otomatik gider oluştur</span><span class="block text-xs text-slate-500 mt-1 leading-relaxed">Ödeme günü geçtiğinde bu ay için kira hareketi otomatik oluşturulur.</span></span></label></div><button type="submit" class="w-full py-3.5 bg-orange-600 text-white font-bold text-sm rounded-xl">Kira Ayarlarını Kaydet</button></form></div><div class="glass-panel p-6 rounded-2xl"><div class="text-xs text-slate-400">Bu Ay Kira</div><div id="rentCurrentAmount" class="text-3xl font-black text-orange-400 mt-1">₺28.000,00</div><div id="rentCurrentStatus" class="mt-3 text-xs font-bold text-slate-300">Ayın 10'u bekleniyor</div><button id="rentPayButton" onclick="payCurrentMonthRent()" class="w-full mt-5 py-3 rounded-xl bg-orange-600 text-white text-xs font-bold">Bu Ay Kirayı Ödendi Olarak Kaydet</button></div></div></section>
 
-        <div class="glass-panel p-6 rounded-2xl">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Gider Kalemleri Özeti</h3>
-            <div class="overflow-y-auto max-h-80">
-                <table class="w-full text-left text-xs">
-                    <thead>
-                        <tr class="text-slate-400 border-b border-slate-800">
-                            <th class="pb-2">Kalem</th>
-                            <th class="pb-2 text-right">Toplam</th>
-                        </tr>
-                    </thead>
-                    <tbody id="expenseSummary" class="divide-y divide-slate-800/60"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
+<section id="page-transactions" class="page space-y-6 hidden"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><h2 class="text-2xl font-black text-white">Finansal Hareketler</h2><p class="text-xs text-slate-400">Gelir, gider, kira ve borç hareketlerini görüntüleyip geri alabilirsiniz.</p></div><button onclick="undoLastTransactionPrompt()" class="no-print px-4 py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">↩ Son Hareketi Geri Al</button></div><div class="glass-panel p-4 rounded-2xl grid grid-cols-1 sm:grid-cols-3 gap-3"><div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Başlangıç Tarihi</label><input id="transactionStart" type="date" onchange="renderTransactions()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"></div><div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Bitiş Tarihi</label><input id="transactionEnd" type="date" onchange="renderTransactions()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"></div><div class="flex items-end"><button onclick="resetTransactionFilters()" class="w-full py-2 px-3 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Filtreleri Sıfırla</button></div></div><div class="glass-panel p-6 rounded-2xl overflow-x-auto"><table class="w-full text-left text-xs"><thead><tr class="text-slate-400 border-b border-slate-800"><th class="pb-3">Tarih</th><th class="pb-3">Tür</th><th class="pb-3">Hesap</th><th class="pb-3">Kategori</th><th class="pb-3">Açıklama</th><th class="pb-3">Tutar</th><th class="pb-3 text-right">İşlem</th></tr></thead><tbody id="transactionTable" class="divide-y divide-slate-800/60"></tbody></table></div></section>
 
-<!-- REDESIGN: SUPPLIERS SECTION WITH BANNER CARDS -->
-<section id="page-suppliers" class="page space-y-6 hidden">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-            <h2 class="text-2xl font-black text-white tracking-tight">Tedarikçi ve Borç Yönetimi</h2>
-            <p class="text-xs text-slate-400">Tedarikçilerinizi kartlar halinde görüntüleyin, hızlıca borç veya ödeme ekleyin.</p>
-        </div>
-        <div class="glass-panel px-5 py-3 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-rose-950/30 border border-rose-500/20 shrink-0">
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Toplam Tedarikçi Borcu</div>
-            <div id="supplierTotalDebt" class="text-2xl font-black text-rose-400 mt-0.5">₺0,00</div>
-        </div>
-    </div>
+<section id="page-reports" class="page space-y-6 hidden"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><h2 class="text-2xl font-black text-white">Detaylı Gelir / Gider Raporu</h2><p class="text-xs text-slate-400">Seçilen dönemde tüm finans hareketlerinin özeti</p></div><button onclick="window.print()" class="no-print px-4 py-2 rounded-xl bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold">Yazdır / PDF İndir</button></div><div class="glass-panel p-4 rounded-2xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 no-print"><input id="reportStart" type="date" onchange="renderReports()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"><input id="reportEnd" type="date" onchange="renderReports()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"><button onclick="setReportPeriod('today')" class="px-3 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-medium">Bugün</button><div class="flex gap-2"><button onclick="setReportPeriod('thisMonth')" class="px-3 py-2 bg-amber-500/20 border border-amber-500/30 text-amber-300 rounded-xl text-xs flex-1 font-medium">Bu Ay</button><button onclick="setReportPeriod('all')" class="px-3 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs flex-1 font-medium">Tümü</button></div></div><div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-6 gap-4"><div class="glass-panel p-5 rounded-2xl"><div class="text-xs text-slate-400 mb-1">Toplam Gelir</div><div id="reportIncome" class="text-2xl font-black text-emerald-400">₺0,00</div></div><div class="glass-panel p-5 rounded-2xl"><div class="text-xs text-slate-400 mb-1">Toplam Gider</div><div id="reportExpense" class="text-2xl font-black text-rose-400">₺0,00</div></div><div class="glass-panel p-5 rounded-2xl"><div class="text-xs text-slate-400 mb-1">Net</div><div id="reportNet" class="text-2xl font-black text-white">₺0,00</div></div><div class="glass-panel p-5 rounded-2xl"><div class="text-xs text-slate-400 mb-1">Hareket</div><div id="reportTxCount" class="text-2xl font-black text-sky-400">0</div></div><div class="glass-panel p-5 rounded-2xl"><div class="text-xs text-slate-400 mb-1">Banka Çıkışı</div><div id="reportBankExpense" class="text-2xl font-black text-sky-400">₺0,00</div></div><div class="glass-panel p-5 rounded-2xl"><div class="text-xs text-slate-400 mb-1">Nakit Çıkışı</div><div id="reportCashExpense" class="text-2xl font-black text-emerald-400">₺0,00</div></div></div><div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Dönem Özeti</h3><div id="reportSummary"></div></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Gelir Dağılımı</h3><div id="incomeReport" class="space-y-3"></div></div><div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Gider Dağılımı</h3><div id="expenseReport" class="space-y-3"></div></div></div></section>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- ADD SUPPLIER FORM -->
-        <div class="glass-panel p-6 rounded-2xl h-fit">
-            <div class="flex items-center gap-2 border-b border-slate-800 pb-3 mb-4">
-                <span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm font-bold">＋</span>
-                <h3 class="font-bold text-white text-sm">Yeni Tedarikçi Ekle</h3>
-            </div>
+<section id="page-settings" class="page space-y-6 hidden"><div><h2 class="text-2xl font-black text-white">Sistem & Hesap Ayarları</h2><p class="text-xs text-slate-400">Kullanıcı bilgileri ve çalışma prensipleri</p></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Kullanıcı Bilgileri</h3><div class="space-y-3 text-xs"><div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800"><span class="text-slate-400">Kullanıcı</span><strong id="settingsName" class="text-white">-</strong></div><div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800"><span class="text-slate-400">E-posta</span><strong id="settingsEmail" class="text-white">-</strong></div><div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800"><span class="text-slate-400">UID</span><strong id="settingsUid" class="text-amber-400 font-mono">-</strong></div></div></div><div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Sistem Çalışma Kuralları</h3><ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside"><li><strong class="text-sky-400">Banka:</strong> Gelir/Gider işlemlerinde banka bakiyesini etkiler.</li><li><strong class="text-emerald-400">Nakit:</strong> Nakit kasasını günceller.</li><li><strong class="text-rose-400">Gider:</strong> Kâr/zarar hesabına otomatik eklenir.</li><li><strong class="text-indigo-400">Tedarikçiler:</strong> Borç ve ödemeler ayrı hareket olarak tutulur ve geri alınabilir.</li><li><strong class="text-amber-400">Faturalar:</strong> Ödenen faturalar ilgili finans hareketiyle birlikte yönetilir.</li></ul></div></div></section>
 
-            <form onsubmit="addSupplier(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1.5">Tedarikçi Firma / Şahıs</label>
-                    <input id="supplierName" required placeholder="Örn: Özkarşılı Kaşar Ticaret" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500">
-                </div>
-
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1.5">Başlangıç Borcu (₺)</label>
-                    <input id="supplierInitialDebt" type="number" step="0.01" min="0" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500">
-                </div>
-
-                <button type="submit" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-indigo-600/20">
-                    + Tedarikçiyi Kaydet
-                </button>
-            </form>
-        </div>
-
-        <!-- SUPPLIERS BANNER CARDS GRID -->
-        <div class="lg:col-span-2 space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="font-bold text-white text-sm flex items-center gap-2">
-                    <span>Kayıtlı Tedarikçi Bannerları</span>
-                    <span id="supplierCountBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">0</span>
-                </h3>
-            </div>
-
-            <!-- CONTAINER FOR SECTIONED BANNER CARDS -->
-            <div id="supplierTable" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Dynamically rendered banner cards -->
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- FOOD CARDS -->
-<section id="page-foodcards" class="page space-y-6 hidden">
-    <div>
-        <h2 class="text-2xl font-black text-white">Yemek Kartları Takibi</h2>
-        <p class="text-xs text-slate-400">Yemek kartları banka ve nakit bakiyesinden bağımsız tutulur.</p>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="glass-panel p-6 rounded-2xl lg:col-span-2">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">Edenred (Ticket)</label>
-                    <input id="foodEdenred" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">Multinet</label>
-                    <input id="foodMultinet" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">Sodexo / Pluxee</label>
-                    <input id="foodSodexo" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">Setcard</label>
-                    <input id="foodSetcard" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-                </div>
-                <div class="sm:col-span-2">
-                    <label class="block text-xs text-slate-400 mb-1">Metropol / Diğer</label>
-                    <input id="foodOther" type="number" step="0.01" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-                </div>
-            </div>
-
-            <button onclick="saveFoodCards()" class="w-full py-3 mt-4 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl transition">
-                Yemek Kartı Bakiyelerini Güncelle
-            </button>
-        </div>
-
-        <div class="glass-panel p-6 rounded-2xl">
-            <div class="text-xs text-slate-400">Toplam Yemek Kartı Bakiyesi</div>
-            <div id="foodTotal" class="text-2xl font-black text-amber-400 mt-0.5">₺0,00</div>
-            <div id="foodCardList" class="space-y-2.5 text-xs mt-4"></div>
-        </div>
-    </div>
-</section>
-
-<!-- BILLS -->
-<section id="page-bills" class="page space-y-6 hidden">
-    <div>
-        <h2 class="text-2xl font-black text-white">Fatura Takibi</h2>
-        <p class="text-xs text-slate-400">Fatura ekleyebilir, ödemeyi kaydedebilir veya faturayı silebilirsin.</p>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400">Ödenmemiş Fatura Borcu</div>
-            <div id="billUnpaidTotal" class="text-2xl font-black text-sky-400 mt-1">₺0,00</div>
-        </div>
-
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400">Ödenmemiş Fatura Sayısı</div>
-            <div id="billUnpaidCount" class="text-2xl font-black text-rose-400 mt-1">0</div>
-        </div>
-
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400">Toplam Fatura</div>
-            <div id="billTotalCount" class="text-2xl font-black text-white mt-1">0</div>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="glass-panel p-6 rounded-2xl">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Yeni Fatura Kaydı</h3>
-            <form onsubmit="addBill(event)" class="space-y-3.5">
-                <select id="billType" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-                    <option>Elektrik</option>
-                    <option>Su</option>
-                    <option>Doğalgaz (Fırın/Isınma)</option>
-                    <option>Telefon / GSM</option>
-                    <option>İnternet / POS Hattı</option>
-                    <option>Diğer Fatura</option>
-                </select>
-
-                <div class="grid grid-cols-2 gap-2">
-                    <input id="billDate" type="date" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
-                    <input id="billDueDate" type="date" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
-                </div>
-
-                <input id="billAmount" type="number" step="0.01" min="0" required placeholder="Tutar (₺)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-
-                <select id="billStatus" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-                    <option value="paid">Ödendi (Bankadan Düş)</option>
-                    <option value="unpaid">Ödenmedi</option>
-                </select>
-
-                <input id="billDescription" placeholder="Açıklama" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white">
-
-                <button type="submit" class="w-full py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs rounded-xl transition">Faturayı Kaydet</button>
-            </form>
-        </div>
-
-        <div class="glass-panel p-6 rounded-2xl lg:col-span-2">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Faturalar Listesi</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs">
-                    <thead>
-                        <tr class="text-slate-400 border-b border-slate-800">
-                            <th class="pb-3">Tür</th>
-                            <th class="pb-3">Tarih</th>
-                            <th class="pb-3">Son Ödeme</th>
-                            <th class="pb-3">Tutar</th>
-                            <th class="pb-3">Durum</th>
-                            <th class="pb-3 text-right">İşlem</th>
-                        </tr>
-                    </thead>
-                    <tbody id="billTable" class="divide-y divide-slate-800/60"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- RENT SECTION -->
-<section id="page-rent" class="page space-y-6 hidden">
-    <div>
-        <h2 class="text-2xl font-black text-white">Kira Yönetimi</h2>
-        <p class="text-xs text-slate-400">Aylık kira tutarını ve ödeme gününü buradan değiştirebilirsin.</p>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="glass-panel p-6 rounded-2xl lg:col-span-2">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-5">Kira Ayarları</h3>
-            <form onsubmit="saveRentSettings(event)" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1.5">Aylık Kira Tutarı (₺)</label>
-                        <input id="rentAmount" type="number" min="0" step="0.01" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold text-lg">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1.5">Ödeme Günü</label>
-                        <select id="rentDueDay" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-bold">
-                            <option value="1">Ayın 1'i</option>
-                            <option value="5">Ayın 5'i</option>
-                            <option value="10">Ayın 10'u</option>
-                            <option value="15">Ayın 15'i</option>
-                            <option value="20">Ayın 20'si</option>
-                            <option value="25">Ayın 25'i</option>
-                            <option value="30">Ayın 30'u</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800">
-                    <label class="flex items-start gap-3 cursor-pointer">
-                        <input id="rentAutoRecord" type="checkbox" class="mt-1 w-4 h-4 accent-amber-500">
-                        <span>
-                            <span class="block text-sm font-bold text-white">Kira gününde otomatik gider oluştur</span>
-                            <span class="block text-xs text-slate-500 mt-1 leading-relaxed">Ödeme günü geçtiğinde kira otomatik olarak gider kaydedilir.</span>
-                        </span>
-                    </label>
-                </div>
-
-                <button type="submit" class="w-full py-3.5 bg-orange-600 hover:bg-orange-500 text-white font-bold text-sm rounded-xl transition">Kira Ayarlarını Kaydet</button>
-            </form>
-        </div>
-
-        <div class="glass-panel p-6 rounded-2xl">
-            <div class="text-xs text-slate-400">Bu Ay Kira</div>
-            <div id="rentCurrentAmount" class="text-3xl font-black text-orange-400 mt-1">₺28.000,00</div>
-            <div id="rentCurrentStatus" class="mt-3 text-xs font-bold text-slate-300">Ayın 10'u bekleniyor</div>
-            <button id="rentPayButton" onclick="payCurrentMonthRent()" class="w-full mt-5 py-3 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition">
-                Bu Ay Kirayı Ödendi Olarak Kaydet
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- TRANSACTIONS -->
-<section id="page-transactions" class="page space-y-6 hidden">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-            <h2 class="text-2xl font-black text-white">Finansal Hareketler</h2>
-            <p class="text-xs text-slate-400">Gelir, gider, kira ve borç hareketlerini görüntüleyip geri alabilirsiniz.</p>
-        </div>
-        <button onclick="undoLastTransactionPrompt()" class="no-print px-4 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-bold transition">
-            ↩ Son Hareketi Geri Al
-        </button>
-    </div>
-
-    <div class="glass-panel p-4 rounded-2xl grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Başlangıç Tarihi</label>
-            <input id="transactionStart" type="date" onchange="renderTransactions()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
-        </div>
-        <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Bitiş Tarihi</label>
-            <input id="transactionEnd" type="date" onchange="renderTransactions()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
-        </div>
-        <div class="flex items-end">
-            <button onclick="resetTransactionFilters()" class="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">Filtreleri Sıfırla</button>
-        </div>
-    </div>
-
-    <div class="glass-panel p-6 rounded-2xl overflow-x-auto">
-        <table class="w-full text-left text-xs">
-            <thead>
-                <tr class="text-slate-400 border-b border-slate-800">
-                    <th class="pb-3">Tarih</th>
-                    <th class="pb-3">Tür</th>
-                    <th class="pb-3">Hesap</th>
-                    <th class="pb-3">Kategori</th>
-                    <th class="pb-3">Açıklama</th>
-                    <th class="pb-3">Tutar</th>
-                    <th class="pb-3 text-right">İşlem</th>
-                </tr>
-            </thead>
-            <tbody id="transactionTable" class="divide-y divide-slate-800/60"></tbody>
-        </table>
-    </div>
-</section>
-
-<!-- REPORTS -->
-<section id="page-reports" class="page space-y-6 hidden">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-            <h2 class="text-2xl font-black text-white">Detaylı Gelir / Gider Raporu</h2>
-            <p class="text-xs text-slate-400">Seçilen dönemde tüm finans hareketlerinin özeti</p>
-        </div>
-        <button onclick="window.print()" class="no-print px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition">
-            Yazdır / PDF İndir
-        </button>
-    </div>
-
-    <div class="glass-panel p-4 rounded-2xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 no-print">
-        <input id="reportStart" type="date" onchange="renderReports()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
-        <input id="reportEnd" type="date" onchange="renderReports()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
-        <button onclick="setReportPeriod('today')" class="px-3 py-2 bg-slate-800 text-slate-300 hover:bg-slate-700 rounded-xl text-xs font-medium transition">Bugün</button>
-        <div class="flex gap-2">
-            <button onclick="setReportPeriod('thisMonth')" class="px-3 py-2 bg-amber-500/20 border border-amber-500/30 text-amber-300 rounded-xl text-xs flex-1 font-medium hover:bg-amber-500/30 transition">Bu Ay</button>
-            <button onclick="setReportPeriod('all')" class="px-3 py-2 bg-slate-800 text-slate-300 hover:bg-slate-700 rounded-xl text-xs flex-1 font-medium transition">Tümü</button>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-6 gap-4">
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Toplam Gelir</div>
-            <div id="reportIncome" class="text-2xl font-black text-emerald-400">₺0,00</div>
-        </div>
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Toplam Gider</div>
-            <div id="reportExpense" class="text-2xl font-black text-rose-400">₺0,00</div>
-        </div>
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Net</div>
-            <div id="reportNet" class="text-2xl font-black text-white">₺0,00</div>
-        </div>
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Hareket</div>
-            <div id="reportTxCount" class="text-2xl font-black text-sky-400">0</div>
-        </div>
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Banka Çıkışı</div>
-            <div id="reportBankExpense" class="text-2xl font-black text-sky-400">₺0,00</div>
-        </div>
-        <div class="glass-panel p-5 rounded-2xl">
-            <div class="text-xs text-slate-400 mb-1">Nakit Çıkışı</div>
-            <div id="reportCashExpense" class="text-2xl font-black text-emerald-400">₺0,00</div>
-        </div>
-    </div>
-
-    <div class="glass-panel p-6 rounded-2xl">
-        <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Dönem Özeti</h3>
-        <div id="reportSummary"></div>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="glass-panel p-6 rounded-2xl">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Gelir Dağılımı</h3>
-            <div id="incomeReport" class="space-y-3"></div>
-        </div>
-        <div class="glass-panel p-6 rounded-2xl">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Gider Dağılımı</h3>
-            <div id="expenseReport" class="space-y-3"></div>
-        </div>
-    </div>
-</section>
-
-<!-- SETTINGS -->
-<section id="page-settings" class="page space-y-6 hidden">
-    <div>
-        <h2 class="text-2xl font-black text-white">Sistem & Hesap Ayarları</h2>
-        <p class="text-xs text-slate-400">Kullanıcı bilgileri ve çalışma prensipleri</p>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="glass-panel p-6 rounded-2xl">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Kullanıcı Bilgileri</h3>
-            <div class="space-y-3 text-xs">
-                <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
-                    <span class="text-slate-400">Kullanıcı</span>
-                    <strong id="settingsName" class="text-white">-</strong>
-                </div>
-                <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
-                    <span class="text-slate-400">E-posta</span>
-                    <strong id="settingsEmail" class="text-white">-</strong>
-                </div>
-                <div class="flex justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
-                    <span class="text-slate-400">UID</span>
-                    <strong id="settingsUid" class="text-amber-400 font-mono">-</strong>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-panel p-6 rounded-2xl">
-            <h3 class="font-bold text-white text-sm border-b border-slate-800 pb-3 mb-4">Sistem Çalışma Kuralları</h3>
-            <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
-                <li><strong class="text-sky-400">Banka:</strong> Gelir/Gider işlemlerinde banka bakiyesini etkiler.</li>
-                <li><strong class="text-emerald-400">Nakit:</strong> Nakit kasasını günceller.</li>
-                <li><strong class="text-rose-400">Gider:</strong> Kâr/zarar hesabına otomatik eklenir.</li>
-                <li><strong class="text-indigo-400">Tedarikçiler:</strong> Banner kartlar ile borç ve ödemeleri kolayca yönetmenizi sağlar.</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-</main>
+</main></div>
+<nav class="md:hidden fixed bottom-0 left-0 right-0 z-30 glass-panel border-t border-slate-800 px-2 py-1.5 flex items-center justify-around"><button onclick="openPage('dashboard')" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span>⌂</span><span class="text-[10px] font-semibold">Özet</span></button><button onclick="openPage('income')" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span>＋</span><span class="text-[10px] font-semibold">Gelir</span></button><button onclick="quickActionModal()" class="w-11 h-11 -mt-5 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-600 text-white flex items-center justify-center shadow-lg border border-amber-400/30">+</button><button onclick="openPage('expense')" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span>－</span><span class="text-[10px] font-semibold">Gider</span></button><button onclick="openPage('transactions')" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span>↔</span><span class="text-[10px] font-semibold">Hareket</span></button></nav>
 </div>
 
-<!-- MOBILE BOTTOM NAVIGATION -->
-<nav class="md:hidden fixed bottom-0 left-0 right-0 z-30 glass-panel border-t border-slate-800 px-2 py-1.5 flex items-center justify-around">
-    <button onclick="openPage('dashboard')" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span>⌂</span><span class="text-[10px] font-semibold">Özet</span></button>
-    <button onclick="openPage('income')" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span>＋</span><span class="text-[10px] font-semibold">Gelir</span></button>
-    <button onclick="quickActionModal()" class="w-11 h-11 -mt-5 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-600 text-white flex items-center justify-center shadow-lg border border-amber-400/30">+</button>
-    <button onclick="openPage('expense')" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span>－</span><span class="text-[10px] font-semibold">Gider</span></button>
-    <button onclick="openPage('transactions')" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span>↔</span><span class="text-[10px] font-semibold">Hareket</span></button>
-</nav>
-
-</div>
-
-<!-- FIREBASE & APP LOGIC -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import { getDatabase, ref, set, get, push, update, remove } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC_hO0JmWpHQnaGl-Zio1y5_HkBw6cWMuY",
-    authDomain: "finanshayal.firebaseapp.com",
-    databaseURL: "https://finanshayal-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "finanshayal",
-    storageBucket: "finanshayal.firebasestorage.app",
-    messagingSenderId: "580304791747",
-    appId: "1:580304791747:web:efbe1c238fe319efcd9a76",
-    measurementId: "G-055Y1PVNHJ"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
-
-/* GLOBAL STATE */
-let currentUser = null;
-let currentPage = "dashboard";
-let renderQueued = false;
-let toastTimer = null;
-
-let finance = {
-    bankBalance: 0,
-    cashBalance: 0,
-    foodCards: { edenred: 0, multinet: 0, sodexo: 0, setcard: 0, other: 0 },
-    suppliers: {},
-    transactions: {},
-    bills: {},
-    rentSettings: { amount: 28000, dueDay: 10, autoRecord: true, title: "Kira" }
-};
-
-/* UTILS */
-const $ = id => document.getElementById(id);
-const number = val => { const n = Number(val); return Number.isFinite(n) ? n : 0; };
-const money = val => new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY" }).format(number(val));
-
-function today() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function monthStart() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
-}
-
-function currentMonthKey() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-}
-
-function formatMonthTR(date = new Date()) {
-    return date.toLocaleDateString("tr-TR", { month: "long", year: "numeric" });
-}
-
-function escapeHtml(str) {
-    return String(str ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-/* ARRAYS */
-const supplierArray = () => Object.values(finance.suppliers || {});
-const transactionArray = () => Object.values(finance.transactions || {});
-const billArray = () => Object.values(finance.bills || {});
-const unpaidBills = () => billArray().filter(b => b.status === "unpaid");
-const unpaidBillTotal = () => unpaidBills().reduce((sum, b) => sum + number(b.amount), 0);
-
-/* TOAST & MODALS */
-window.toast = function(message, type = "info") {
-    const el = $("toast");
-    const msg = $("toastMessage");
-    const icon = $("toastIcon");
-    if (!el || !msg) return;
-
-    msg.textContent = message;
-    icon.className = `w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-        type === "success" ? "bg-emerald-500/20 text-emerald-400" :
-        type === "error" ? "bg-rose-500/20 text-rose-400" : "bg-amber-500/20 text-amber-400"
-    }`;
-
-    el.classList.remove("translate-y-[-100px]", "opacity-0");
-    el.classList.add("translate-y-0", "opacity-100");
-
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-        el.classList.add("translate-y-[-100px]", "opacity-0");
-        el.classList.remove("translate-y-0", "opacity-100");
-    }, 2600);
-};
-
-window.openModal = function(title, bodyHtml, buttonsHtml) {
-    $("modalTitle").innerHTML = title;
-    $("modalBody").innerHTML = bodyHtml;
-    $("modalFooter").innerHTML = buttonsHtml;
-    $("modalOverlay").classList.remove("hidden");
-};
-
-window.closeModal = function() {
-    $("modalOverlay").classList.add("hidden");
-};
-
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
-
-/* AUTHENTICATION */
-window.showLoginTab = function(tab) {
-    const isLogin = tab === "login";
-    $("loginForm").classList.toggle("hidden", !isLogin);
-    $("registerForm").classList.toggle("hidden", isLogin);
-    $("loginTab").className = `py-2.5 px-4 rounded-xl font-medium text-sm ${isLogin ? 'bg-amber-500 text-white' : 'text-slate-400'}`;
-    $("registerTab").className = `py-2.5 px-4 rounded-xl font-medium text-sm ${!isLogin ? 'bg-amber-500 text-white' : 'text-slate-400'}`;
-};
-
-window.loginUser = async function() {
-    const email = $("loginEmail").value.trim();
-    const password = $("loginPassword").value;
-    const err = $("loginError");
-    err.classList.add("hidden");
-
-    if (!email || !password) {
-        err.textContent = "E-posta ve şifre gerekli.";
-        err.classList.remove("hidden");
-        return;
-    }
-
-    try {
-        await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-        err.textContent = firebaseError(error);
-        err.classList.remove("hidden");
-    }
-};
-
-window.registerUser = async function() {
-    const name = $("registerName").value.trim();
-    const email = $("registerEmail").value.trim();
-    const password = $("registerPassword").value;
-    const err = $("registerError");
-    err.classList.add("hidden");
-
-    if (!name || !email || !password) {
-        err.textContent = "Tüm alanları doldurun.";
-        err.classList.remove("hidden");
-        return;
-    }
-
-    try {
-        const credential = await createUserWithEmailAndPassword(auth, email, password);
-        await set(ref(db, `users/${credential.user.uid}`), {
-            profile: { name, email, createdAt: Date.now() },
-            bankBalance: 0, cashBalance: 0,
-            foodCards: { edenred: 0, multinet: 0, sodexo: 0, setcard: 0, other: 0 },
-            suppliers: {}, transactions: {}, bills: {},
-            rentSettings: { amount: 28000, dueDay: 10, autoRecord: true, title: "Kira" }
-        });
-        toast("Hesap oluşturuldu.", "success");
-    } catch (error) {
-        err.textContent = firebaseError(error);
-        err.classList.remove("hidden");
-    }
-};
-
-window.logoutUser = () => signOut(auth);
-
-function firebaseError(error) {
-    const msgs = {
-        "auth/email-already-in-use": "Bu e-posta zaten kayıtlı.",
-        "auth/invalid-email": "Geçerli bir e-posta girin.",
-        "auth/weak-password": "Şifre en az 6 karakter olmalı.",
-        "auth/invalid-credential": "E-posta veya şifre hatalı."
-    };
-    return msgs[error?.code] || "İşlem sırasında bir hata oluştu.";
-}
-
-onAuthStateChanged(auth, async user => {
-    currentUser = user;
-    if (!user) {
-        $("loginScreen").style.display = "flex";
-        $("app").style.display = "none";
-        return;
-    }
-    $("loginScreen").style.display = "none";
-    $("app").style.display = "flex";
-    await loadFinance();
-});
-
-/* STATE MANAGEMENT & PERSISTENCE */
-async function loadFinance() {
-    if (!currentUser) return;
-    try {
-        const snapshot = await get(ref(db, `users/${currentUser.uid}`));
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            finance = {
-                bankBalance: number(data.bankBalance),
-                cashBalance: number(data.cashBalance),
-                foodCards: {
-                    edenred: number(data.foodCards?.edenred),
-                    multinet: number(data.foodCards?.multinet),
-                    sodexo: number(data.foodCards?.sodexo),
-                    setcard: number(data.foodCards?.setcard),
-                    other: number(data.foodCards?.other)
-                },
-                suppliers: data.suppliers || {},
-                transactions: data.transactions || {},
-                bills: data.bills || {},
-                rentSettings: {
-                    amount: number(data.rentSettings?.amount) || 28000,
-                    dueDay: number(data.rentSettings?.dueDay) || 10,
-                    autoRecord: data.rentSettings?.autoRecord !== false,
-                    title: data.rentSettings?.title || "Kira"
-                }
-            };
-
-            const userName = data.profile?.name || currentUser.email || "Kullanıcı";
-            $("topUserName").textContent = userName;
-            $("settingsName").textContent = userName;
-            $("settingsEmail").textContent = currentUser.email || "-";
-            $("settingsUid").textContent = currentUser.uid;
-        }
-    } catch (e) {
-        toast("Veriler yüklenemedi.", "error");
-    }
-
-    fillDefaults();
-    renderCurrentPage();
-    renderDashboard();
-}
-
-async function saveUserPatch(patch) {
-    if (!currentUser) return;
-    await update(ref(db, `users/${currentUser.uid}`), patch);
-}
-
-const normalizeAccount = acc => acc === "cash" ? "cash" : "bank";
-const accountLabel = acc => normalizeAccount(acc) === "cash" ? "Nakit" : "Banka";
-const accountBalance = acc => normalizeAccount(acc) === "cash" ? number(finance.cashBalance) : number(finance.bankBalance);
-
-async function changeAccountBalance(account, delta) {
-    const acc = normalizeAccount(account);
-    const key = acc === "cash" ? "cashBalance" : "bankBalance";
-    const newBal = number(finance[key]) + number(delta);
-    finance[key] = newBal;
-    await saveUserPatch({ [key]: newBal });
-    return newBal;
-}
-
-/* NAVIGATION */
-window.openPage = function(page, btn) {
-    currentPage = page;
-    document.querySelectorAll(".page").forEach(el => el.classList.add("hidden"));
-    const target = $(`page-${page}`);
-    if (target) target.classList.remove("hidden");
-
-    document.querySelectorAll(".nav-btn").forEach(b => {
-        b.classList.remove("active", "bg-slate-800/80", "text-white");
-        b.classList.add("text-slate-300");
-    });
-
-    if (btn) {
-        btn.classList.add("active", "bg-slate-800/80", "text-white");
-        btn.classList.remove("text-slate-300");
-    }
-
-    closeSidebar();
-    queueRender();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-};
-
-window.openMonthlyReport = () => { openPage("reports"); setReportPeriod("thisMonth"); };
-
-function closeSidebar() {
-    $("sidebar").classList.add("-translate-x-full");
-    $("sidebarBackdrop").classList.add("hidden");
-}
-
-window.toggleSidebar = function() {
-    const sb = $("sidebar");
-    const open = !sb.classList.contains("-translate-x-full");
-    if (open) closeSidebar();
-    else {
-        sb.classList.remove("-translate-x-full");
-        $("sidebarBackdrop").classList.remove("hidden");
-    }
-};
-
-function queueRender() {
-    if (renderQueued) return;
-    renderQueued = true;
-    requestAnimationFrame(() => {
-        renderQueued = false;
-        renderCurrentPage();
-        renderDashboard();
-    });
-}
-
-function renderCurrentPage() {
-    switch (currentPage) {
-        case "dashboard": renderDashboard(); break;
-        case "income": case "expense": renderExpenseSummary(); break;
-        case "suppliers": renderSuppliers(); break;
-        case "foodcards": renderFoodCards(); break;
-        case "bills": renderBills(); break;
-        case "rent": renderRentPage(); break;
-        case "transactions": renderTransactions(); break;
-        case "reports": renderReports(); break;
-    }
-}
-
-/* BALANCES MANUAL SAVE */
-window.saveBankBalance = async function() {
-    const val = number($("manualBankBalance").value);
-    finance.bankBalance = val;
-    await saveUserPatch({ bankBalance: val });
-    toast("Banka bakiyesi güncellendi.", "success");
-    queueRender();
-};
-
-window.saveCashBalance = async function() {
-    const val = number($("manualCashBalance").value);
-    finance.cashBalance = val;
-    await saveUserPatch({ cashBalance: val });
-    toast("Nakit bakiyesi güncellendi.", "success");
-    queueRender();
-};
-
-/* TRANSACTIONS CREATION */
-async function createTransaction(data) {
-    const tRef = push(ref(db, `users/${currentUser.uid}/transactions`));
-    const tx = {
-        id: tRef.key,
-        date: data.date || today(),
-        type: data.type,
-        category: data.category || "",
-        description: data.description || "",
-        amount: number(data.amount),
-        account: normalizeAccount(data.account),
-        createdAt: Date.now(),
-        supplierId: data.supplierId || null,
-        supplierName: data.supplierName || null,
-        sourceType: data.sourceType || null,
-        sourceId: data.sourceId || null
-    };
-    await set(tRef, tx);
-    finance.transactions[tRef.key] = tx;
-    return tx;
-}
-
-window.saveIncome = async function(acc) {
-    const amount = number($("incomeAmount").value);
-    if (amount <= 0) return toast("Geçerli bir tutar girin.", "error");
-
-    const normAcc = normalizeAccount(acc);
-    await createTransaction({
-        date: $("incomeDate").value,
-        type: "income",
-        category: $("incomeCategory").value,
-        description: $("incomeDescription").value.trim(),
-        amount,
-        account: normAcc,
-        sourceType: "income"
-    });
-    await changeAccountBalance(normAcc, amount);
-    $("incomeForm").reset();
-    $("incomeDate").value = today();
-    toast("Gelir eklendi.", "success");
-    queueRender();
-};
-
-window.saveExpense = async function(acc) {
-    const amount = number($("expenseAmount").value);
-    if (amount <= 0) return toast("Geçerli bir tutar girin.", "error");
-
-    const normAcc = normalizeAccount(acc);
-    if (accountBalance(normAcc) < amount) {
-        return openModal(`${accountLabel(normAcc)} Yetersiz`, `<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs">Mevcut bakiye: <strong>${money(accountBalance(normAcc))}</strong>. Lütfen bakiyenizi kontrol edin.</div>`, `<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">Kapat</button>`);
-    }
-
-    await createTransaction({
-        date: $("expenseDate").value,
-        type: "expense",
-        category: $("expenseCategory").value,
-        description: $("expenseDescription").value.trim(),
-        amount,
-        account: normAcc,
-        sourceType: "expense"
-    });
-    await changeAccountBalance(normAcc, -amount);
-    $("expenseForm").reset();
-    $("expenseDate").value = today();
-    toast("Gider kaydedildi.", "success");
-    queueRender();
-};
-
-/* REDESIGNED SUPPLIERS SECTION (BÖLMELİ BANNER KARTLAR) */
-window.addSupplier = async function(e) {
-    e.preventDefault();
-    const name = $("supplierName").value.trim();
-    const initialDebt = number($("supplierInitialDebt").value);
-
-    if (!name) return toast("Tedarikçi adı girin.", "error");
-
-    const sRef = push(ref(db, `users/${currentUser.uid}/suppliers`));
-    const supp = { id: sRef.key, name, debt: initialDebt, createdAt: Date.now() };
-    await set(sRef, supp);
-    finance.suppliers[sRef.key] = supp;
-
-    if (initialDebt > 0) {
-        await createTransaction({
-            date: today(),
-            type: "supplier_debt_add",
-            category: supp.name,
-            description: `${supp.name} başlangıç borcu`,
-            amount: initialDebt,
-            account: "bank",
-            supplierId: sRef.key,
-            supplierName: supp.name,
-            sourceType: "supplier_debt_add",
-            sourceId: sRef.key
-        });
-    }
-
-    e.target.reset();
-    $("supplierInitialDebt").value = 0;
-    toast("Tedarikçi eklendi.", "success");
-    queueRender();
-};
-
-function renderSuppliers() {
-    const target = $("supplierTable");
-    if (!target) return;
-
-    const list = supplierArray().sort((a, b) => String(a.name).localeCompare(String(b.name), "tr"));
-    if ($("supplierCountBadge")) $("supplierCountBadge").textContent = list.length;
-
-    if (!list.length) {
-        target.innerHTML = `
-            <div class="col-span-full p-12 text-center glass-panel rounded-2xl">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mx-auto mb-3 text-xl font-bold">🏢</div>
-                <div class="text-sm font-bold text-slate-300">Kayıtlı Tedarikçi Yok</div>
-                <div class="text-xs text-slate-500 mt-1">Sol taraftaki formdan hızlıca yeni bir tedarikçi ekleyebilirsiniz.</div>
-            </div>
-        `;
-        return;
-    }
-
-    /* REDESIGNED: SECTIONED BANNER CARDS */
-    target.innerHTML = list.map(s => {
-        const hasDebt = number(s.debt) > 0;
-        const initial = s.name ? s.name.charAt(0).toUpperCase() : "T";
-
-        return `
-        <div class="glass-panel rounded-2xl p-0 overflow-hidden border border-slate-800 hover:border-slate-700 transition shadow-lg group">
-            
-            <!-- BANNER HEADER SECTION -->
-            <div class="px-5 py-3.5 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-indigo-950/20 border-b border-slate-800 flex items-center justify-between">
-                <div class="flex items-center gap-3 overflow-hidden">
-                    <div class="w-9 h-9 rounded-xl ${hasDebt ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30' : 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'} flex items-center justify-center text-sm font-black shrink-0">
-                        ${initial}
-                    </div>
-                    <div class="truncate">
-                        <h4 class="font-bold text-sm text-white truncate leading-tight">${escapeHtml(s.name)}</h4>
-                        <span class="text-[10px] text-slate-400 font-medium">Tedarikçi / Cari Hesap</span>
-                    </div>
-                </div>
-
-                <span class="text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 ${
-                    hasDebt ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                }">
-                    ${hasDebt ? '● Borçlu' : '✓ Borçsuz'}
-                </span>
-            </div>
-
-            <!-- BANNER VALUE SECTION -->
-            <div class="p-5 flex items-center justify-between bg-slate-950/40">
-                <div>
-                    <div class="text-[11px] font-medium text-slate-400">Güncel Kalan Borç</div>
-                    <div class="text-2xl font-black ${hasDebt ? 'text-rose-400' : 'text-emerald-400'} mt-0.5 tracking-tight">
-                        ${money(s.debt)}
-                    </div>
-                </div>
-                <div class="text-right">
-                    <span class="text-[10px] font-semibold text-slate-500 block">Kategori</span>
-                    <span class="text-xs font-bold text-slate-300">Tedarikçi Hesabı</span>
-                </div>
-            </div>
-
-            <!-- BANNER ACTION SECTION -->
-            <div class="px-4 py-3 bg-slate-900/80 border-t border-slate-800/80 flex items-center justify-between gap-1">
-                <div class="flex items-center gap-1.5 flex-1">
-                    <button onclick="supplierAddDebtPrompt('${s.id}')" class="flex-1 py-1.5 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-1">
-                        <span>+</span> Borç
-                    </button>
-                    <button onclick="supplierPaymentPrompt('${s.id}')" class="flex-1 py-1.5 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm shadow-emerald-600/20">
-                        <span>₺</span> Ödeme
-                    </button>
-                </div>
-                <div class="flex items-center gap-1 pl-1 border-l border-slate-800">
-                    <button onclick="editSupplierPrompt('${s.id}')" title="Düzenle" class="p-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 text-xs font-medium border border-indigo-500/20 transition">
-                        ✎
-                    </button>
-                    <button onclick="deleteSupplierPrompt('${s.id}')" title="Sil" class="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-medium border border-rose-500/20 transition">
-                        🗑
-                    </button>
-                </div>
-            </div>
-
-        </div>
-        `;
-    }).join("");
-}
-
-window.editSupplierPrompt = function(id) {
-    const s = finance.suppliers[id];
-    if (!s) return;
-    openModal("Tedarikçi Düzenle", `
-        <div class="space-y-3">
-            <label class="block text-xs text-slate-400">Tedarikçi Adı</label>
-            <input id="editSupplierName" value="${escapeHtml(s.name)}" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
-        </div>
-    `, `
-        <button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button>
-        <button onclick="confirmSupplierEdit('${id}')" class="px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl">Kaydet</button>
-    `);
-};
-
-window.confirmSupplierEdit = async function(id) {
-    const newName = $("editSupplierName")?.value.trim();
-    if (!newName) return toast("İsim boş olamaz.", "error");
-
-    finance.suppliers[id].name = newName;
-    await update(ref(db, `users/${currentUser.uid}/suppliers/${id}`), { name: newName });
-    closeModal();
-    toast("Tedarikçi güncellendi.", "success");
-    queueRender();
-};
-
-window.deleteSupplierPrompt = function(id) {
-    const s = finance.suppliers[id];
-    if (!s) return;
-    openModal("Tedarikçi Sil", `
-        <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-slate-300">
-            <strong>${escapeHtml(s.name)}</strong> kalıcı olarak silinecektir. Kalan Borç: <strong class="text-rose-400">${money(s.debt)}</strong>.
-        </div>
-    `, `
-        <button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button>
-        <button onclick="executeDeleteSupplier('${id}')" class="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-xl">Sil</button>
-    `);
-};
-
-window.executeDeleteSupplier = async function(id) {
-    await remove(ref(db, `users/${currentUser.uid}/suppliers/${id}`));
-    delete finance.suppliers[id];
-    closeModal();
-    toast("Tedarikçi silindi.", "success");
-    queueRender();
-};
-
-/* SUPPLIER PAYMENTS & DEBT MODALS */
-window.supplierPaymentPrompt = function(id) {
-    const s = finance.suppliers[id];
-    if (!s || number(s.debt) <= 0) return toast("Borç bulunmuyor.", "info");
-
-    openModal(`${escapeHtml(s.name)} - Ödeme Yap`, `
-        <div class="space-y-3">
-            <div class="p-3 bg-slate-900 rounded-xl flex justify-between text-xs">
-                <span class="text-slate-400">Kalan Borç</span>
-                <strong class="text-rose-400">${money(s.debt)}</strong>
-            </div>
-            <input id="supplierPayAmount" type="number" step="0.01" min="0.01" max="${number(s.debt)}" placeholder="Ödeme Tutarı" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white font-bold text-lg">
-        </div>
-    `, `
-        <button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button>
-        <button onclick="confirmSupplierPayment('${id}')" class="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl">Ödemeyi Kaydet</button>
-    `);
-};
-
-window.confirmSupplierPayment = async function(id) {
-    const s = finance.suppliers[id];
-    const amount = number($("supplierPayAmount")?.value);
-    if (amount <= 0 || amount > number(s.debt)) return toast("Geçersiz tutar.", "error");
-
-    s.debt = number(s.debt) - amount;
-    await update(ref(db, `users/${currentUser.uid}/suppliers/${id}`), { debt: s.debt });
-    await createTransaction({ date: today(), type: "supplier_payment", category: s.name, description: `${s.name} tedarikçi ödemesi`, amount, account: "bank", supplierId: id });
-    await changeAccountBalance("bank", -amount);
-    closeModal();
-    toast("Ödeme kaydedildi.", "success");
-    queueRender();
-};
-
-window.supplierAddDebtPrompt = function(id) {
-    const s = finance.suppliers[id];
-    if (!s) return;
-    openModal(`${escapeHtml(s.name)} - Borç Ekle`, `
-        <div class="space-y-3">
-            <input id="supplierDebtAddAmount" type="number" step="0.01" min="0.01" placeholder="Eklenecek Borç Tutar" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white font-bold text-lg">
-        </div>
-    `, `
-        <button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button>
-        <button onclick="confirmSupplierDebtAdd('${id}')" class="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-xl">Borç Ekle</button>
-    `);
-};
-
-window.confirmSupplierDebtAdd = async function(id) {
-    const s = finance.suppliers[id];
-    const amount = number($("supplierDebtAddAmount")?.value);
-    if (amount <= 0) return toast("Geçersiz tutar.", "error");
-
-    s.debt = number(s.debt) + amount;
-    await update(ref(db, `users/${currentUser.uid}/suppliers/${id}`), { debt: s.debt });
-    await createTransaction({ date: today(), type: "supplier_debt_add", category: s.name, description: `${s.name} borç ekleme`, amount, account: "bank", supplierId: id });
-    closeModal();
-    toast("Borç eklendi.", "success");
-    queueRender();
-};
-
-/* OTHER RENDERERS */
-function renderFoodCards() {
-    if (!$("foodEdenred")) return;
-    $("foodEdenred").value = number(finance.foodCards.edenred);
-    $("foodMultinet").value = number(finance.foodCards.multinet);
-    $("foodSodexo").value = number(finance.foodCards.sodexo);
-    $("foodSetcard").value = number(finance.foodCards.setcard);
-    $("foodOther").value = number(finance.foodCards.other);
-
-    const labels = { edenred: "Edenred", multinet: "Multinet", sodexo: "Sodexo", setcard: "Setcard", other: "Diğer" };
-    $("foodCardList").innerHTML = Object.entries(finance.foodCards).map(([k, v]) => `
-        <div class="flex justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-            <span class="text-slate-400 font-medium">${labels[k]}</span>
-            <strong class="text-amber-400">${money(v)}</strong>
-        </div>
-    `).join("");
-}
-
-window.saveFoodCards = async function() {
-    const cards = {
-        edenred: number($("foodEdenred").value),
-        multinet: number($("foodMultinet").value),
-        sodexo: number($("foodSodexo").value),
-        setcard: number($("foodSetcard").value),
-        other: number($("foodOther").value)
-    };
-    finance.foodCards = cards;
-    await saveUserPatch({ foodCards: cards });
-    toast("Yemek kartları güncellendi.", "success");
-    queueRender();
-};
-
-/* BILLS */
-window.addBill = async function(e) {
-    e.preventDefault();
-    const amount = number($("billAmount").value);
-    if (amount <= 0) return toast("Tutar girin.", "error");
-
-    const status = $("billStatus").value;
-    const bRef = push(ref(db, `users/${currentUser.uid}/bills`));
-    const bill = { id: bRef.key, type: $("billType").value, date: $("billDate").value, dueDate: $("billDueDate").value, amount, status, description: $("billDescription").value.trim(), createdAt: Date.now() };
-    await set(bRef, bill);
-    finance.bills[bRef.key] = bill;
-
-    if (status === "paid") {
-        await createTransaction({ date: bill.date, type: "expense", category: bill.type, description: bill.description || `${bill.type} faturası`, amount, account: "bank", sourceType: "bill", sourceId: bRef.key });
-        await changeAccountBalance("bank", -amount);
-    }
-    e.target.reset();
-    $("billDate").value = today();
-    toast("Fatura kaydedildi.", "success");
-    queueRender();
-};
-
-function renderBills() {
-    const target = $("billTable");
-    if (!target) return;
-    const list = billArray().sort((a, b) => String(b.date).localeCompare(String(a.date)));
-
-    $("billUnpaidTotal").textContent = money(unpaidBillTotal());
-    $("billUnpaidCount").textContent = unpaidBills().length;
-    $("billTotalCount").textContent = list.length;
-
-    if (!list.length) {
-        target.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-500">Fatura bulunmuyor.</td></tr>`;
-        return;
-    }
-
-    target.innerHTML = list.map(b => `
-        <tr>
-            <td class="py-3 font-bold text-white">${escapeHtml(b.type)}</td>
-            <td class="py-3 text-slate-400">${escapeHtml(b.date)}</td>
-            <td class="py-3 text-slate-400">${escapeHtml(b.dueDate || "-")}</td>
-            <td class="py-3 font-bold text-white">${money(b.amount)}</td>
-            <td class="py-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${b.status === 'paid' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}">${b.status === 'paid' ? 'Ödendi' : 'Ödenmedi'}</span></td>
-            <td class="py-3 text-right"><button onclick="executeDeleteBill('${b.id}')" class="px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 rounded-lg">Sil</button></td>
-        </tr>
-    `).join("");
-}
-
-window.executeDeleteBill = async function(id) {
-    await remove(ref(db, `users/${currentUser.uid}/bills/${id}`));
-    delete finance.bills[id];
-    toast("Fatura silindi.", "success");
-    queueRender();
-};
-
-/* RENT */
-function renderRentPage() {
-    if (!$("rentAmount")) return;
-    const settings = finance.rentSettings || {};
-    $("rentAmount").value = number(settings.amount) || 28000;
-    $("rentDueDay").value = number(settings.dueDay) || 10;
-    $("rentAutoRecord").checked = settings.autoRecord !== false;
-    $("rentCurrentAmount").textContent = money(settings.amount || 28000);
-}
-
-window.saveRentSettings = async function(e) {
-    e.preventDefault();
-    finance.rentSettings = {
-        amount: number($("rentAmount").value),
-        dueDay: number($("rentDueDay").value),
-        autoRecord: $("rentAutoRecord").checked,
-        title: "Kira"
-    };
-    await saveUserPatch({ rentSettings: finance.rentSettings });
-    toast("Kira ayarları kaydedildi.", "success");
-    queueRender();
-};
-
-window.payCurrentMonthRent = async function() {
-    const amount = number(finance.rentSettings.amount) || 28000;
-    await createTransaction({ date: today(), type: "expense", category: "Kira", description: `${formatMonthTR()} kira ödemesi`, amount, account: "bank", sourceType: "rent", sourceId: `rent-${currentMonthKey()}` });
-    await changeAccountBalance("bank", -amount);
-    toast("Kira ödendi olarak kaydedildi.", "success");
-    queueRender();
-};
-
-/* TRANSACTIONS */
-function getSortedTransactions() {
-    return transactionArray().sort((a, b) => String(b.date).localeCompare(String(a.date)) || number(b.createdAt) - number(a.createdAt));
-}
-
-function renderTransactions() {
-    const target = $("transactionTable");
-    if (!target) return;
-
-    const list = getSortedTransactions();
-    if (!list.length) {
-        target.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-500">Kayıt yok.</td></tr>`;
-        return;
-    }
-
-    target.innerHTML = list.map(t => `
-        <tr>
-            <td class="py-3 text-slate-400 font-mono text-[11px]">${escapeHtml(t.date)}</td>
-            <td class="py-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${t.type === 'income' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}">${t.type === 'income' ? 'Gelir' : 'Gider'}</span></td>
-            <td class="py-3 font-bold ${t.account === 'cash' ? 'text-emerald-400' : 'text-sky-400'}">${accountLabel(t.account)}</td>
-            <td class="py-3 text-slate-300 font-medium">${escapeHtml(t.category)}</td>
-            <td class="py-3 text-slate-400">${escapeHtml(t.description)}</td>
-            <td class="py-3 font-bold ${t.type === 'income' ? 'text-emerald-400' : 'text-rose-400'}">${money(t.amount)}</td>
-            <td class="py-3 text-right"><button onclick="executeUndoTransaction('${t.id}')" class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 rounded-lg text-[11px]">Geri Al</button></td>
-        </tr>
-    `).join("");
-}
-
-window.resetTransactionFilters = function() {
-    $("transactionStart").value = monthStart();
-    $("transactionEnd").value = today();
-    renderTransactions();
-};
-
-window.executeUndoTransaction = async function(id) {
-    const t = finance.transactions[id];
-    if (!t) return;
-
-    const amount = number(t.amount);
-    if (t.type === "income") await changeAccountBalance(t.account, -amount);
-    else if (t.type === "expense") await changeAccountBalance(t.account, amount);
-
-    await remove(ref(db, `users/${currentUser.uid}/transactions/${id}`));
-    delete finance.transactions[id];
-    toast("İşlem geri alındı.", "success");
-    queueRender();
-};
-
-window.undoLastTransactionPrompt = function() {
-    const list = getSortedTransactions();
-    if (list.length) executeUndoTransaction(list[0].id);
-};
-
-/* REPORTS */
-function renderReports() {
-    const list = getSortedTransactions();
-    let inc = 0, exp = 0;
-    list.forEach(t => { if (t.type === "income") inc += number(t.amount); else exp += number(t.amount); });
-
-    $("reportIncome").textContent = money(inc);
-    $("reportExpense").textContent = money(exp);
-    $("reportNet").textContent = money(inc - exp);
-    $("reportTxCount").textContent = list.length;
-}
-
-window.setReportPeriod = function(p) {
-    if (p === "today") $("reportStart").value = $("reportEnd").value = today();
-    else if (p === "thisMonth") { $("reportStart").value = monthStart(); $("reportEnd").value = today(); }
-    else { $("reportStart").value = $("reportEnd").value = ""; }
-    renderReports();
-};
-
-/* DASHBOARD & SUMMARY */
-function renderDashboard() {
-    if (!$("dashBank")) return;
-
-    $("dashBank").textContent = money(finance.bankBalance);
-    $("dashCash").textContent = money(finance.cashBalance);
-
-    const foodTotal = Object.values(finance.foodCards || {}).reduce((s, v) => s + number(v), 0);
-    $("dashFood").textContent = money(foodTotal);
-    $("foodTotal").textContent = money(foodTotal);
-
-    const debt = supplierArray().reduce((s, supp) => s + number(supp.debt), 0);
-    $("dashDebt").textContent = money(debt);
-    $("supplierTotalDebt").textContent = money(debt);
-
-    $("manualBankBalance").value = finance.bankBalance;
-    $("manualCashBalance").value = finance.cashBalance;
-    $("currentMonthLabel").textContent = formatMonthTR();
-
-    renderRecentTransactions();
-}
-
-function renderRecentTransactions() {
-    const target = $("recentTransactions");
-    if (!target) return;
-    const list = getSortedTransactions().slice(0, 5);
-
-    if (!list.length) {
-        target.innerHTML = `<div class="py-4 text-center text-xs text-slate-500">Henüz hareket yok.</div>`;
-        return;
-    }
-
-    target.innerHTML = `
-        <table class="w-full text-left text-xs">
-            <thead>
-                <tr class="text-slate-400 border-b border-slate-800"><th class="pb-2">Tarih</th><th class="pb-2">Tür</th><th class="pb-2">Hesap</th><th class="pb-2">Açıklama</th><th class="pb-2 text-right">Tutar</th></tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800/60">
-                ${list.map(t => `
-                    <tr>
-                        <td class="py-2 text-slate-400">${escapeHtml(t.date)}</td>
-                        <td class="py-2 text-slate-300 font-medium">${t.type === 'income' ? 'Gelir' : 'Gider'}</td>
-                        <td class="py-2 font-bold ${t.account === 'cash' ? 'text-emerald-400' : 'text-sky-400'}">${accountLabel(t.account)}</td>
-                        <td class="py-2 text-slate-400">${escapeHtml(t.description || t.category || "-")}</td>
-                        <td class="py-2 text-right font-bold ${t.type === 'income' ? 'text-emerald-400' : 'text-rose-400'}">${money(t.amount)}</td>
-                    </tr>
-                `).join("")}
-            </tbody>
-        </table>
-    `;
-}
-
-function renderExpenseSummary() {
-    const target = $("expenseSummary");
-    if (!target) return;
-
-    const totals = {};
-    transactionArray().filter(t => t.type === "expense").forEach(t => {
-        const cat = t.category || "Diğer";
-        totals[cat] = (totals[cat] || 0) + number(t.amount);
-    });
-
-    target.innerHTML = Object.entries(totals).map(([cat, tot]) => `
-        <tr><td class="py-2 text-slate-300 font-medium">${escapeHtml(cat)}</td><td class="py-2 text-right font-bold text-rose-400">${money(tot)}</td></tr>
-    `).join("") || `<tr><td colspan="2" class="py-4 text-center text-slate-500">Gider bulunmuyor.</td></tr>`;
-}
-
-/* QUICK ACTION */
-window.quickActionModal = function() {
-    window.quickType = "income";
-    window.quickAccount = "bank";
-    openModal("Hızlı Finansal Kayıt", `
-        <div class="space-y-3">
-            <div class="grid grid-cols-2 gap-2">
-                <button id="qTypeIncome" onclick="toggleQuickType('income')" class="py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs">Gelir</button>
-                <button id="qTypeExpense" onclick="toggleQuickType('expense')" class="py-2 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs">Gider</button>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-                <button id="qAccountBank" onclick="toggleQuickAccount('bank')" class="py-2 rounded-xl bg-sky-600 text-white font-bold text-xs">Banka</button>
-                <button id="qAccountCash" onclick="toggleQuickAccount('cash')" class="py-2 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs">Nakit</button>
-            </div>
-            <input id="qAmount" type="number" step="0.01" min="0" placeholder="Tutar (₺)" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white font-bold text-lg">
-            <input id="qDesc" placeholder="Açıklama" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white">
-        </div>
-    `, `
-        <button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button>
-        <button onclick="submitQuickAction()" class="px-4 py-2 bg-amber-500 text-white text-xs font-bold rounded-xl">Kaydet</button>
-    `);
-};
-
-window.toggleQuickType = type => {
-    window.quickType = type;
-    $("qTypeIncome").className = `py-2 rounded-xl font-bold text-xs ${type === 'income' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'}`;
-    $("qTypeExpense").className = `py-2 rounded-xl font-bold text-xs ${type === 'expense' ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400'}`;
-};
-
-window.toggleQuickAccount = acc => {
-    window.quickAccount = normalizeAccount(acc);
-    $("qAccountBank").className = `py-2 rounded-xl font-bold text-xs ${window.quickAccount === 'bank' ? 'bg-sky-600 text-white' : 'bg-slate-800 text-slate-400'}`;
-    $("qAccountCash").className = `py-2 rounded-xl font-bold text-xs ${window.quickAccount === 'cash' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'}`;
-};
-
-window.submitQuickAction = async function() {
-    const amount = number($("qAmount")?.value);
-    if (amount <= 0) return toast("Tutar girin.", "error");
-
-    const desc = $("qDesc")?.value?.trim() || (window.quickType === "income" ? "Hızlı Gelir" : "Hızlı Gider");
-    const acc = normalizeAccount(window.quickAccount);
-
-    await createTransaction({ date: today(), type: window.quickType, category: window.quickType === "income" ? "Restoran Satışı" : "Diğer", description: desc, amount, account: acc });
-    await changeAccountBalance(acc, window.quickType === "income" ? amount : -amount);
-    closeModal();
-    toast("Kayıt oluşturuldu.", "success");
-    queueRender();
-};
-
-function fillDefaults() {
-    const d = today();
-    if ($("incomeDate")) $("incomeDate").value = d;
-    if ($("expenseDate")) $("expenseDate").value = d;
-    if ($("billDate")) $("billDate").value = d;
-}
-
-window.addEventListener("load", () => {
-    fillDefaults();
-    setInterval(() => {
-        const el = $("liveClock");
-        if (el) el.textContent = new Date().toLocaleTimeString("tr-TR");
-    }, 1000);
-});
+import { getDatabase, ref, set, get, push, update } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+const firebaseConfig={apiKey:"AIzaSyC_hO0JmWpHQnaGl-Zio1y5_HkBw6cWMuY",authDomain:"finanshayal.firebaseapp.com",databaseURL:"https://finanshayal-default-rtdb.europe-west1.firebasedatabase.app",projectId:"finanshayal",storageBucket:"finanshayal.firebasestorage.app",messagingSenderId:"580304791747",appId:"1:580304791747:web:efbe1c238fe319efcd9a76",measurementId:"G-055Y1PVNHJ"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);
+
+let currentUser=null,currentPage="dashboard",toastTimer=null,actionBusy=false,sortedTxCache=null;
+let finance={bankBalance:0,cashBalance:0,foodCards:{edenred:0,multinet:0,sodexo:0,setcard:0,other:0},suppliers:{},transactions:{},bills:{},rentSettings:{amount:28000,dueDay:10,autoRecord:true,title:"Kira"}};
+const $=id=>document.getElementById(id);
+const number=v=>{const n=Number(v);return Number.isFinite(n)?n:0};
+const moneyFormatter=new Intl.NumberFormat("tr-TR",{style:"currency",currency:"TRY",minimumFractionDigits:2,maximumFractionDigits:2});
+const money=v=>moneyFormatter.format(number(v));
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const monthStart=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-01`};
+const currentMonthKey=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`};
+const formatMonthTR=(date=new Date())=>date.toLocaleDateString("tr-TR",{month:"long",year:"numeric"});
+const rootRef=()=>ref(db,`users/${currentUser.uid}`);
+const normalizeAccount=acc=>acc==="cash"?"cash":"bank";
+const accountLabel=acc=>normalizeAccount(acc)==="cash"?"Nakit":"Banka";
+const accountKey=acc=>normalizeAccount(acc)==="cash"?"cashBalance":"bankBalance";
+const accountBalance=acc=>number(finance[accountKey(acc)]);
+const supplierArray=()=>Object.values(finance.suppliers||{});
+const transactionArray=()=>Object.values(finance.transactions||{});
+const billArray=()=>Object.values(finance.bills||{});
+function getSortedTransactions(){if(sortedTxCache)return sortedTxCache;sortedTxCache=transactionArray().sort((a,b)=>String(b.date).localeCompare(String(a.date))||number(b.createdAt)-number(a.createdAt));return sortedTxCache}
+function invalidateTxCache(){sortedTxCache=null}
+function escapeHtml(str){return String(str??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function setBusy(v){actionBusy=v;document.querySelectorAll("button").forEach(b=>{if(b.closest("#modalOverlay")||b.getAttribute("onclick")?.includes("closeModal"))return;b.disabled=v;b.classList.toggle("opacity-60",v)})}
+async function runAction(task){if(actionBusy)return;setBusy(true);try{await task()}catch(err){console.error(err);toast("İşlem sırasında bir hata oluştu.","error")}finally{setBusy(false)}}
+function userPath(path=""){return ref(db,`users/${currentUser.uid}${path?`/${path}`:""}`)}
+
+window.toast=(message,type="info")=>{const el=$("toast"),msg=$("toastMessage"),icon=$("toastIcon");if(!el||!msg)return;msg.textContent=message;icon.className=`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${type==="success"?"bg-emerald-500/20 text-emerald-400":type==="error"?"bg-rose-500/20 text-rose-400":"bg-amber-500/20 text-amber-400"}`;el.classList.remove("translate-y-[-100px]","opacity-0");el.classList.add("translate-y-0","opacity-100");clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.classList.add("translate-y-[-100px]","opacity-0");el.classList.remove("translate-y-0","opacity-100")},2400)};
+window.openModal=(title,bodyHtml,buttonsHtml)=>{$("modalTitle").textContent=title;$("modalBody").innerHTML=bodyHtml;$("modalFooter").innerHTML=buttonsHtml;$('modalOverlay').classList.remove("hidden")};
+window.closeModal=()=>$("modalOverlay").classList.add("hidden");
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+
+window.showLoginTab=tab=>{const isLogin=tab==="login";$("loginForm").classList.toggle("hidden",!isLogin);$("registerForm").classList.toggle("hidden",isLogin);$("loginTab").className=`py-2.5 px-4 rounded-xl font-medium text-sm ${isLogin?"bg-amber-500 text-white":"text-slate-400"}`;$("registerTab").className=`py-2.5 px-4 rounded-xl font-medium text-sm ${!isLogin?"bg-amber-500 text-white":"text-slate-400"}`};
+function firebaseError(error){const msgs={"auth/email-already-in-use":"Bu e-posta zaten kayıtlı.","auth/invalid-email":"Geçerli bir e-posta girin.","auth/weak-password":"Şifre en az 6 karakter olmalı.","auth/invalid-credential":"E-posta veya şifre hatalı.","auth/network-request-failed":"İnternet bağlantısını kontrol edin."};return msgs[error?.code]||"İşlem sırasında bir hata oluştu."}
+window.loginUser=async()=>{if(actionBusy)return;const email=$("loginEmail").value.trim(),password=$("loginPassword").value,err=$("loginError");err.classList.add("hidden");if(!email||!password){err.textContent="E-posta ve şifre gerekli.";err.classList.remove("hidden");return}setBusy(true);try{await signInWithEmailAndPassword(auth,email,password)}catch(e){err.textContent=firebaseError(e);err.classList.remove("hidden")}finally{setBusy(false)}};
+window.registerUser=async()=>{if(actionBusy)return;const name=$("registerName").value.trim(),email=$("registerEmail").value.trim(),password=$("registerPassword").value,err=$("registerError");err.classList.add("hidden");if(!name||!email||!password){err.textContent="Tüm alanları doldurun.";err.classList.remove("hidden");return}setBusy(true);try{const credential=await createUserWithEmailAndPassword(auth,email,password);await set(userPath(),{profile:{name,email,createdAt:Date.now()},bankBalance:0,cashBalance:0,foodCards:{edenred:0,multinet:0,sodexo:0,setcard:0,other:0},suppliers:{},transactions:{},bills:{},rentSettings:{amount:28000,dueDay:10,autoRecord:true,title:"Kira"}});toast("Hesap oluşturuldu.","success")}catch(e){err.textContent=firebaseError(e);err.classList.remove("hidden")}finally{setBusy(false)}};
+window.logoutUser=()=>signOut(auth);
+
+onAuthStateChanged(auth,async user=>{currentUser=user;if(!user){$("loginScreen").style.display="flex";$("app").style.display="none";return}$("loginScreen").style.display="none";$("app").style.display="flex";await loadFinance()});
+
+async function loadFinance(){if(!currentUser)return;try{const snap=await get(rootRef());if(!snap.exists())throw new Error("Kullanıcı verisi bulunamadı.");const data=snap.val()||{};finance={bankBalance:number(data.bankBalance),cashBalance:number(data.cashBalance),foodCards:{edenred:number(data.foodCards?.edenred),multinet:number(data.foodCards?.multinet),sodexo:number(data.foodCards?.sodexo),setcard:number(data.foodCards?.setcard),other:number(data.foodCards?.other)},suppliers:data.suppliers||{},transactions:data.transactions||{},bills:data.bills||{},rentSettings:{amount:number(data.rentSettings?.amount)||28000,dueDay:number(data.rentSettings?.dueDay)||10,autoRecord:data.rentSettings?.autoRecord!==false,title:data.rentSettings?.title||"Kira"}};invalidateTxCache();const userName=data.profile?.name||currentUser.email||"Kullanıcı";$("topUserName").textContent=userName;$("settingsName").textContent=userName;$("settingsEmail").textContent=currentUser.email||"-";$("settingsUid").textContent=currentUser.uid;fillDefaults();await ensureAutoRent();renderCurrentPage()}catch(e){console.error(e);toast("Veriler yüklenemedi.","error")}}
+
+async function persist(patch){await update(rootRef(),patch)}
+function localTx(tx){finance.transactions[tx.id]=tx;invalidateTxCache()}
+function buildTransaction(data,id){return{id,date:data.date||today(),type:data.type,category:data.category||"",description:data.description||"",amount:number(data.amount),account:normalizeAccount(data.account),createdAt:data.createdAt||Date.now(),supplierId:data.supplierId||null,supplierName:data.supplierName||null,sourceType:data.sourceType||null,sourceId:data.sourceId||null}}
+function newTxRef(){return push(userPath("transactions"))}
+async function createTransaction(data){const tRef=newTxRef();const tx=buildTransaction(data,tRef.key);await persist({[`transactions/${tRef.key}`]:tx});localTx(tx);return tx}
+async function createTransactionWithBalance(data,delta){const tRef=newTxRef(),acc=normalizeAccount(data.account),key=accountKey(acc),newBalance=number(finance[key])+number(delta),tx=buildTransaction({...data,account:acc},tRef.key);await persist({[`transactions/${tRef.key}`]:tx,[key]:newBalance});finance[key]=newBalance;localTx(tx);return tx}
+
+window.openPage=(page,btn)=>{currentPage=page;document.querySelectorAll(".page").forEach(el=>el.classList.toggle("hidden",el.id!==`page-${page}`));document.querySelectorAll(".nav-btn").forEach(b=>{const active=b.dataset.page===page;b.classList.toggle("active",active);b.classList.toggle("bg-slate-800/80",active);b.classList.toggle("text-white",active);b.classList.toggle("text-slate-300",!active)});closeSidebar();renderCurrentPage();window.scrollTo(0,0)};
+window.openMonthlyReport=()=>{openPage("reports");setReportPeriod("thisMonth")};
+function closeSidebar(){$("sidebar").classList.add("-translate-x-full");$("sidebarBackdrop").classList.add("hidden")}
+window.toggleSidebar=()=>{const sb=$("sidebar"),open=!sb.classList.contains("-translate-x-full");if(open)closeSidebar();else{sb.classList.remove("-translate-x-full");$("sidebarBackdrop").classList.remove("hidden")}};
+function renderCurrentPage(){switch(currentPage){case"dashboard":renderDashboard();break;case"expense":renderExpenseSummary();break;case"suppliers":renderSuppliers();break;case"foodcards":renderFoodCards();break;case"bills":renderBills();break;case"rent":renderRentPage();break;case"transactions":renderTransactions();break;case"reports":renderReports();break;}}
+function refreshAfterMutation(){renderDashboard();if(currentPage!=="dashboard")renderCurrentPage()}
+
+window.saveBankBalance=()=>runAction(async()=>{const val=number($("manualBankBalance").value);finance.bankBalance=val;await persist({bankBalance:val});toast("Banka bakiyesi güncellendi.","success");refreshAfterMutation()});
+window.saveCashBalance=()=>runAction(async()=>{const val=number($("manualCashBalance").value);finance.cashBalance=val;await persist({cashBalance:val});toast("Nakit bakiyesi güncellendi.","success");refreshAfterMutation()});
+
+async function saveStandardIncome(acc){const amount=number($("incomeAmount").value);if(amount<=0)return toast("Geçerli bir tutar girin.","error");const a=normalizeAccount(acc);await createTransactionWithBalance({date:$("incomeDate").value,type:"income",category:$("incomeCategory").value,description:$("incomeDescription").value.trim(),amount,account:a,sourceType:"income"},amount);$("incomeForm").reset();$("incomeDate").value=today();toast("Gelir eklendi.","success");refreshAfterMutation()}
+window.saveIncome=acc=>runAction(()=>saveStandardIncome(acc));
+async function saveStandardExpense(acc){const amount=number($("expenseAmount").value);if(amount<=0)return toast("Geçerli bir tutar girin.","error");const a=normalizeAccount(acc);if(accountBalance(a)<amount)return openModal(`${accountLabel(a)} Yetersiz`,`<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs">Mevcut bakiye: <strong>${money(accountBalance(a))}</strong>. Bu gider için yeterli bakiye yok.</div>`,`<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">Kapat</button>`);await createTransactionWithBalance({date:$("expenseDate").value,type:"expense",category:$("expenseCategory").value,description:$("expenseDescription").value.trim(),amount,account:a,sourceType:"expense"},-amount);$("expenseForm").reset();$("expenseDate").value=today();toast("Gider kaydedildi.","success");refreshAfterMutation()}
+window.saveExpense=acc=>runAction(()=>saveStandardExpense(acc));
+
+window.addSupplier=e=>runAction(async()=>{e.preventDefault();const name=$("supplierName").value.trim(),initialDebt=number($("supplierInitialDebt").value);if(!name)return toast("Tedarikçi adı girin.","error");if(initialDebt<0)return toast("Borç negatif olamaz.","error");const sRef=push(userPath("suppliers")),supp={id:sRef.key,name,debt:initialDebt,createdAt:Date.now()},patch={[`suppliers/${sRef.key}`]:supp};if(initialDebt>0){const tRef=newTxRef();const tx=buildTransaction({date:today(),type:"supplier_debt_add",category:name,description:`${name} başlangıç borcu`,amount:initialDebt,account:"bank",supplierId:sRef.key,supplierName:name,sourceType:"supplier_debt_add",sourceId:sRef.key},tRef.key);patch[`transactions/${tRef.key}`]=tx}await persist(patch);finance.suppliers[sRef.key]=supp;if(initialDebt>0){const tx=Object.values(patch).find(v=>v&&v.type==="supplier_debt_add");if(tx)localTx(tx)}e.target.reset();$("supplierInitialDebt").value=0;toast("Tedarikçi eklendi.","success");refreshAfterMutation()});
+function renderSuppliers(){const target=$("supplierTable");if(!target)return;const list=supplierArray().sort((a,b)=>String(a.name).localeCompare(String(b.name),"tr"));$("supplierCountBadge").textContent=list.length;$("supplierTotalDebt").textContent=money(list.reduce((s,x)=>s+number(x.debt),0));if(!list.length){target.innerHTML=`<div class="col-span-full p-12 text-center glass-panel rounded-2xl"><div class="text-sm font-bold text-slate-300">Kayıtlı Tedarikçi Yok</div><div class="text-xs text-slate-500 mt-1">Yeni bir tedarikçi ekleyebilirsiniz.</div></div>`;return}target.innerHTML=list.map(s=>{const hasDebt=number(s.debt)>0,initial=(s.name||"T").charAt(0).toUpperCase();return `<div class="glass-panel rounded-2xl p-0 overflow-hidden border border-slate-800"><div class="px-5 py-3.5 bg-slate-900/80 border-b border-slate-800 flex items-center justify-between"><div class="flex items-center gap-3 overflow-hidden"><div class="w-9 h-9 rounded-xl ${hasDebt?"bg-rose-500/15 text-rose-400 border border-rose-500/30":"bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"} flex items-center justify-center text-sm font-black shrink-0">${escapeHtml(initial)}</div><div class="truncate"><h4 class="font-bold text-sm text-white truncate">${escapeHtml(s.name)}</h4><span class="text-[10px] text-slate-400">Tedarikçi / Cari Hesap</span></div></div><span class="text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 ${hasDebt?"bg-rose-500/10 text-rose-400":"bg-emerald-500/10 text-emerald-400"}">${hasDebt?"● Borçlu":"✓ Borçsuz"}</span></div><div class="p-5 flex items-center justify-between bg-slate-950/40"><div><div class="text-[11px] text-slate-400">Güncel Kalan Borç</div><div class="text-2xl font-black ${hasDebt?"text-rose-400":"text-emerald-400"} mt-0.5">${money(s.debt)}</div></div><div class="text-right"><span class="text-[10px] text-slate-500 block">Kategori</span><span class="text-xs font-bold text-slate-300">Tedarikçi Hesabı</span></div></div><div class="px-4 py-3 bg-slate-900/80 border-t border-slate-800 flex items-center justify-between gap-1"><div class="flex items-center gap-1.5 flex-1"><button onclick="supplierAddDebtPrompt('${s.id}')" class="flex-1 py-1.5 px-2 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold">＋ Borç</button><button onclick="supplierPaymentPrompt('${s.id}')" class="flex-1 py-1.5 px-2 rounded-xl bg-emerald-600 text-white text-xs font-bold">₺ Ödeme</button></div><div class="flex items-center gap-1 pl-1 border-l border-slate-800"><button onclick="editSupplierPrompt('${s.id}')" class="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">✎</button><button onclick="deleteSupplierPrompt('${s.id}')" class="p-1.5 rounded-lg bg-rose-500/10 text-rose-300 border border-rose-500/20">🗑</button></div></div></div>`}).join("")}
+window.editSupplierPrompt=id=>{const s=finance.suppliers[id];if(!s)return;openModal("Tedarikçi Düzenle",`<div class="space-y-3"><label class="block text-xs text-slate-400">Tedarikçi Adı</label><input id="editSupplierName" value="${escapeHtml(s.name)}" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white"></div>`,`<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button><button onclick="confirmSupplierEdit('${id}')" class="px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl">Kaydet</button>`)};
+window.confirmSupplierEdit=id=>runAction(async()=>{const s=finance.suppliers[id],newName=$("editSupplierName")?.value.trim();if(!s)return;if(!newName)return toast("İsim boş olamaz.","error");const oldName=s.name,related=transactionArray().filter(t=>t.supplierId===id),patch={[`suppliers/${id}/name`]:newName};related.forEach(t=>{patch[`transactions/${t.id}/category`]=t.category===oldName?newName:t.category;patch[`transactions/${t.id}/supplierName`]=newName});await persist(patch);s.name=newName;related.forEach(t=>{if(t.category===oldName)t.category=newName;t.supplierName=newName});closeModal();toast("Tedarikçi güncellendi.","success");refreshAfterMutation()});
+window.deleteSupplierPrompt=id=>{const s=finance.suppliers[id];if(!s)return;openModal("Tedarikçi Sil",`<div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-slate-300"><strong>${escapeHtml(s.name)}</strong> kalıcı olarak silinecektir. Kalan borç: <strong class="text-rose-400">${money(s.debt)}</strong>.</div>`,`<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button><button onclick="executeDeleteSupplier('${id}')" class="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-xl">Sil</button>`) };
+window.executeDeleteSupplier=id=>runAction(async()=>{if(!finance.suppliers[id])return;await persist({[`suppliers/${id}`]:null});delete finance.suppliers[id];closeModal();toast("Tedarikçi silindi.","success");refreshAfterMutation()});
+window.supplierPaymentPrompt=id=>{const s=finance.suppliers[id];if(!s||number(s.debt)<=0)return toast("Borç bulunmuyor.","info");openModal(`${escapeHtml(s.name)} - Ödeme Yap`,`<div class="space-y-3"><div class="p-3 bg-slate-900 rounded-xl flex justify-between text-xs"><span class="text-slate-400">Kalan Borç</span><strong class="text-rose-400">${money(s.debt)}</strong></div><input id="supplierPayAmount" type="number" step="0.01" min="0.01" max="${number(s.debt)}" placeholder="Ödeme Tutarı" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white font-bold text-lg"></div>`,`<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button><button onclick="confirmSupplierPayment('${id}')" class="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl">Ödemeyi Kaydet</button>`) };
+window.confirmSupplierPayment=id=>runAction(async()=>{const s=finance.suppliers[id],amount=number($("supplierPayAmount")?.value);if(!s||amount<=0||amount>s.debt)return toast("Geçersiz tutar.","error");if(accountBalance("bank")<amount)return toast("Bankada yeterli bakiye yok.","error");const newDebt=number(s.debt)-amount,tRef=newTxRef(),tx=buildTransaction({date:today(),type:"supplier_payment",category:s.name,description:`${s.name} tedarikçi ödemesi`,amount,account:"bank",supplierId:id,supplierName:s.name,sourceType:"supplier_payment",sourceId:id},tRef.key);await persist({[`suppliers/${id}/debt`]:newDebt,[`transactions/${tRef.key}`]:tx,bankBalance:number(finance.bankBalance)-amount});s.debt=newDebt;finance.bankBalance-=amount;localTx(tx);closeModal();toast("Ödeme kaydedildi.","success");refreshAfterMutation()});
+window.supplierAddDebtPrompt=id=>{const s=finance.suppliers[id];if(!s)return;openModal(`${escapeHtml(s.name)} - Borç Ekle`,`<input id="supplierDebtAddAmount" type="number" step="0.01" min="0.01" placeholder="Eklenecek Borç Tutarı" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white font-bold text-lg">`,`<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button><button onclick="confirmSupplierDebtAdd('${id}')" class="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-xl">Borç Ekle</button>`) };
+window.confirmSupplierDebtAdd=id=>runAction(async()=>{const s=finance.suppliers[id],amount=number($("supplierDebtAddAmount")?.value);if(!s||amount<=0)return toast("Geçersiz tutar.","error");const newDebt=number(s.debt)+amount,tRef=newTxRef(),tx=buildTransaction({date:today(),type:"supplier_debt_add",category:s.name,description:`${s.name} borç ekleme`,amount,account:"bank",supplierId:id,supplierName:s.name,sourceType:"supplier_debt_add",sourceId:id},tRef.key);await persist({[`suppliers/${id}/debt`]:newDebt,[`transactions/${tRef.key}`]:tx});s.debt=newDebt;localTx(tx);closeModal();toast("Borç eklendi.","success");refreshAfterMutation()});
+
+function renderFoodCards(){if(!$('foodEdenred'))return;for(const k of Object.keys(finance.foodCards))$("food"+k.charAt(0).toUpperCase()+k.slice(1)).value=number(finance.foodCards[k]);const labels={edenred:"Edenred",multinet:"Multinet",sodexo:"Sodexo / Pluxee",setcard:"Setcard",other:"Metropol / Diğer"};const total=Object.values(finance.foodCards).reduce((s,v)=>s+number(v),0);$("foodTotal").textContent=money(total);$("foodCardList").innerHTML=Object.entries(finance.foodCards).map(([k,v])=>`<div class="flex justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-800"><span class="text-slate-400 font-medium">${labels[k]}</span><strong class="text-amber-400">${money(v)}</strong></div>`).join("")}
+window.saveFoodCards=()=>runAction(async()=>{const cards={edenred:number($("foodEdenred").value),multinet:number($("foodMultinet").value),sodexo:number($("foodSodexo").value),setcard:number($("foodSetcard").value),other:number($("foodOther").value)};finance.foodCards=cards;await persist({foodCards:cards});toast("Yemek kartları güncellendi.","success");refreshAfterMutation()});
+
+function renderBills(){const list=billArray().sort((a,b)=>String(b.date).localeCompare(String(a.date)));const unpaid=list.filter(b=>b.status==="unpaid"),total=unpaid.reduce((s,b)=>s+number(b.amount),0);$("billUnpaidTotal").textContent=money(total);$("billUnpaidCount").textContent=unpaid.length;$("billTotalCount").textContent=list.length;const target=$("billTable");if(!list.length){target.innerHTML=`<tr><td colspan="6" class="py-6 text-center text-slate-500">Fatura bulunmuyor.</td></tr>`;return}target.innerHTML=list.map(b=>`<tr><td class="py-3 font-bold text-white">${escapeHtml(b.type)}</td><td class="py-3 text-slate-400">${escapeHtml(b.date)}</td><td class="py-3 text-slate-400">${escapeHtml(b.dueDate||"-")}</td><td class="py-3 font-bold text-white">${money(b.amount)}</td><td class="py-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${b.status==="paid"?"bg-emerald-500/10 text-emerald-400":"bg-rose-500/10 text-rose-400"}">${b.status==="paid"?"Ödendi":"Ödenmedi"}</span></td><td class="py-3 text-right"><div class="flex justify-end gap-1">${b.status==="unpaid"?`<button onclick="payBillPrompt('${b.id}')" class="px-2.5 py-1 bg-emerald-500/10 text-emerald-300 rounded-lg">Öde</button>`:""}<button onclick="deleteBillPrompt('${b.id}')" class="px-2.5 py-1 bg-rose-500/10 text-rose-300 rounded-lg">Sil</button></div></td></tr>`).join("")}
+window.addBill=e=>runAction(async()=>{e.preventDefault();const amount=number($("billAmount").value),status=$("billStatus").value;if(amount<=0)return toast("Tutar girin.","error");if(status==="paid"&&accountBalance("bank")<amount)return toast("Faturayı ödemek için bankada yeterli bakiye yok.","error");const bRef=push(userPath("bills")),bill={id:bRef.key,type:$("billType").value,date:$("billDate").value,dueDate:$("billDueDate").value,amount,status,description:$("billDescription").value.trim(),createdAt:Date.now()};const patch={[`bills/${bRef.key}`]:bill};let tx=null;if(status==="paid"){const tRef=newTxRef();tx=buildTransaction({date:bill.date,type:"expense",category:bill.type,description:bill.description||`${bill.type} faturası`,amount,account:"bank",sourceType:"bill",sourceId:bRef.key},tRef.key);patch[`transactions/${tRef.key}`]=tx;patch.bankBalance=number(finance.bankBalance)-amount}await persist(patch);finance.bills[bRef.key]=bill;if(tx){localTx(tx);finance.bankBalance-=amount}e.target.reset();$("billDate").value=today();toast("Fatura kaydedildi.","success");refreshAfterMutation()});
+window.payBillPrompt=id=>{const b=finance.bills[id];if(!b||b.status==="paid")return;openModal("Fatura Ödeme",`<div class="space-y-3"><div class="p-3 rounded-xl bg-slate-900 text-xs flex justify-between"><span class="text-slate-400">${escapeHtml(b.type)}</span><strong class="text-sky-400">${money(b.amount)}</strong></div><div class="p-3 rounded-xl bg-slate-900 text-xs text-slate-400">Ödeme banka bakiyesinden düşülecek.</div></div>`,`<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button><button onclick="confirmBillPayment('${id}')" class="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl">Ödemeyi Kaydet</button>`) };
+window.confirmBillPayment=id=>runAction(async()=>{const b=finance.bills[id];if(!b||b.status==="paid")return;if(accountBalance("bank")<number(b.amount))return toast("Bankada yeterli bakiye yok.","error");const tRef=newTxRef(),tx=buildTransaction({date:today(),type:"expense",category:b.type,description:b.description||`${b.type} faturası`,amount:number(b.amount),account:"bank",sourceType:"bill",sourceId:id},tRef.key);await persist({[`bills/${id}/status`]:"paid",[`bills/${id}/paidAt`]:Date.now(),[`transactions/${tRef.key}`]:tx,bankBalance:number(finance.bankBalance)-number(b.amount)});b.status="paid";b.paidAt=Date.now();finance.bankBalance-=number(b.amount);localTx(tx);closeModal();toast("Fatura ödendi.","success");refreshAfterMutation()});
+window.deleteBillPrompt=id=>{const b=finance.bills[id];if(!b)return;openModal("Fatura Sil",`<div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-slate-300">${escapeHtml(b.type)} faturası silinecek.${b.status==="paid"?" Ödenmiş faturaya bağlı finans hareketi de geri çevrilecektir.":""}</div>`,`<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button><button onclick="executeDeleteBill('${id}')" class="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-xl">Sil</button>`) };
+window.executeDeleteBill=id=>runAction(async()=>{const b=finance.bills[id];if(!b)return;const related=transactionArray().find(t=>t.sourceType==="bill"&&t.sourceId===id);const patch={[`bills/${id}`]:null};if(related){patch[`transactions/${related.id}`]=null;if(related.type==="expense"){const key=accountKey(related.account);patch[key]=number(finance[key])+number(related.amount);finance[key]+=number(related.amount)}}await persist(patch);if(related){delete finance.transactions[related.id];invalidateTxCache()}delete finance.bills[id];closeModal();toast("Fatura silindi.","success");refreshAfterMutation()});
+
+function renderRentPage(){const s=finance.rentSettings||{};const paid=hasCurrentRent();$("rentAmount").value=number(s.amount)||28000;$("rentDueDay").value=number(s.dueDay)||10;$("rentAutoRecord").checked=s.autoRecord!==false;$("rentCurrentAmount").textContent=money(s.amount||28000);$("rentCurrentStatus").textContent=paid?`${formatMonthTR()} kirası ödendi.`:`Ayın ${s.dueDay||10}'u bekleniyor`;const btn=$("rentPayButton");btn.disabled=paid;btn.textContent=paid?"Bu Ay Kira Ödendi":"Bu Ay Kirayı Ödendi Olarak Kaydet";btn.classList.toggle("opacity-50",paid)}
+function hasCurrentRent(){const key=`rent-${currentMonthKey()}`;return transactionArray().some(t=>t.sourceType==="rent"&&t.sourceId===key&&t.type==="expense")}
+async function saveRentTransaction(){const amount=number(finance.rentSettings.amount)||28000,key=`rent-${currentMonthKey()}`;if(hasCurrentRent())return false;if(accountBalance("bank")<amount)return false;await createTransactionWithBalance({date:today(),type:"expense",category:"Kira",description:`${formatMonthTR()} kira ödemesi`,amount,account:"bank",sourceType:"rent",sourceId:key},-amount);return true}
+async function ensureAutoRent(){const s=finance.rentSettings||{};if(s.autoRecord!==true)return;if(new Date().getDate()<number(s.dueDay||10))return;if(hasCurrentRent())return;const amount=number(s.amount)||28000;if(accountBalance("bank")<amount){toast("Kira günü geldi ancak bankada yeterli bakiye olmadığı için otomatik kayıt oluşturulmadı.","info");return}try{await saveRentTransaction()}catch(e){console.error(e)}}
+window.saveRentSettings=e=>runAction(async()=>{e.preventDefault();finance.rentSettings={amount:Math.max(0,number($("rentAmount").value)),dueDay:number($("rentDueDay").value)||10,autoRecord:$("rentAutoRecord").checked,title:"Kira"};await persist({rentSettings:finance.rentSettings});toast("Kira ayarları kaydedildi.","success");refreshAfterMutation()});
+window.payCurrentMonthRent=()=>runAction(async()=>{if(hasCurrentRent())return toast("Bu ayın kirası zaten ödenmiş.","info");const amount=number(finance.rentSettings.amount)||28000;if(accountBalance("bank")<amount)return toast("Bankada kira ödemesi için yeterli bakiye yok.","error");await saveRentTransaction();toast("Kira ödendi olarak kaydedildi.","success");refreshAfterMutation()});
+
+function transactionKind(t){if(t.type==="income")return ["Gelir","bg-emerald-500/10 text-emerald-400"];if(t.type==="expense")return ["Gider","bg-rose-500/10 text-rose-400"];if(t.type==="supplier_payment")return ["Tedarikçi Ödemesi","bg-emerald-500/10 text-emerald-400"];if(t.type==="supplier_debt_add")return ["Tedarikçi Borcu","bg-indigo-500/10 text-indigo-300"];return [escapeHtml(t.type||"Hareket"),"bg-slate-800 text-slate-300"]}
+function transactionMatchesDate(t,start,end){const d=String(t.date||"");return (!start||d>=start)&&(!end||d<=end)}
+function renderTransactions(){const target=$("transactionTable"),start=$("transactionStart").value,end=$("transactionEnd").value;let list=getSortedTransactions();if(start||end)list=list.filter(t=>transactionMatchesDate(t,start,end));if(!list.length){target.innerHTML=`<tr><td colspan="7" class="py-6 text-center text-slate-500">Kayıt yok.</td></tr>`;return}target.innerHTML=list.map(t=>{const [label,cls]=transactionKind(t);const sign=t.type==="income"?"+":t.type==="expense"?"-":"";return `<tr><td class="py-3 text-slate-400 font-mono text-[11px]">${escapeHtml(t.date)}</td><td class="py-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${cls}">${label}</span></td><td class="py-3 font-bold ${t.account==="cash"?"text-emerald-400":"text-sky-400"}">${accountLabel(t.account)}</td><td class="py-3 text-slate-300 font-medium">${escapeHtml(t.category)}</td><td class="py-3 text-slate-400">${escapeHtml(t.description)}</td><td class="py-3 font-bold ${t.type==="income"?"text-emerald-400":t.type==="supplier_debt_add"?"text-indigo-300":"text-rose-400"}">${sign}${money(t.amount)}</td><td class="py-3 text-right"><button onclick="undoTransactionPrompt('${t.id}')" class="px-2 py-1 bg-rose-500/10 text-rose-300 rounded-lg text-[11px]">Geri Al</button></td></tr>`}).join("")}
+window.resetTransactionFilters=()=>{$("transactionStart").value=monthStart();$("transactionEnd").value=today();renderTransactions()};
+function undoTransactionPromptInternal(id){const t=finance.transactions[id];if(!t)return;openModal("Hareketi Geri Al",`<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs"><strong>${escapeHtml(t.description||t.category||"Hareket")}</strong><br><span class="text-slate-400">${escapeHtml(t.date)} • ${money(t.amount)}</span><p class="mt-2">Bu işlem geri çevrilecek ve bağlı bakiye/borç bilgisi de mümkün olduğunca eski haline getirilecektir.</p></div>`,`<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button><button onclick="executeUndoTransaction('${id}')" class="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-xl">Geri Al</button>`)}
+window.undoTransactionPrompt=id=>undoTransactionPromptInternal(id);
+window.executeUndoTransaction=id=>runAction(async()=>{const t=finance.transactions[id];if(!t)return;const patch={[`transactions/${id}`]:null};if(t.type==="income"||t.type==="expense"){const key=accountKey(t.account),delta=t.type==="income"?-number(t.amount):number(t.amount);patch[key]=number(finance[key])+delta;finance[key]+=delta;if(t.sourceType==="bill"&&finance.bills[t.sourceId]?.status==="paid"){patch[`bills/${t.sourceId}/status`]="unpaid";patch[`bills/${t.sourceId}/paidAt`]=null;finance.bills[t.sourceId].status="unpaid";delete finance.bills[t.sourceId].paidAt}}
+else if(t.type==="supplier_debt_add"){if(finance.suppliers[t.supplierId]){const newDebt=Math.max(0,number(finance.suppliers[t.supplierId].debt)-number(t.amount));patch[`suppliers/${t.supplierId}/debt`]=newDebt;finance.suppliers[t.supplierId].debt=newDebt}}
+else if(t.type==="supplier_payment"){if(finance.suppliers[t.supplierId]){const newDebt=number(finance.suppliers[t.supplierId].debt)+number(t.amount);patch[`suppliers/${t.supplierId}/debt`]=newDebt;finance.suppliers[t.supplierId].debt=newDebt}const key=accountKey(t.account);patch[key]=number(finance[key])+number(t.amount);finance[key]+=number(t.amount)}await persist(patch);delete finance.transactions[id];invalidateTxCache();closeModal();toast("İşlem geri alındı.","success");refreshAfterMutation()});
+window.undoLastTransactionPrompt=()=>{const list=transactionArray().sort((a,b)=>number(b.createdAt)-number(a.createdAt));if(!list.length)return toast("Geri alınacak hareket yok.","info");undoTransactionPromptInternal(list[0].id)};
+
+function renderDistribution(targetId,map,total,color){const target=$(targetId);const entries=Object.entries(map).sort((a,b)=>b[1]-a[1]);if(!entries.length){target.innerHTML=`<div class="py-4 text-center text-xs text-slate-500">Kayıt yok.</div>`;return}target.innerHTML=entries.map(([k,v])=>{const pct=total?Math.round(v/total*100):0;return `<div><div class="flex justify-between gap-3 text-xs"><span class="text-slate-300 truncate">${escapeHtml(k)}</span><strong class="${color}">${money(v)}</strong></div><div class="mt-1 h-1.5 rounded-full bg-slate-900 overflow-hidden"><div class="h-full ${color.replace("text-","bg-")}" style="width:${Math.min(100,pct)}%"></div></div></div>`}).join("")}
+function renderReports(){const start=$("reportStart").value,end=$("reportEnd").value,list=getSortedTransactions().filter(t=>transactionMatchesDate(t,start,end));let inc=0,exp=0,bankOut=0,cashOut=0;const incMap={},expMap={};for(const t of list){const amount=number(t.amount);if(t.type==="income"){inc+=amount;incMap[t.category||"Diğer"]=(incMap[t.category||"Diğer"]||0)+amount}else if(t.type==="expense"){exp+=amount;expMap[t.category||"Diğer"]=(expMap[t.category||"Diğer"]||0)+amount;if(t.account==="cash")cashOut+=amount;else bankOut+=amount}}const net=inc-exp;$("reportIncome").textContent=money(inc);$("reportExpense").textContent=money(exp);$("reportNet").textContent=money(net);$("reportNet").className=`text-2xl font-black ${net>=0?"text-emerald-400":"text-rose-400"}`;$("reportTxCount").textContent=list.length;$("reportBankExpense").textContent=money(bankOut);$("reportCashExpense").textContent=money(cashOut);$("reportSummary").innerHTML=`<div class="grid grid-cols-1 sm:grid-cols-3 gap-3"><div class="p-3 rounded-xl bg-slate-900 border border-slate-800"><span class="text-xs text-slate-400">Dönem</span><strong class="block text-sm text-white mt-1">${escapeHtml(start||"Başlangıç")} → ${escapeHtml(end||"Bugün/Tümü")}</strong></div><div class="p-3 rounded-xl bg-slate-900 border border-slate-800"><span class="text-xs text-slate-400">Gelir / Gider</span><strong class="block text-sm text-white mt-1">${money(inc)} / ${money(exp)}</strong></div><div class="p-3 rounded-xl bg-slate-900 border border-slate-800"><span class="text-xs text-slate-400">Net</span><strong class="block text-sm ${net>=0?"text-emerald-400":"text-rose-400"} mt-1">${money(net)}</strong></div></div>`;renderDistribution("incomeReport",incMap,inc,"text-emerald-400");renderDistribution("expenseReport",expMap,exp,"text-rose-400")}
+window.setReportPeriod=p=>{if(p==="today"){$("reportStart").value=today();$("reportEnd").value=today()}else if(p==="thisMonth"){$("reportStart").value=monthStart();$("reportEnd").value=today()}else{$("reportStart").value="";$('reportEnd').value=""}renderReports()};
+
+function monthlyTotals(){const key=currentMonthKey();let inc=0,exp=0;for(const t of transactionArray()){if(String(t.date||"").slice(0,7)!==key)continue;if(t.type==="income")inc+=number(t.amount);else if(t.type==="expense")exp+=number(t.amount)}return{inc,exp,net:inc-exp}}
+function renderDashboard(){const dashBank=$("dashBank");if(!dashBank||!currentUser)return;const foodTotal=Object.values(finance.foodCards||{}).reduce((s,v)=>s+number(v),0),debt=supplierArray().reduce((s,x)=>s+number(x.debt),0),billsUnpaid=billArray().filter(b=>b.status==="unpaid"),unpaidTotal=billsUnpaid.reduce((s,b)=>s+number(b.amount),0),m=monthlyTotals(),rentAmount=number(finance.rentSettings?.amount)||28000,rentPaid=hasCurrentRent();dashBank.textContent=money(finance.bankBalance);$("dashCash").textContent=money(finance.cashBalance);$("dashFood").textContent=money(foodTotal);$("dashDebt").textContent=money(debt);$("dashBills").textContent=money(unpaidTotal);$("dashBillsSub").textContent=`${billsUnpaid.length} ödenmemiş fatura`;$("dashRent").textContent=money(rentAmount);$("dashRentStatusBadge").textContent=rentPaid?"ÖDENDİ":`Ayın ${finance.rentSettings.dueDay||10}'u`;$("dashRentSub").textContent=rentPaid?`${formatMonthTR()} kirası ödendi`:`${formatMonthTR()} için kira`;$("dashProfit").textContent=money(m.net);$("dashProfit").className=`text-2xl font-black ${m.net>=0?"text-emerald-400":"text-rose-400"}`;$("manualBankBalance").value=finance.bankBalance;$("manualCashBalance").value=finance.cashBalance;$("currentMonthLabel").textContent=formatMonthTR();$("monthIncome").textContent=money(m.inc);$("monthExpense").textContent=money(m.exp);$("monthNet").textContent=money(m.net);$("monthNet").className=`font-bold ${m.net>=0?"text-emerald-400":"text-rose-400"}`;renderRecentTransactions()}
+function renderRecentTransactions(){const target=$("recentTransactions"),list=getSortedTransactions().slice(0,5);if(!list.length){target.innerHTML=`<div class="py-4 text-center text-xs text-slate-500">Henüz hareket yok.</div>`;return}target.innerHTML=`<table class="w-full text-left text-xs"><thead><tr class="text-slate-400 border-b border-slate-800"><th class="pb-2">Tarih</th><th class="pb-2">Tür</th><th class="pb-2">Hesap</th><th class="pb-2">Açıklama</th><th class="pb-2 text-right">Tutar</th></tr></thead><tbody class="divide-y divide-slate-800/60">${list.map(t=>{const [label]=transactionKind(t);return `<tr><td class="py-2 text-slate-400">${escapeHtml(t.date)}</td><td class="py-2 text-slate-300 font-medium">${label}</td><td class="py-2 font-bold ${t.account==="cash"?"text-emerald-400":"text-sky-400"}">${accountLabel(t.account)}</td><td class="py-2 text-slate-400">${escapeHtml(t.description||t.category||"-")}</td><td class="py-2 text-right font-bold ${t.type==="income"?"text-emerald-400":"text-rose-400"}">${t.type==="income"?"+":"-"}${money(t.amount)}</td></tr>`}).join("")}</tbody></table>`}
+function renderExpenseSummary(){const target=$("expenseSummary");if(!target)return;const totals={};for(const t of transactionArray())if(t.type==="expense"){const c=t.category||"Diğer";totals[c]=(totals[c]||0)+number(t.amount)}const entries=Object.entries(totals).sort((a,b)=>b[1]-a[1]);target.innerHTML=entries.length?entries.map(([c,v])=>`<tr><td class="py-2 text-slate-300 font-medium">${escapeHtml(c)}</td><td class="py-2 text-right font-bold text-rose-400">${money(v)}</td></tr>`).join(""):`<tr><td colspan="2" class="py-4 text-center text-slate-500">Gider bulunmuyor.</td></tr>`}
+
+window.quickActionModal=()=>{window.quickType="income";window.quickAccount="bank";openModal("Hızlı Finansal Kayıt",`<div class="space-y-3"><div class="grid grid-cols-2 gap-2"><button id="qTypeIncome" onclick="toggleQuickType('income')" class="py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs">Gelir</button><button id="qTypeExpense" onclick="toggleQuickType('expense')" class="py-2 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs">Gider</button></div><div class="grid grid-cols-2 gap-2"><button id="qAccountBank" onclick="toggleQuickAccount('bank')" class="py-2 rounded-xl bg-sky-600 text-white font-bold text-xs">Banka</button><button id="qAccountCash" onclick="toggleQuickAccount('cash')" class="py-2 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs">Nakit</button></div><input id="qAmount" type="number" step="0.01" min="0" placeholder="Tutar (₺)" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white font-bold text-lg"><input id="qDesc" placeholder="Açıklama" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white"></div>`,`<button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">İptal</button><button onclick="submitQuickAction()" class="px-4 py-2 bg-amber-500 text-white text-xs font-bold rounded-xl">Kaydet</button>`)};
+window.toggleQuickType=type=>{window.quickType=type;$("qTypeIncome").className=`py-2 rounded-xl font-bold text-xs ${type==="income"?"bg-emerald-600 text-white":"bg-slate-800 text-slate-400"}`;$("qTypeExpense").className=`py-2 rounded-xl font-bold text-xs ${type==="expense"?"bg-rose-600 text-white":"bg-slate-800 text-slate-400"}`};
+window.toggleQuickAccount=acc=>{window.quickAccount=normalizeAccount(acc);$("qAccountBank").className=`py-2 rounded-xl font-bold text-xs ${window.quickAccount==="bank"?"bg-sky-600 text-white":"bg-slate-800 text-slate-400"}`;$("qAccountCash").className=`py-2 rounded-xl font-bold text-xs ${window.quickAccount==="cash"?"bg-emerald-600 text-white":"bg-slate-800 text-slate-400"}`};
+window.submitQuickAction=()=>runAction(async()=>{const amount=number($("qAmount")?.value),type=window.quickType||"income",acc=normalizeAccount(window.quickAccount||"bank");if(amount<=0)return toast("Tutar girin.","error");if(type==="expense"&&accountBalance(acc)<amount)return toast(`${accountLabel(acc)} bakiyesinde yeterli tutar yok.`,"error");const desc=$("qDesc")?.value?.trim()||(type==="income"?"Hızlı Gelir":"Hızlı Gider");await createTransactionWithBalance({date:today(),type,category:type==="income"?"Restoran Satışı":"Diğer",description:desc,amount,account:acc,sourceType:"quick"},type==="income"?amount:-amount);closeModal();toast("Kayıt oluşturuldu.","success");refreshAfterMutation()});
+
+function fillDefaults(){const d=today();$("incomeDate").value=d;$("expenseDate").value=d;$("billDate").value=d;$("transactionStart").value=monthStart();$("transactionEnd").value=today();$("reportStart").value=monthStart();$("reportEnd").value=today()}
+window.addEventListener("load",()=>{fillDefaults();const tick=()=>{const el=$("liveClock");if(el)el.textContent=new Date().toLocaleTimeString("tr-TR")};tick();setInterval(tick,1000)});
 </script>
-
 </body>
 </html>
