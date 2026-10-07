@@ -137,6 +137,140 @@ button:disabled{
   gap:.75rem;
 }
 
+/* HAREKETLER YENİ BÜYÜK KART TASARIMI */
+.transaction-banner{
+  position:relative;
+  overflow:hidden;
+  border-radius:1.5rem;
+  padding:1.15rem;
+  background:
+    radial-gradient(circle at top right,rgba(255,255,255,.055),transparent 32%),
+    linear-gradient(145deg,rgba(15,23,42,.98),rgba(2,6,23,.96));
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 14px 34px -24px rgba(0,0,0,.95),
+    inset 0 1px 0 rgba(255,255,255,.025);
+}
+
+.transaction-banner::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:4px;
+  border-radius:999px;
+  background:#64748b;
+  opacity:.95;
+}
+
+.transaction-banner.income{
+  border-color:rgba(16,185,129,.22);
+}
+
+.transaction-banner.income::before{
+  background:#10b981;
+}
+
+.transaction-banner.expense{
+  border-color:rgba(244,63,94,.22);
+}
+
+.transaction-banner.expense::before{
+  background:#f43f5e;
+}
+
+.transaction-banner.supplier{
+  border-color:rgba(99,102,241,.22);
+}
+
+.transaction-banner.supplier::before{
+  background:#6366f1;
+}
+
+.transaction-banner.payment{
+  border-color:rgba(16,185,129,.22);
+}
+
+.transaction-banner.payment::before{
+  background:#10b981;
+}
+
+.transaction-icon{
+  width:3.25rem;
+  height:3.25rem;
+  min-width:3.25rem;
+  border-radius:1.1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.35rem;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.transaction-icon.income{
+  background:rgba(16,185,129,.12);
+  color:#6ee7b7;
+  border-color:rgba(16,185,129,.2);
+}
+
+.transaction-icon.expense{
+  background:rgba(244,63,94,.12);
+  color:#fda4af;
+  border-color:rgba(244,63,94,.2);
+}
+
+.transaction-icon.supplier{
+  background:rgba(99,102,241,.12);
+  color:#a5b4fc;
+  border-color:rgba(99,102,241,.2);
+}
+
+.transaction-icon.payment{
+  background:rgba(16,185,129,.12);
+  color:#6ee7b7;
+  border-color:rgba(16,185,129,.2);
+}
+
+.transaction-meta-card{
+  background:rgba(2,6,23,.68);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:1rem;
+  padding:.72rem .8rem;
+}
+
+.transaction-action{
+  width:100%;
+  min-height:44px;
+  border-radius:1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.45rem;
+  font-size:.72rem;
+  font-weight:800;
+  border:1px solid rgba(244,63,94,.2);
+  background:rgba(244,63,94,.08);
+  color:#fda4af;
+  transition:.18s ease;
+}
+
+.transaction-action:hover{
+  background:rgba(244,63,94,.14);
+  border-color:rgba(244,63,94,.35);
+}
+
+.transaction-action:active{
+  transform:scale(.985);
+}
+
+@media(min-width:640px){
+  .transaction-banner{
+    padding:1.35rem;
+  }
+}
+
 @media(min-width:640px){
   .metric-grid{
     grid-template-columns:repeat(4,minmax(0,1fr));
@@ -601,7 +735,7 @@ button:disabled{
 
       <span
         id="dashReceivableSub"
-        class="text-[10px] font-bold px-2 py-1 rounded-lg bg-yellow-500/10 text-yellow-300 border border-yellow-500/20">
+        class="text-[10px] font-bold px-2 py-1 rounded-lg bg-yellow-500/10 text-yellow-300">
         0 Bekliyor
       </span>
     </button>
@@ -2032,21 +2166,29 @@ button:disabled{
 <!-- HAREKETLER -->
 <section id="page-transactions" class="page space-y-4 hidden">
 
-  <div class="flex items-center justify-between">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
     <div>
-      <h2 class="text-lg font-black text-white">
-        Hareket Geçmişi
-      </h2>
+      <div class="flex items-center gap-2">
+        <h2 class="text-lg sm:text-xl font-black text-white">
+          Hareket Geçmişi
+        </h2>
 
-      <p class="text-xs text-slate-400">
+        <span
+          id="transactionCount"
+          class="text-[10px] font-black px-2 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20">
+          0 Hareket
+        </span>
+      </div>
+
+      <p class="text-xs text-slate-400 mt-0.5">
         Tüm finansal kayıtlar ve geri alma işlemi.
       </p>
     </div>
 
     <button
       onclick="undoLastTransactionPrompt()"
-      class="px-3 py-1.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">
+      class="px-3.5 py-2 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">
       ↩ Son İşlemi Geri Al
     </button>
 
@@ -2089,7 +2231,12 @@ button:disabled{
   </div>
 
   <div class="glass-card p-3 sm:p-4 rounded-2xl">
-    <div id="transactionTable" class="space-y-2"></div>
+
+    <div
+      id="transactionTable"
+      class="space-y-3">
+    </div>
+
   </div>
 </section>
 
@@ -2472,6 +2619,22 @@ const formatMonthTR=(date=new Date())=>{
   return date.toLocaleDateString("tr-TR",{
     month:"long",
     year:"numeric"
+  });
+};
+
+const formatDateTimeTR=timestamp=>{
+  const ts=number(timestamp);
+
+  if(!ts){
+    return "-";
+  }
+
+  return new Date(ts).toLocaleString("tr-TR",{
+    day:"2-digit",
+    month:"2-digit",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
   });
 };
 
@@ -3815,16 +3978,6 @@ window.saveFoodCards=()=>runAction(async()=>{
 
 /*
  * YEMEK KARTI ALACAĞI MANTIĞI
- *
- * Bekleyen kayıt:
- *   status !== "paid"
- *
- * Ödenmiş kayıt:
- *   status === "paid"
- *
- * Önemli:
- * Bekleyen alacak bankaya/nakite eklenmez.
- * Fakat finansal pozisyonda mevcut paraya eklenir.
  */
 
 function isReceivablePaid(r){
@@ -3926,10 +4079,6 @@ function renderFoodReceivables(){
     r=>isReceivablePaid(r)
   );
 
-  /*
-   * Burada artık ayrı ayrı farklı hesaplar yapılmıyor.
-   * Tek kaynak getFoodReceivableTotals().
-   */
   const totals=getFoodReceivableTotals();
 
   const pendingTotal=totals.pending;
@@ -4216,10 +4365,6 @@ window.addFoodReceivable=e=>runAction(async()=>{
 
   finance.foodCardReceivables[rRef.key]=r;
 
-  /*
-   * Cache mutlaka temizleniyor.
-   * Böylece yeni alacak anında finansal pozisyona dahil oluyor.
-   */
   receivableCache=null;
 
   e.target.reset();
@@ -4256,10 +4401,6 @@ window.markFoodReceivablePaid=id=>runAction(async()=>{
   r.paidAt=paidAt;
   r.paidDate=paidDate;
 
-  /*
-   * Ödendi işaretlendiğinde banka ve nakit DEĞİŞMEZ.
-   * Sadece bekleyen alacak toplamından çıkarılır.
-   */
   receivableCache=null;
 
   toast(
@@ -5023,9 +5164,62 @@ const transactionMatchesDate=(tx,start,end)=>{
   );
 };
 
+/*
+ * YENİ:
+ * Hareket tipine göre ikon + kart sınıfı
+ */
+function transactionVisual(tx){
+
+  if(tx.type==="income"){
+    return{
+      wrapper:"income",
+      icon:"💰",
+      title:"Para Girişi",
+      amountPrefix:"+",
+      amountClass:"text-emerald-400",
+      iconClass:"income"
+    };
+  }
+
+  if(tx.type==="supplier_payment"){
+    return{
+      wrapper:"payment",
+      icon:"🚚",
+      title:"Tedarikçi Ödemesi",
+      amountPrefix:"-",
+      amountClass:"text-rose-400",
+      iconClass:"payment"
+    };
+  }
+
+  if(tx.type==="supplier_debt_add"){
+    return{
+      wrapper:"supplier",
+      icon:"📌",
+      title:"Tedarikçi Borcu",
+      amountPrefix:"",
+      amountClass:"text-indigo-300",
+      iconClass:"supplier"
+    };
+  }
+
+  return{
+    wrapper:"expense",
+    icon:"💸",
+    title:"Para Çıkışı",
+    amountPrefix:"-",
+    amountClass:"text-rose-400",
+    iconClass:"expense"
+  };
+}
+
 function renderTransactions(){
 
   const target=$("transactionTable");
+
+  if(!target){
+    return;
+  }
 
   const start=$("transactionStart").value;
   const end=$("transactionEnd").value;
@@ -5043,11 +5237,30 @@ function renderTransactions(){
     );
   }
 
+  const countEl=$("transactionCount");
+
+  if(countEl){
+    countEl.textContent=
+      `${list.length} Hareket`;
+  }
+
   if(!list.length){
 
     target.innerHTML=`
-      <div class="p-6 text-center text-xs text-slate-500">
-        Kayıt bulunamadı.
+      <div class="p-10 text-center glass-card rounded-2xl border border-slate-800">
+
+        <div class="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-2xl">
+          🔄
+        </div>
+
+        <div class="text-sm font-black text-white mt-3">
+          Kayıt bulunamadı
+        </div>
+
+        <div class="text-xs text-slate-500 mt-1">
+          Seçtiğiniz tarih aralığında finansal hareket yok.
+        </div>
+
       </div>
     `;
 
@@ -5057,58 +5270,174 @@ function renderTransactions(){
   target.innerHTML=list.map(tx=>{
 
     const[label,cls]=transactionKind(tx);
+    const visual=transactionVisual(tx);
 
-    const isIncome=
-      tx.type==="income";
+    const category=
+      tx.category||
+      "Kategorisiz";
 
-    const amountClass=
-      isIncome
-        ?"text-emerald-400"
-        :tx.type==="supplier_debt_add"
-          ?"text-indigo-300"
-          :"text-rose-400";
+    const description=
+      tx.description||
+      "Açıklama girilmedi.";
+
+    const account=
+      accountLabel(tx.account);
+
+    const created=
+      formatDateTimeTR(tx.createdAt);
+
+    const sourceMap={
+      income:"Gelir kaydı",
+      expense:"Gider kaydı",
+      quick:"Hızlı işlem",
+      bill:"Fatura işlemi",
+      rent:"Kira işlemi",
+      supplier_payment:"Tedarikçi ödeme",
+      supplier_debt_add:"Tedarikçi borç işlemi"
+    };
+
+    const sourceLabel=
+      sourceMap[tx.sourceType]||
+      "Finansal işlem";
 
     return`
-      <div class="glass-card p-3 rounded-xl flex items-center justify-between text-xs border border-slate-800/80">
+      <article class="transaction-banner ${visual.wrapper}">
 
-        <div class="space-y-0.5 min-w-0">
+        <!-- ÜST BÖLÜM -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-          <div class="flex items-center gap-2 min-w-0">
+          <div class="flex items-start gap-3 min-w-0">
 
-            <span class="shrink-0 px-2 py-0.5 rounded text-[9px] font-bold ${cls}">
-              ${label}
-            </span>
+            <div class="transaction-icon ${visual.iconClass}">
+              ${visual.icon}
+            </div>
 
-            <span class="font-bold text-white truncate">
-              ${escapeHtml(tx.category)}
-            </span>
+            <div class="min-w-0 flex-1">
 
+              <div class="flex flex-wrap items-center gap-2">
+
+                <span class="px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wide ${cls}">
+                  ${label}
+                </span>
+
+                <span class="text-[9px] font-bold px-2.5 py-1 rounded-full bg-slate-800/90 text-slate-400 border border-slate-700/80">
+                  ${escapeHtml(visual.title)}
+                </span>
+
+              </div>
+
+              <h3 class="text-base sm:text-lg font-black text-white mt-2 leading-tight break-words">
+                ${escapeHtml(category)}
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed break-words">
+                ${escapeHtml(description)}
+              </p>
+
+            </div>
           </div>
 
-          <div class="text-[10px] text-slate-400 truncate">
-            ${escapeHtml(tx.date)}
-            • ${accountLabel(tx.account)}
-            • ${escapeHtml(tx.description||"-")}
+          <div class="sm:text-right sm:min-w-[180px]">
+
+            <div class="text-[9px] uppercase tracking-widest font-bold text-slate-500">
+              İşlem Tutarı
+            </div>
+
+            <div class="text-2xl sm:text-3xl font-black ${visual.amountClass} mt-0.5 tracking-tight">
+              ${visual.amountPrefix}${money(tx.amount)}
+            </div>
+
           </div>
 
         </div>
 
-        <div class="text-right flex items-center gap-2 shrink-0 ml-2">
+        <!-- DETAYLAR -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mt-5 pt-4 border-t border-white/5">
 
-          <strong class="font-black ${amountClass} text-sm">
-            ${isIncome?"+":"-"}${money(tx.amount)}
-          </strong>
+          <div class="transaction-meta-card">
+
+            <div class="text-[9px] uppercase tracking-wide text-slate-500 font-bold">
+              İşlem Tarihi
+            </div>
+
+            <div class="text-xs font-black text-white mt-1">
+              ${escapeHtml(tx.date||"-")}
+            </div>
+
+          </div>
+
+          <div class="transaction-meta-card">
+
+            <div class="text-[9px] uppercase tracking-wide text-slate-500 font-bold">
+              Hesap
+            </div>
+
+            <div class="text-xs font-black ${
+              normalizeAccount(tx.account)==="cash"
+                ?"text-emerald-400"
+                :"text-sky-400"
+            } mt-1">
+              ${escapeHtml(account)}
+            </div>
+
+          </div>
+
+          <div class="transaction-meta-card">
+
+            <div class="text-[9px] uppercase tracking-wide text-slate-500 font-bold">
+              Kayıt Türü
+            </div>
+
+            <div class="text-xs font-black text-slate-200 mt-1">
+              ${escapeHtml(sourceLabel)}
+            </div>
+
+          </div>
+
+          <div class="transaction-meta-card">
+
+            <div class="text-[9px] uppercase tracking-wide text-slate-500 font-bold">
+              Kayıt Zamanı
+            </div>
+
+            <div class="text-xs font-black text-slate-200 mt-1">
+              ${escapeHtml(created)}
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- EK BİLGİ -->
+        ${
+          tx.supplierName
+            ?`
+              <div class="mt-2.5 p-3 rounded-xl bg-indigo-500/5 border border-indigo-500/10">
+                <div class="text-[9px] uppercase tracking-wide text-indigo-300/70 font-bold">
+                  Tedarikçi
+                </div>
+
+                <div class="text-xs font-black text-indigo-200 mt-0.5">
+                  ${escapeHtml(tx.supplierName)}
+                </div>
+              </div>
+            `
+            :""
+        }
+
+        <!-- GERİ AL -->
+        <div class="mt-4 pt-4 border-t border-white/5">
 
           <button
             onclick="undoTransactionPrompt('${tx.id}')"
-            title="Geri Al"
-            class="px-2 py-1 bg-rose-500/10 text-rose-300 rounded-lg text-[10px]">
-            ↩
+            class="transaction-action">
+            <span class="text-base leading-none">↩</span>
+            <span>Bu Hareketi Geri Al</span>
           </button>
 
         </div>
 
-      </div>
+      </article>
     `;
   }).join("");
 }
@@ -5621,10 +5950,6 @@ function unpaidBillTotal(){
     );
 }
 
-/*
- * ARTIK TÜM SİSTEM TEK FONKSİYONDAN
- * BEKLEYEN YEMEK KARTI ALACAĞINI ALIYOR.
- */
 function pendingReceivableTotal(){
 
   return getFoodReceivableTotals().pending;
@@ -5637,23 +5962,6 @@ function currentRentDebt(){
     :(number(finance.rentSettings?.amount)||28000);
 }
 
-/*
- * ANA FİNANSAL SNAPSHOT
- *
- * available:
- *   Banka + Nakit + Yemek Kartı Bakiyesi
- *
- * grossPosition:
- *   available + Bekleyen Yemek Kartı Alacağı
- *
- * netPosition:
- *   grossPosition - toplam borç
- *
- * Böylece beklenen yemek kartı tahsilatı
- * banka/nakit olarak görünmez ama
- * şirketin finansal pozisyonunda alacak olarak
- * doğru şekilde hesaba katılır.
- */
 function financialSnapshot(){
 
   const bank=
@@ -5756,10 +6064,6 @@ function renderDashboard(){
   const rentPaid=
     hasCurrentRent();
 
-  /*
-   * Dashboard da artık alacağı snapshot'tan alıyor.
-   * Böylece Finans ekranıyla aynı rakam gösteriliyor.
-   */
   const receivableTotal=
     snap.receivable;
 
@@ -5960,13 +6264,6 @@ function renderExpenseSummary(){
       `;
 }
 
-/*
- * FİNANS EKRANI
- *
- * Önemli bölüm:
- * financialGrossPosition = available + pendingReceivable
- * financialNetPosition = grossPosition - debts
- */
 function renderFinancialOverview(){
 
   const s=
@@ -6002,33 +6299,18 @@ function renderFinancialOverview(){
   $("financialReceivablePending").textContent=
     money(s.receivable);
 
-  /*
-   * Aynı merkezi hesaptan vadesi gelen alacak
-   */
   $("financialReceivableDue").textContent=
     money(s.receivableDue);
 
   $("financialAvailable").textContent=
     money(s.available);
 
-  /*
-   * ASIL DÜZELTİLEN KISIM:
-   *
-   * Mevcut Para
-   * +
-   * Bekleyen Yemek Kartı Alacağı
-   * =
-   * Para + Beklenen Alacak
-   */
   $("financialGrossPosition").textContent=
     money(
       s.available+
       s.receivable
     );
 
-  /*
-   * Borçlardan sonra net finansal durum
-   */
   $("financialNetPosition").textContent=
     money(
       s.grossPosition-
